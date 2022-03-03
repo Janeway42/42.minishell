@@ -1,7 +1,8 @@
 NAME = minishell
 CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
-S_SRC	=	main.c
+S_SRC	=	main.c\
+			parse.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 

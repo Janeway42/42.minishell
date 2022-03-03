@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-t_list *create_new_elem(int number)
+t_list	*create_new_elem(int number)
 {
 	t_list	*new_elem;
 
@@ -8,7 +8,6 @@ t_list *create_new_elem(int number)
 	if (!new_elem)
 		return (NULL);
 	new_elem->location = number;
-//	printf("location %d\n", new_elem->location);
 	new_elem->block.fd_input = 0;
 	new_elem->block.fd_output = 1;
 	new_elem->block.cmd = NULL;
@@ -22,7 +21,6 @@ void	add_at_the_end(t_list **line_arg, t_list *element)
 {
 	t_list	*temp;
 
-//	printf("location list add at the end %d\n", element->location);
 	temp = *line_arg;
 	if (*line_arg != NULL)
 	{
@@ -32,5 +30,12 @@ void	add_at_the_end(t_list **line_arg, t_list *element)
 		element->prev = temp;
 	}
 	else
-		*line_arg = element;	
+		*line_arg = element;
+}
+
+int	ft_abs(int x)
+{
+	if (x < 0)
+		x = x * -1;
+	return (x);
 }
