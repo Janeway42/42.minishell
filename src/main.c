@@ -1,19 +1,5 @@
 #include "../includes/minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
-{
-	int i;
-
-	i = 0;
-	if (!s)
-		return ;
-	while (s[i] != '\0')
-	{
-		write(fd, &s[i], 1);
-		i++;
-	}
-}
-
 int count_commands(char *str, t_data *data)
 {
 	int i;
@@ -27,7 +13,7 @@ int count_commands(char *str, t_data *data)
 	double_quotes = 0;
 	nr_blocks = 0;
 
-	new = create_new_elem(0);
+	new = create_new_elem(3);
 	if (!new)
 		exit(1);
 	add_at_the_end(&data->line_arg, new);
@@ -126,7 +112,7 @@ void parse_line(char *str, t_data *data)
 	{
 		printf("location %d: %d\n", i, temp->location);
 		i++;
-		temp++;
+		temp = temp->next;
 	}
 
 	split_blocks(str, nr_blocks, data);
