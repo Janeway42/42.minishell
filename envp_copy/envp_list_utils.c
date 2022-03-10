@@ -119,6 +119,7 @@ char	*get_env(t_env *envp_list, char *key)
 			value = ft_strdup(current->value);
 			return (value);
 		}
+		current = current->next;
 	}
 	return (NULL);
 }
