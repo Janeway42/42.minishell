@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include "../includes/minishell.h"
 
 /*
 **	compare string s1 with s2 

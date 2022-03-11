@@ -1,27 +1,38 @@
 #include "../includes/minishell.h"
 
-int main()
-{
-	t_data	*data;
-	char	*line;
-//	int status;
+ void	print_envp(t_env *list)
+ {
+ 	t_env	*current = list;
 
-	data = malloc(sizeof(t_data) * 1);
-	if (!data)
+ 	while (current != NULL)
+ 	{
+ 		printf("%s=%s\n", current->key, current->value);
+ 		current = current->next;
+ 	}
+ 	printf("\n");
+ }
+
+int main(int argc, char **envp)
+{
+	char	*line;
+	t_env	*envplist; 
+
+	if (! argc )
 		return (1);
-	data->line_arg = NULL;
+
+	envplist = envp_copy(envp);
+	print_envp(envplist);
+ 	set_env(&envplist,"A","hello");
+	set_env(&envplist,"B","bye");
+	print_envp(envplist);
 
 	while (1)
 	{
 		line = readline(PROMPT);
-//		line = "grep l";
+		//line = "<'input.txt'> $A.txt | ls";
+		//line = "<'input.txt'> $A.txt | $B >  ls";
 		add_history(line);
-//		if (line == NULL)
-//			rd_clear_history();
-
-		parse_line(line, data);
-//		status = execute(arguments);
-
+		parse_line(line, envplist);
 //		free(line);
 	}
 //	rd_clear_history();

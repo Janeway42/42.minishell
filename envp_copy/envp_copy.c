@@ -1,4 +1,4 @@
-#include "builtin.h"
+#include "../includes/minishell.h"
 
 //	will try the find the position of the char c in the given string 
 //	RETURN	ith position in the string if found
@@ -97,28 +97,28 @@ t_env	*envp_copy(char **envp)
 	return (list);
 }
 
-//TEST
-void	print_envp(t_env *list)
-{
-	t_env	*current = list;
 
-	while (current != NULL)
-	{
-		printf("%s=%s\n", current->key, current->value);
-		current = current->next;
-	}
-	printf("\n");
-}
+// void	print_envp(t_env *list)
+// {
+// 	t_env	*current = list;
 
-//TEST
-int	main(int argc, char **argv, char **envp)
-{
-	t_env	*envplist = envp_copy(envp);
+// 	while (current != NULL)
+// 	{
+// 		printf("%s=%s\n", current->key, current->value);
+// 		current = current->next;
+// 	}
+// 	printf("\n");
+// }
 
-	print_envp(envplist);
-	set_env(&envplist,"A","hello");
-	print_envp(envplist);
-	del_env(&envplist,"A");
-	print_envp(envplist);
-	return (0);
-}
+// //TEST
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_env	*envplist = envp_copy(envp);
+
+// 	print_envp(envplist);
+// 	set_env(&envplist,"A","hello");
+// 	print_envp(envplist);
+// 	del_env(&envplist,"A");
+// 	print_envp(envplist);
+// 	return (0);
+// }

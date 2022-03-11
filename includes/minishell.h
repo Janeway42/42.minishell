@@ -6,39 +6,47 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 # include "libft.h"
+# include "builtin.h"
 
 # define PROMPT "minishell: "
 
-typedef struct s_cmd_block
+typedef struct	s_arg
 {
-	int		fd_input;
-	int		fd_output;
-	char	*cmd;
-	char	**arguments;
-}				t_cmd_block;
+	struct s_arg		*next;
+	char				*arg;
+}				t_arg;
 
-typedef struct s_list
+typedef struct			s_red
 {
-	struct s_list		*next;
-	struct s_cmd_block	block;
-	int					location;
-	struct s_list		*prev;
+	struct s_red		*next;
+	char				*op;
+	char				*word;
+}						t_red;
+
+typedef struct	s_list
+{
+	struct s_list	*next;
+	t_red			*redirect;
+	char			*cmd;
+	t_arg			*arguments;
 }				t_list;
 
-typedef struct s_data
-{
-	struct s_list	*line_arg;
-	char			**commands;
-}				t_data;
+void parse_line(char *str, t_env *envplist);
+char **expansion(char **str, t_env	*envplist);
+
+void	free_double(char ***str);
 
 /*
-** Linked lists
+// Check Syntax
 */
 
-t_list	*create_new_elem(int number);
-void	add_at_the_end(t_list **line_arg, t_list *element);
-int		ft_abs(int x);
-void	parse_line(char *str, t_data *data);
+int	check_syntax(char **str);
+void	error_syntax(char ***str);
+char **ft_split_minishell(char *str, char c);
+
+char **expansion(char **str, t_env	*envplist);
+
 
 #endif

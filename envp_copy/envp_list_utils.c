@@ -1,4 +1,4 @@
-#include "builtin.h"
+#include "../includes/minishell.h"
 
 //	insert the node at the back of the list
 //	assumes the list is not empty

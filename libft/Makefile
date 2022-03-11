@@ -6,7 +6,7 @@
 #    By: janeway <janeway@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/07/04 14:52:18 by janeway       #+#    #+#                  #
-#    Updated: 2022/02/05 12:30:24 by cpopa         ########   odam.nl          #
+#    Updated: 2022/03/10 17:49:19 by cpopa         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC =	ft_atoi.c\
 		ft_bzero.c\
 		ft_calloc.c\
 		ft_isdigit.c\
+		ft_isalpha.c\
 		ft_lstadd_back.c\
 		ft_lstlast.c\
 		ft_lstnew.c\
@@ -27,8 +28,10 @@ SRC =	ft_atoi.c\
 		ft_split.c\
 		ft_strcmp.c\
 		ft_strncmp.c\
+		ft_strdup.c\
 		ft_strjoin.c\
-		ft_strlen.c
+		ft_strlen.c\
+		ft_substr.c
 
 all: $(NAME)
 

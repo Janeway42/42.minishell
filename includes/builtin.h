@@ -1,6 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "../lib/libft/libft.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
+
+#include "minishell.h"
 
 typedef struct s_env
 {
@@ -23,4 +24,6 @@ char	*get_env(t_env *envp_list, char *key);
 t_env	*create_node(char *key, char *value);
 char	**ft_split_env(char *env);
 void	free_envp_list(t_env *list);
-t_env	*env_copy(char **envp);
+t_env	*envp_copy(char **envp);
+
+#endif

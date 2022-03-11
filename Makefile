@@ -2,15 +2,24 @@ NAME = minishell
 CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 S_SRC	=	main.c\
-			parse.c
+			parse.c\
+			check_syntax.c\
+			expansion.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 
-UTILS		=	list_utils.c
+UTILS		=	ft_split_minishell.c\
+				error_free.c
 UTILS_PATH	=	utils/
 UTILS_OBJ	=	$(UTILS:%.c=$(UTILS_PATH)%.o)
 
-OBJ_FILES = $(S_OBJ) $(UTILS_OBJ)
+ENV			=	envp_copy.c\
+				envp_list_utils.c\
+				ft_strcmp.c
+ENV_PATH	=	envp_copy/
+ENV_OBJ		=	$(ENV:%.c=$(ENV_PATH)%.o)
+
+OBJ_FILES = $(S_OBJ) $(UTILS_OBJ) $(ENV_OBJ)
 
 all: $(NAME)
 
