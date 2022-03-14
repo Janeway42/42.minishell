@@ -62,12 +62,12 @@ char	*get_variable_name(char *str, int location)
 
 	i = 0;
 	size = 0;
-	while (validity_name(str[location + size], size) == 0)
-	{
-		if (validity_name(str[location + size], size) == 1)
-			return (NULL);
+
+	while (validity_name(str[location + size], size) == 0 && str[location + size] != '\0')
 		size++;
-	}
+	if (size == 0)
+		return (NULL);
+
 	name = malloc(sizeof(char) * (size + 1));
 	if (!name)
 		return (NULL);
