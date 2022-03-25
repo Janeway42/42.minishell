@@ -1,8 +1,6 @@
 #ifndef BUILTIN_H
 # define BUILTIN_H
 
-#include "minishell.h"
-
 typedef struct s_env
 {
 	char			*key;

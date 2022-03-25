@@ -7,46 +7,63 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+# include <termios.h>
 # include "libft.h"
 # include "builtin.h"
 
 # define PROMPT "minishell: "
 
-typedef struct	s_arg
-{
-	struct s_arg		*next;
-	char				*arg;
-}				t_arg;
-
 typedef struct			s_red
 {
 	struct s_red		*next;
 	char				*op;
-	char				*word;
+	char				*file;
 }						t_red;
 
-typedef struct	s_list
+typedef struct		s_list
 {
 	struct s_list	*next;
 	t_red			*redirect;
-	char			*cmd;
-	t_arg			*arguments;
-}				t_list;
+	char			**cmd;
+	int				index_cmd;
+}					t_list;
 
-void parse_line(char *str, t_env *envplist);
-char **expansion(char **str, t_env	*envplist);
-
-void	free_double(char ***str);
+typedef struct		s_data
+{
+	char			**envplist;
+	struct termios	old_term;
+	struct termios	new_term;
+	int				last_exit_code;
+}					t_data;
 
 /*
-// Check Syntax
+** Parse
 */
 
-int	check_syntax(char **str);
+void	parse_line(char *str, t_data *data);
+int		check_syntax(char **str);
 void	error_syntax(char ***str);
+char	**expansion(char **str, t_env *envplist);
+
+/*
+** Envp
+*/
+
+char	**copy_envp(char **envp);
+void	set_variable(char ***envp, char *variable);
+
+/*
+** Utils
+*/
+
 char **ft_split_minishell(char *str, char c);
 
-char **expansion(char **str, t_env	*envplist);
+/*
+** Error / Free
+*/
 
+void	free_double(char ***str);
+void	malloc_error_exit(void);
+void	free_string_array(char **array);
 
 #endif

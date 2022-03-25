@@ -198,7 +198,7 @@ char	**expansion(char **str, t_env	*envplist)
 			if (dollar_sign(str[i]) == 1)
 				str[i] = replace_dollar(str[i], envplist);
 		}
-		if (str[i][0] == 39)  // single quotaton
+		if (str[i][0] == 39) // single quotaton
 			str[i] = remove_quotes(str[i]);
 		if (dollar_sign(str[i]) == 1)
 			str[i] = replace_dollar(str[i], envplist);

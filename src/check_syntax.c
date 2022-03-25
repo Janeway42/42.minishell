@@ -37,10 +37,10 @@ static int	check_rest_syntax(char **str)
 	i = 0;
 	while (str[i] != NULL)
 	{
-		printf("str[i]: %s\n", str[i]);
+//		printf("str[i]: %s\n", str[i]);
 		while (str[i] != NULL && ft_strcmp(str[i], "|") != 0)
 		{
-			printf("str[i inside]: %s\n", str[i]);
+//			printf("str[i inside]: %s\n", str[i]);
 			if (ft_strcmp(str[i], "<") == 0 && check_operators(str, i) == 1)
 				return (1);
 			if (ft_strcmp(str[i], ">") == 0 && check_operators(str, i) == 1)
@@ -58,11 +58,27 @@ static int	check_rest_syntax(char **str)
 	return (0);
 }
 
+int	last_pipe(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] != NULL)
+	{
+		if (ft_strcmp(str[i], "|") == 0 && str[i + 1] == NULL)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	check_syntax(char **str)
 {
 	if (check_syntax_pipe(str) == 1) // first if there are double '|'
 		return (1);
 	if (check_rest_syntax(str) == 1)// then the rest of the syntax
+		return (1);
+	if (last_pipe(str) == 1) // multiline = syntax error
 		return (1);
 	return (0);
 }
