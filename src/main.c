@@ -1,22 +1,22 @@
 #include "../includes/minishell.h"
 
- void	print_envp(t_env *list)   //erase when no longer neccessary 
+ void	print_envp(char **envp)   //erase when no longer neccessary 
  {
- 	t_env	*current = list;
+ 	int i;
 
- 	while (current != NULL)
+	 i = 0;
+ 	while (envp[i] != NULL)
  	{
- 		printf("%s,%s\n", current->key, current->value);
- 		current = current->next;
+ 		printf("%s\n", envp[i]);
+ 		i++;
  	}
- 	printf("\n");
  }
 
 static void	initialize_data(t_data **data, char **envp)
 {
 	(*data)->envplist = copy_envp(envp);
-	set_variable(&(*data)->envplist,"A = hello");
-	set_variable(&(*data)->envplist,"B = bye");
+	set_variable(&(*data)->envplist,"A=hello");
+	set_variable(&(*data)->envplist,"B=bye");
 	(*data)->last_exit_code = 0;
 }
 
@@ -34,17 +34,16 @@ int main(int argc, char **argv, char **envp)
 		return (-1);  // check what type of error it needs to return
 	initialize_data(&data, envp);
 	
-//	print_envp((data->envplist);
-//	set_env(&data->envplist,"A","hello");
-//	set_env(&data->envplist,"B","bye");
+//	print_envp(data->envplist);
+//	delete_variable(&data->envplist, "B ");
 //	print_envp(data->envplist);
 
 	while (1)
 	{
-		line = readline(PROMPT);
+//		line = readline(PROMPT);
 //		line = "12345|12345|12345";
 //		line = "< src/main.c grep line | grep l| wc -l";
-		//line = "<'input.txt'> $A.txt | ls";
+		line = "<'input.txt'> $A.txt | ls";
 		//line = "<'input.txt'> $A.txt | $B >  ls";
 		add_history(line);
 		parse_line(line, data);

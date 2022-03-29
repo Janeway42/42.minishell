@@ -1,32 +1,87 @@
 #include "../includes/minishell.h"
 
-char	*remove_quotes(char *str)
+/*
+** Function identifies the variable name from the input string
+*/
+
+char	*get_variable_name(char *str, int loc)
 {
 	int		i;
-	int		j;
-	int		k;
 	int		size;
-	char	*temp;
+	char	*name;
 
-	i = 1;
-	j = 0;
-	k = 0;
-	size = ft_strlen(str);
-	temp = malloc(sizeof(char) * (size - 1));
-	if (!temp)
+	i = 0;
+	size = 0;
+	while (validity_name(str[loc + size], size) == 0 && str[loc + size] != '\0')
+		size++;
+	if (size == 0)
 		return (NULL);
-	temp[size - 2] = '\0';
-	while (j < size - 2)
+	name = malloc(sizeof(char) * (size + 1));
+	if (!name)
+		return (NULL);
+	name[size] = '\0';
+	while (i < size)
 	{
-		temp[j] = str[i];
-		j++;
+		name[i] = str[loc + i];
 		i++;
 	}
-	free(str);
-	str = ft_strdup(temp);
-	free(temp);
+	return (name);
+}
+
+char	*get_value_from_envp(char *name, char **envp)
+{
+	int		i;
+	int		s_name;
+	char	*value;
+	char	**temp;
+
+	i = 0;
+	s_name = ft_strlen(name);
+	while (envp[i] != NULL)
+	{
+		if (ft_strncmp(name, envp[i], s_name) == 0 && envp[i][s_name] == '=')
+		{
+			temp = ft_split(envp[i], '=');
+			value = ft_strdup(temp[1]);
+			free_double(&temp);
+			return (value);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+char	*replace_dollar(char *str, char **envplist)
+{
+	int		i;
+	char	*name;
+	char	*node_val;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == '$')
+		{
+			name = get_variable_name(str, i + 1);
+			if (name == NULL)
+				node_val = "";
+			else
+			{
+				node_val = get_value_from_envp(name, envplist);
+				if (node_val == NULL)
+					node_val = "";
+			}
+			str = insert_variable_value(str, node_val, i, ft_strlen(name));
+			i += ft_strlen(node_val) - 1;
+		}
+		i++;
+	}
 	return (str);
 }
+
+/*
+** Function detects the presence of $
+*/
 
 int	dollar_sign(char *str)
 {
@@ -42,166 +97,30 @@ int	dollar_sign(char *str)
 	return (0);
 }
 
-int	validity_name(char c, int location) // alpha digit and underscore and the first char can't be a digit
-{
-	int n;
+/*
+** Function takes the string that contains $ and replaces
+** the variable name with the value of the variable
+** double quotation (ascii 34) allows for the presence of variables
+** single quotation (ascii 39) transforms all in char
+*/
 
-	n = (int) c;
-	if (location == 0 && ft_isdigit(c) == 1)
-		return (1);
-	if (ft_isdigit(c) == 1 || ft_isalpha(n) == 1 || n == '_')
-		return (0);
-	return (1);
-}
-
-char	*get_variable_name(char *str, int location)
-{
-	int		i;
-	int		size;
-	char	*name;
-
-	i = 0;
-	size = 0;
-
-	while (validity_name(str[location + size], size) == 0 && str[location + size] != '\0')
-		size++;
-	if (size == 0)
-		return (NULL);
-
-	name = malloc(sizeof(char) * (size + 1));
-	if (!name)
-		return (NULL);
-	name[size] = '\0';
-	while (i < size)
-	{
-		name[i] = str[location + i];
-		i++;
-	}
-	return (name);
-}
-
-char	*insert_name(char *str, char *value, int location, int name_size)
-{
-	int		i;
-	int		j;
-	int		size;
-	int		lenght_val;
-	char	*temp;
-
-	i = 0;
-	j = 0;
-	lenght_val = ft_strlen(value);
-	if (lenght_val == 0)
-	{
-		size = ft_strlen(str) - name_size - 1;
-		temp = malloc(sizeof(char) * (size + 1));
-		if (!temp)
-			return (NULL);
-		temp[size] = '\0';
-		while (i < location)
-		{
-			temp[i] = str[i];
-			i++;
-		}
-		while (str[i + name_size + 1] != '\0')
-		{
-			temp[i] = str[i + name_size + 1]; // i + name size + $
-			i++;
-		}
-	}
-	else
-	{
-		size = ft_strlen(str) - name_size + lenght_val - 1; // lenght str - name size + value lenght - $
-		temp = malloc(sizeof(char) * (size + 1));
-		if (!temp)
-			return (NULL);
-		temp[size] = '\0';
-		while (i < location)
-		{
-			temp[i] = str[i];
-			i++;
-		}
-		while (i < (location + lenght_val))
-		{
-			temp[i] = value[j];
-			i++;
-			j++;
-		}
-		j = 0;
-		while (str[location + name_size + 1 + j] != '\0') // + 1 is the $ sign 
-		{
-			temp[i] = str[location + name_size + 1 + j];
-			i++;
-			j++;
-		}
-	}
-	free(str);
-	str = ft_strdup(temp);
-	free(temp);
-	return (str);
-}
-
-char	*check_name_in_envp(char *name, t_env	*envplist)
-{
-	int		i;
-	t_env	*temp;
-
-	i = 0;
-	temp = envplist;
-	while (temp != NULL)
-	{
-		if (ft_strncmp(name, temp->key, ft_strlen(name)) == 0)
-			return (temp->value);
-		temp = temp->next;
-	}
-	return (NULL);
-}
-
-char	*replace_dollar(char *str, t_env	*envplist)
-{
-	int		i;
-	char	*name;
-	char	*node_value;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '$')
-		{
-			name = get_variable_name(str, i + 1);
-			if (name == NULL)
-				node_value = "";
-			else
-			{
-				node_value = check_name_in_envp(name, envplist);
-				if (node_value == NULL)
-					node_value = "";
-			}
-			str = insert_name(str, node_value, i, ft_strlen(name));
-			i += ft_strlen(node_value) - 1;
-		}
-		i++;
-	}
-	return (str);
-}
-
-char	**expansion(char **str, t_env	*envplist)
+char	**expansion(char **str, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != NULL)
 	{
-		if (str[i][0] == 34) // double quotation
+		if (str[i][0] == 34)
 		{
 			str[i] = remove_quotes(str[i]);
 			if (dollar_sign(str[i]) == 1)
-				str[i] = replace_dollar(str[i], envplist);
+				str[i] = replace_dollar(str[i], data->envplist);
 		}
-		if (str[i][0] == 39) // single quotaton
+		if (str[i][0] == 39)
 			str[i] = remove_quotes(str[i]);
 		if (dollar_sign(str[i]) == 1)
-			str[i] = replace_dollar(str[i], envplist);
+			str[i] = replace_dollar(str[i], data->envplist);
 		i++;
 	}
 	return (str);
