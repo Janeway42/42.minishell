@@ -70,6 +70,15 @@ int		validity_name(char c, int location);
 char	*remove_quotes(char *str);
 
 /*
+** Command blocks
+*/
+
+t_list	*ft_last_block(t_list *x);
+int		size_double_array(char **str);
+void	join_arrays(char ***cmd, char *token);
+
+
+/*
 ** Utils
 */
 

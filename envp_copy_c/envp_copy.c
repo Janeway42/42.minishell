@@ -1,18 +1,18 @@
 #include "../includes/minishell.h"
 
 //	function to free all the strings and the array itself.
-void	free_string_array(char **array)
-{
-	int	i;
+// void	free_string_array(char **array)
+// {
+// 	int	i;
 
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-}
+// 	i = 0;
+// 	while (array[i] != NULL)
+// 	{
+// 		free(array[i]);
+// 		i++;
+// 	}
+// 	free(array);
+// }
 
 int	count_variables(char **array)
 {

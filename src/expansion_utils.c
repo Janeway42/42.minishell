@@ -129,13 +129,9 @@ char	*non_null_value(int name_size, int location, char *str, char *value)
 
 char	*insert_variable_value(char *str, char *value, int loc, int size_name)
 {
-	int		i;
-	int		j;
 	int		lenght_val;
 	char	*temp;
 
-	i = 0;
-	j = 0;
 	lenght_val = ft_strlen(value);
 	if (lenght_val == 0)
 		temp = null_value(size_name, loc, str);

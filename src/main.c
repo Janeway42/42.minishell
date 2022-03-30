@@ -40,14 +40,14 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-//		line = readline(PROMPT);
+		line = readline(PROMPT);
 //		line = "12345|12345|12345";
 //		line = "< src/main.c grep line | grep l| wc -l";
-		line = "<'input.txt'> $A.txt | ls";
-		//line = "<'input.txt'> $A.txt | $B >  ls";
+	//	line = "<'input.txt'> $A.txt | ls";
+//		line = "<'input.txt'> $A.txt | $B >  ls";
 		add_history(line);
 		parse_line(line, data);
-//		free(line);
+		free(line);
 	}
 //	rl_clear_history();
 	return (0);
