@@ -52,9 +52,8 @@ void	delete_variable(char ***envp, char *variable);
 ** Parse
 */
 
-void	parse_line(char *str, t_data *data);
+t_list	*parse_line(char *str, t_data *data);
 int		check_syntax(char **str);
-void	error_syntax(char ***str);
 char	**expansion(char **str, t_data *data);
 t_list	*set_cmd_blocks(char **tokens);
 
@@ -90,7 +89,10 @@ char **ft_split_minishell(char *str, char c);
 
 void	free_double(char ***str);
 void	malloc_error_exit(void);
+void	error_syntax(char ***tokens);
 void	free_string_array(char **array);
+void	free_cmd_blocks(t_list **cmd_blocks);
+void	free_data(t_data **data);
 
 /*
 ** REMOVE !!!!!!!!!

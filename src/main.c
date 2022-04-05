@@ -24,6 +24,7 @@ int main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	*data;
+	t_list	*cmd_blocks;
 
 	if (!argc )
 		return (1);
@@ -43,12 +44,19 @@ int main(int argc, char **argv, char **envp)
 		line = readline(PROMPT);
 //		line = "12345|12345|12345";
 //		line = "< src/main.c grep line | grep l| wc -l";
-	//	line = "<'input.txt'> $A.txt | ls";
+//		line = "<'input.txt'> $A.txt | ls";
 //		line = "<'input.txt'> $A.txt | $B >  ls";
-		add_history(line);
-		parse_line(line, data);
+//		line = "< src/main.c grep line | >";
+		if (line != NULL)
+		{
+			add_history(line);
+			cmd_blocks = parse_line(line, data);
+			// execute pipex
+			free_cmd_blocks(&cmd_blocks);
+		}
 		free(line);
 	}
 //	rl_clear_history();
+	free_data(&data);
 	return (0);
 }

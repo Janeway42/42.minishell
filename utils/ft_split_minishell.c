@@ -1,23 +1,17 @@
 #include "../includes/minishell.h"
 
-static int	count_strings(char *str, char c)
+static int count_strings(char *str, char c)
 {
-	int	i;
-	int	nr_strings;
+	int i;
+	int nr_strings;
 
 	i = 0;
 	nr_strings = 0;
+
 	while (str[i] != '\0')
 	{
-		if (str[i] != c && str[i + 1] == '\0')
-		{
-			nr_strings++;
+		while (str[i] != '\0' && str[i] == c)
 			i++;
-		}
-
-		while (str[i] == c)
-			i++;
-
 		if (str[i] == 39 || str[i] == 34)
 		{
 			if (str[i] == 39) // single
@@ -58,20 +52,89 @@ static int	count_strings(char *str, char c)
 			nr_strings++;
 			i++;
 		}
-		else if (str[i] != c && str[i + 1] == c)
-		{
-			nr_strings++;
-			i++;
-		}
 		else
 		{
-			while (str[i] != '\0' && str[i] != '|' && str[i] != '<' && str[i] != '>' && str[i] != 39 && str[i] != 34 && str[i] != 32)
-				i++;
+			while (str[i] != '\0' && str[i] != '|' && str[i] != '<' && str[i] != '>'
+				&& str[i] != 39 && str[i] != 34 && str[i] != 32)
+					i++;
 			nr_strings++;
 		}
 	}
 	return (nr_strings);
 }
+
+// static int	count_strings(char *str, char c)
+// {
+// 	int	i;
+// 	int	nr_strings;
+
+// 	i = 0;
+// 	nr_strings = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] != c && str[i + 1] == '\0')
+// 		{
+// 			nr_strings++;
+// 			i++;
+// 		}
+
+// 		while (str[i] == c)
+// 			i++;
+
+// 		if (str[i] == 39 || str[i] == 34)
+// 		{
+// 			if (str[i] == 39) // single
+// 			{
+// 				i++;
+// 				while (str[i] != 39)
+// 					i++;
+// 				if (str[i] == 39)
+// 					i++;
+// 				nr_strings++;
+// 			}
+// 			else if (str[i] == 34) // double
+// 			{
+// 				i++;
+// 				while (str[i] != 34)
+// 					i++;
+// 				if (str[i] == 34)
+// 					i++;
+// 				nr_strings++;
+// 			}
+// 		}
+// 		else if (str[i] == '<' || str[i] == '>')
+// 		{
+// 			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '>'))
+// 			{
+// 				nr_strings++;
+// 				i++;
+// 				i++;
+// 			}
+// 			else if ((str[i] == '<' && str[i + 1] != '<') || (str[i] == '>' && str[i + 1] != '>'))
+// 			{
+// 				nr_strings++;
+// 				i++;
+// 			}
+// 		}
+// 		else if (str[i] == '|' )
+// 		{
+// 			nr_strings++;
+// 			i++;
+// 		}
+// 		else if (str[i + 1] != '\0' && str[i] != c && str[i + 1] == c)
+// 		{
+// 			nr_strings++;
+// 			i++;
+// 		}
+// 		else
+// 		{
+// 			while (str[i] != '\0' && str[i] != '|' && str[i] != '<' && str[i] != '>' && str[i] != 39 && str[i] != 34 && str[i] != 32)
+// 				i++;
+// 			nr_strings++;
+// 		}
+// 	}
+// 	return (nr_strings);
+// }
 
 static int	lenght_quotes(char *str)
 {
@@ -86,6 +149,10 @@ static int	lenght_quotes(char *str)
 	return (lenght);
 }
 
+/*
+** Single quotation ASCII = 39, Double quotation ASCII = 34
+*/
+
 static int	string_lenght(char *str, char c)
 {
 	int	i;
@@ -93,9 +160,9 @@ static int	string_lenght(char *str, char c)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == 39) // single
+		if (str[i] == 39)
 			return (lenght_quotes(str));
-		else if (str[i] == 34) // double
+		else if (str[i] == 34)
 			return (lenght_quotes(str));
 		else if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '>'))
 			return (i = 2);

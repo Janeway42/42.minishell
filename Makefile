@@ -6,7 +6,8 @@ S_SRC	=	main.c\
 			check_syntax.c\
 			expansion.c\
 			expansion_utils.c\
-			set_cmd_blocks.c
+			set_cmd_blocks.c\
+			set_cmd_blocks_utils.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 

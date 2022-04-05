@@ -42,7 +42,7 @@ void	join_arrays(char ***cmd, char *token) // duplicate function insert_variable
 		i++;
 	}
 	new_block[size - 1] = ft_strdup(token);
-	if (!new_block[size])
+	if (!new_block[size - 1])
 		malloc_error_exit();
 	free_string_array(*cmd);
 	*cmd = new_block;

@@ -35,34 +35,36 @@ void print_cmd_blocks(t_list *cmd_blocks) // erase when no longer needed
 //				printf("next redirect: %p\n", (void *)(temp_block->redirect)->next);
 				temp_block->redirect = (temp_block->redirect)->next;
 			}
+			printf("\n");
 		}
 		printf("\n");
 		temp_block = temp_block->next;
 	}
 }
 
-void parse_line(char *str, t_data *data)
+t_list	*parse_line(char *str, t_data *data)
 {
 	char	**tokens;
 	t_list	*cmd_blocks;
 
 	tokens = ft_split_minishell(str, ' ');
 //	print_token(tokens); // remove 
-
-	if (check_syntax(tokens) == 1)
-		error_syntax(&tokens);
-	else // remove once testing is no longer required
+	if (tokens != NULL)
 	{
-		printf("syntax correct\n");
-//		free_double(&tokens);
+		if (check_syntax(tokens) == 1)
+			error_syntax(&tokens);
+		else 
+		{
+//			printf("syntax correct\n"); // remove once testing is no longer required
+			tokens = expansion(tokens, data);
+			print_token(tokens);  // remove
+
+			cmd_blocks = set_cmd_blocks(tokens);
+			free_double(&tokens);
+			print_cmd_blocks(cmd_blocks);
+	
+			return (cmd_blocks);
+		}
 	}
-
-	tokens = expansion(tokens, data);
-	print_token(tokens);  // remove
-
-	cmd_blocks = set_cmd_blocks(tokens);
-	free_double(&tokens);
-	print_cmd_blocks(cmd_blocks);
-
-//	return (cmd_blocks);
+	return (NULL);
 }
