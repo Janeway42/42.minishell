@@ -1,20 +1,6 @@
 #include "../includes/minishell.h"
 
-//	function to free all the strings and the array itself.
-// void	free_string_array(char **array)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (array[i] != NULL)
-// 	{
-// 		free(array[i]);
-// 		i++;
-// 	}
-// 	free(array);
-// }
-
-int	count_variables(char **array)
+int	count_variables(char **array)    /// DUPLICATE ?
 {
 	int	count;
 
@@ -24,8 +10,11 @@ int	count_variables(char **array)
 	return (count);
 }
 
-//	function will attempt to find the variable and return the position in the
-//	envp list.
+/*
+** Function will attempt to find the variable
+** and return its position in the envp list
+*/
+
 int	find_variable_position(char **envp, char *variable)
 {
 	int		i;
@@ -46,8 +35,11 @@ int	find_variable_position(char **envp, char *variable)
 	return (-1);
 }
 
-//	will split the environment variable into key and value
-//	if it has not value only the key will be returned.
+/*
+** Function splits the environment variable into key and value
+** If it doesn't have a value, the key will be returned
+*/
+
 char	**ft_split_variable(char *variable)
 {
 	int		i;
@@ -73,7 +65,11 @@ char	**ft_split_variable(char *variable)
 	return (split);
 }
 
-//	function will create a malloced copy of the envp
+/*
+** Function will create a copy of the envp variable
+** which allows us to modify it
+*/
+
 char	**copy_envp(char **envp)
 {
 	int		count;
@@ -93,23 +89,3 @@ char	**copy_envp(char **envp)
 	envp_copy[count] = NULL;
 	return (envp_copy);
 }
-
-/*
-//test
-void print_list(char **list)
-{
-	for(int i = 0; list[i] != NULL; i++)
-		printf("%s\n", list[i]);
-}
-
-//test
-int main(int argc, char **argv, char **envp)
-{
-
-	char **envp_copy = copy_envp(envp);
-	envp_copy = insert_variable(envp_copy, "hello=1");
-	print_list(envp_copy);
-	free_string_array(envp_copy);
-	return (0);
-}
-*/

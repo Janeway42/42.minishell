@@ -8,36 +8,48 @@
 # include <readline/history.h>
 # include <fcntl.h>
 # include <termios.h>
+# include <signal.h>
 # include "libft.h"
-# include "builtin.h"
 
-# define PROMPT "minishell: "
+# define PROMPT "minishell> "
+
+typedef enum e_bool
+{
+	FALSE = 0,
+	TRUE = 1
+}		t_bool;
+
+/*
+** Data structs for minishell
+** -------------------------------------------------
+*/
 
 typedef struct			s_red
 {
-	struct s_red		*next;
 	char				*op;
 	char				*file;
+	struct s_red		*next;
 }						t_red;
 
 typedef struct		s_list
 {
-	struct s_list	*next;
-	t_red			*redirect;
-	char			**cmd;
 	int				index_cmd;
+	char			**cmd;
+	t_red			*redirect;
+	struct s_list	*next;
 }					t_list;
 
 typedef struct		s_data
 {
-	char			**envplist;
-	struct termios	old_term;
-	struct termios	new_term;
 	int				last_exit_code;
+	char			**envplist;
+	struct termios	term_with_echo;
+	struct termios	term_without_echo;
 }					t_data;
 
 /*
 ** Envp
+** -------------------------------------------------
 */
 
 char	**copy_envp(char **envp);
@@ -49,7 +61,8 @@ int		count_variables(char **array);
 void	delete_variable(char ***envp, char *variable);
 
 /*
-** Parse
+** Parsing
+** -------------------------------------------------
 */
 
 t_list	*parse_line(char *str, t_data *data);
@@ -59,6 +72,7 @@ t_list	*set_cmd_blocks(char **tokens);
 
 /*
 ** Expansion
+** -------------------------------------------------
 */
 
 char	**expansion(char **str, t_data *data);
@@ -70,35 +84,69 @@ char	*remove_quotes(char *str);
 
 /*
 ** Command blocks
+** -------------------------------------------------
 */
 
 t_list	*ft_last_block(t_list *x);
 int		size_double_array(char **str);
 void	join_arrays(char ***cmd, char *token);
 
-
 /*
 ** Utils
+** -------------------------------------------------
 */
 
-char **ft_split_minishell(char *str, char c);
+char	**ft_split_minishell(char *str, char c);
+int		check_operator(char c);
+int		count_strings(char *str, char c);
 
 /*
-** Error / Free
+** Builtin Functions
+** -------------------------------------------------
+*/
+
+int		ft_unset(char **args, char ***envp_list);
+int		ft_env(char **envp_list);
+int		ft_cd(char **args, char ***envp_list);
+int		ft_exit(char **args, int last_exit_code);
+int		ft_pwd(char **envp_list);
+int		ft_echo(char **args);
+
+/*
+** Builtin Utils
+** -------------------------------------------------
+*/
+
+int		is_it_builtin(char *cmd);
+int		execute_builtin(char ***envp_list, char **args, int last_exit_code);
+int		is_valid_env_name(char *name);
+int		ft_export(char **args, char ***envp_list);
+
+/*
+** Free
+** -------------------------------------------------
 */
 
 void	free_double(char ***str);
-void	malloc_error_exit(void);
-void	error_syntax(char ***tokens);
 void	free_string_array(char **array);
 void	free_cmd_blocks(t_list **cmd_blocks);
 void	free_data(t_data **data);
 
 /*
+** Error
+** -------------------------------------------------
+*/
+
+void	malloc_error_exit(void);
+void	exit_on_error(char *message, int exit_code);
+void	error_syntax(char ***tokens);
+
+/*
 ** REMOVE !!!!!!!!!
 */
 
-void print_token(char **tokens);
-void print_cmd_blocks(t_list *cmd_blocks);
+void	print_envp(char **envp);
+void	print_token(char **tokens);
+void	print_cmd_blocks(t_list *cmd_blocks);
 
 #endif

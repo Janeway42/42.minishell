@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	free_double(char ***str)
+void	free_double(char ***str)   // duplicate function -> choose one 
 {
 	char	**temp;
 
@@ -13,19 +13,7 @@ void	free_double(char ***str)
 	free(*str);
 }
 
-void	error_syntax(char ***tokens)
-{
-	printf("error syntax\n");
-	free_double(tokens);
-}
-
-void	malloc_error_exit(void)  // duplicate function 
-{
-	printf("Malloc error.\n");
-	exit(1);
-}
-
-void	free_string_array(char **array)  // duplicate function 
+void	free_string_array(char **array)  // duplicate function -> choose one 
 {
 	int	i;
 

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_lstiter.c                                       :+:    :+:            */
+/*   ft_isalumn.c                                       :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: hman <hman@student.codam.nl>                 +#+                     */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/11/10 16:03:42 by hakaman       #+#    #+#                 */
-/*   Updated: 2020/11/10 16:18:27 by hakaman       ########   odam.nl         */
+/*   Created: 2022/04/12 12:22:01 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/04/12 12:23:16 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../includes/libft.h"
 
-void	ft_lstiter(t_list *lst, void (*f)(void *))
+int	ft_isalnum(int c)
 {
-	while (lst != NULL)
-	{
-		f(lst->content);
-		lst = lst->next;
-	}
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1);
+	else if (c >= '0' && c <= '9')
+		return (1);
+	return (0);
 }
