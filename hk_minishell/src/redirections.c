@@ -20,20 +20,31 @@ void	process_redir(t_red *red_list, t_data *data)
 	if (data->outpipe_fds[0] != -1)
 		close(data->outpipe_fds[0]);
 
+(void) red_list;
 //do the other redictions after
-
 	while (red_list != NULL)
 	{
 		if (ft_strcmp(red_list->op, "<") == 0)
+		{
+write(2,"redirect input\n",15);
 			redir_input(red_list->file);
+		}
 		else if (ft_strcmp(red_list->op, ">") == 0)
+		{
+write(2,"redirect output\n",16);
 			redir_output(red_list->file);
+		}
 		else if (ft_strcmp(red_list->op, ">>") == 0)
+		{
+write(2,"redirect output append\n",23);
 			redir_output_append(red_list->file);
+		}
 //		heredoc
 //		else if (ft_strcmp(red_list->op, "<<") == 0)
+
 		red_list = red_list->next;
 	}
+
 }
 
 //	function that redirect STDIN to inputfile

@@ -19,7 +19,8 @@ SRC_FILES = $(addprefix $(SRC_DIR)/,\
 	builtin_exit_pwd_echo.c \
 	ft_strcmp.c \
 	validation_cmd.c \
-	process_cmds.c)
+	process_cmds.c \
+	redirections.c)
 
 # include directory
 INCLUDES_FLAG = -Iincludes

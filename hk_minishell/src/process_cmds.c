@@ -4,6 +4,7 @@ void	exec_command(t_cmd_block *cmd_list, t_data *data)
 {
 	char	*path;
 //do the redirections
+	process_redir(cmd_list->redirs, data);
 //check if it is a builtin command
 	if (is_it_builtin(cmd_list->cmd_args[0]))
 	{

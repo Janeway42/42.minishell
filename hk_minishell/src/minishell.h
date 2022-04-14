@@ -36,8 +36,6 @@ typedef struct s_red
 typedef struct s_cmd_block
 {
 	int					cmdnbr;
-	int					inputfd;
-	int					outputfd;
 	t_red				*redirs;
 	char				**cmd_args;
 	struct s_cmd_block	*next;
@@ -118,7 +116,7 @@ void	process_cmds(t_cmd_block *cmd_list, t_data *data);
 //----------------------------------------------------------------------------
 
 //functions of redirections.c
-void	process_redit(t_red *red_list, t_data *data);
+void	process_redir(t_red *red_list, t_data *data);
 void	redir_input(char *filename);
 void	redir_output(char *filename);
 void	redir_output_append(char *filename);
