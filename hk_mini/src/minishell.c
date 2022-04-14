@@ -5,13 +5,15 @@
 t_cmd_block *create_cmd_block()
 {
 	t_cmd_block *first= malloc(sizeof (t_cmd_block));
-	char *cmd_first[]={"ls","-la",NULL};
-	first->cmd_args = cmd_first;
-	first->inputfd = 0;
-	first->outputfd = 1;
-	first->redirs = NULL;
-	first->cmdnbr = 1;
-	first->next = NULL;
+	t_cmd_block *second = malloc(sizeof (t_cmd_block));
+//	t_cmd_block *third = malloc(sizeof (t_cmd_block));
+//	t_cmd_block *fourth = malloc(sizeof (t_cmd_block));
+//	t_cmd_block *five = malloc(sizeof (t_cmd_block));
+	first->next = second;
+	second->next = NULL;
+//	third->next = NULL;
+//	fourth->next = five;
+//	five->next = NULL;
 	return (first);
 }
 
@@ -35,39 +37,60 @@ void	set_up_shell_terminal(t_data *data)
 		if (tcgetattr(0, &(data->old_term)) == -1)
 			exit_on_error("Error :", 1);
 		data->new_term = data->old_term;
-//		data->new_term.c_lflag &= ~(0001000); //linux flag
-		data->new_term.c_lflag &= ~(ECHOCTL); //mac flag
+		data->new_term.c_lflag &= ~(0001000); //linux flag
+//		data->new_term.c_lflag &= ~(ECHOCTL); //mac flag
 		if (tcsetattr(0, TCSANOW, &(data->new_term)) == -1)
 			exit_on_error("Error :", 1);
 	}
 }
-
+/*
 void	exec_command(t_cmd_block *cmd_list, t_data *data)
 {
 	char *path;
 //do the redirections
 //do the pipe redirections first
-	dup2(STDIN_FILENO)
+	//if the inpipe_fd is -1 it means it doesn't need redirection for input
+	if (data->inpipe_fd != -1)
+	{
+		dup2(data->inpipe_fd, 0);
+		close(data->inpipe_fd);
+	}
+	//if outpipe_fds[1] == -1 means no active pipe thus 
+	if (data->outpipe_fds[1] != -1)
+	{
+		dup2(data->outpipe_fds[1], 1);
+		close(data->outpipe_fds[1]);
+	}
+	//also close the read part of the pipe in the child process
+	close(data->outpipe_fds[0]);
 //do the other redictions after
 //set to the old terminal or not if it has been reset right after the input
 	//tcsetattr(0, TCSANOW, &data->old_term);
 //check if it is a builtin command
 	if (is_it_builtin(cmd_list->cmd_args[0]))
-		execute_builtin(&data->envp_list, &cmd_list->cmd_args[1], data->last_exit_code);
+	{
+		data->last_exit_code = execute_builtin(&data->envp_list, &cmd_list->cmd_args[0], data->last_exit_code);
+write(2,"exit code:", 10);
+ft_putnbr_fd(data->last_exit_code, 2);
+write(2 ,"\n",1);
+		exit(data->last_exit_code);
+	}
 //if not check if the command exist if not give error
 //else execute the command
 	else
 	{
 		path = validate_and_locate_cmd(cmd_list->cmd_args[0],data->envp_list);
-printf("path is %s\n",path);
 		if (path == NULL)
 		{
 			write(2, cmd_list->cmd_args[0], ft_strlen(cmd_list->cmd_args[0]));
 			write(2, ": command not found\n", 20);
 			exit(127);
 		}
-		if (execve(path, cmd_list->cmd_args, data->envp_list))
-			exit_on_error(cmd_list->cmd_args[0], 1);
+		else
+		{
+			if (execve(path, cmd_list->cmd_args, data->envp_list))
+				exit_on_error(cmd_list->cmd_args[0], 1);
+		}
 	}
 }
 
@@ -101,20 +124,21 @@ void	process_cmds(t_cmd_block *cmd_list, t_data *data)
 	while (cmdnbr <= amount_commands)
 	{
 		//if there is still another command thus pipe is necessary
+		// copy the read part of the previous pipe into inpipe_fd
+		if (cmdnbr != 1)
+				data->inpipe_fd = data->outpipe_fds[0];
+		//if not the first command copy read end fd of the previous outpipe to inpipe_fd
 		if (cmdnbr < amount_commands)
 		{
-			//if not the first command copy read end fd of the previous outpipe to inpipe_fd
-			if (cmdnbr != 1)
-				data->inpipe_fd = data->outpipe_fds[0];
 			if (pipe(data->outpipe_fds) == -1)
 				exit_on_error("Error :", 1);
 		}
-
+		//check if there are commmands at all
 		//if it is the only command and it is builtin
-		if (amount_command == 1 && is_it_builtin(cmd_list->cmd_args[0]))
+		//don't fork and execute the builtin function
+		if (amount_commands == 1 && is_it_builtin(cmd_list->cmd_args[0]) == TRUE)
 		{	
 			//do the redirections
-			//don't fork and execute the builtin function
 			data->last_exit_code = execute_builtin(&data->envp_list
 				, cmd_list->cmd_args, data->last_exit_code);
 		}
@@ -124,23 +148,29 @@ void	process_cmds(t_cmd_block *cmd_list, t_data *data)
 			if (pid < 0)
 				exit_on_error("Error :", 1);
 			else if (pid == 0)
-				exec_command(cmd_list, data);
+				exec_command(cmd_list, data); //child process
 			else
 			{
+				//still at parent
 				//only close the inputfd when not first commmand 
 				//because there is no input pipe for the first command.
 				if (cmdnbr != 1)
-					close(cmd_list->inputfd);
+				{
+					close(data->inpipe_fd);
+					data->inpipe_fd = -1;
+				}
 				//only close the output write side of pipe if not last command
-				//because there is outputpipe for the last command
+				//because there is no outputpipe for the last command
 				if (cmdnbr != amount_commands)
-  					close(outpipefd[1]);
+				{
+  					close(data->outpipe_fds[1]);
+					data->outpipe_fds[1] = -1;
+				}
 			}
 		}
 		cmd_list = cmd_list->next;
 		cmdnbr++;
 	}
-
 //temporary wait for all children processses
 	cmdnbr = 1;
 	while (cmdnbr <= amount_commands)
@@ -149,7 +179,7 @@ void	process_cmds(t_cmd_block *cmd_list, t_data *data)
 		cmdnbr++;
 	}
 }
-
+*/
 
 void	init_minishell(int argc, char **argv, char **envp, t_data *data)
 {
@@ -158,6 +188,8 @@ void	init_minishell(int argc, char **argv, char **envp, t_data *data)
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, SIG_IGN);
 	data->envp_list = copy_envp(envp);
+	data->inpipe_fd = -1;
+	data->outpipe_fds[1] = -1;
 	set_variable(&(data->envp_list),"OLDPWD=");
 	set_up_shell_terminal(data);
 }
@@ -166,10 +198,26 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_data		data;
 	t_cmd_block	*cmd_list;
-	char		*input;
+//	char		*input;
 
 	init_minishell(argc, argv, envp, &data);	
 	cmd_list = create_cmd_block();
+//---------------------------------------------------
+// test
+//create test command block
+char *first_cmds[]={"cat",NULL};
+char *scnd_cmds[]={"cat",NULL};
+//char *third_cmds[]={"cat",NULL};
+//char *fourth_cmds[]={"cat",NULL};
+//char *fifth_cmds[]={"ls",NULL};
+cmd_list->cmd_args = first_cmds;
+cmd_list->next->cmd_args = scnd_cmds;
+//cmd_list->next->next->cmd_args = third_cmds;
+//cmd_list->next->next->next->cmd_args = fourth_cmds;
+//cmd_list->next->next->next->next->cmd_args = fifth_cmds;
+		//don't forget to free the cmd_list
+//---------------------------------------------------
+/*
 	while (1)
 	{
 		if (tcsetattr(0, TCSANOW, &(data.new_term)) == -1) //reset the terminal to allow echoctl
@@ -185,26 +233,11 @@ int	main(int argc, char **argv, char **envp)
 		}
 		if (input[0] != '\0')
 			add_history(input);
-//process the input into command blocks
-//--------------------------------------------------------------------
-if (input[0] != '\0')
-{
-	cmd_list->cmd_args = ft_split(input,' ');
-	int i = 0;
-	while (cmd_list->cmd_args[i] != NULL)
-	{
-		printf("%s\n", cmd_list->cmd_args[i]);
-		i++;
-	}
-
-//--------------------------------------------------------------------
 		process_cmds(cmd_list, &data);
-
-		//don't forget to free the cmd_list
-free_string_array(cmd_list->cmd_args);
-}
 		free(input);
 //set the exit code in environment variable `?` to the exitcode
 	}
+*/
+	process_cmds(cmd_list, &data);
 	return (0);
 }

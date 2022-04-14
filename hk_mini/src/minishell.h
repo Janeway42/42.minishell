@@ -5,6 +5,10 @@
 # include <unistd.h>
 # include <termios.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -21,12 +25,12 @@ typedef enum e_bool
 //	DATASTRUCTS FOR MINISHELL
 //----------------------------------------------------------------------------
 //struct for redirections
-typedef struct s_redir
+typedef struct s_red
 {
-	char			*operator;
-	char			*argument;
-	struct s_redir	*next;
-}				t_redir;
+	char			*op;
+	char			*file;
+	struct s_red	*next;
+}				t_red;
 
 //struct for the command block
 typedef struct s_cmd_block
@@ -34,7 +38,7 @@ typedef struct s_cmd_block
 	int					cmdnbr;
 	int					inputfd;
 	int					outputfd;
-	t_redir				*redirs;
+	t_red				*redirs;
 	char				**cmd_args;
 	struct s_cmd_block	*next;
 }				t_cmd_block;
@@ -97,6 +101,27 @@ int		ft_export(char **args, char ***envp_list);
 
 //fuctions of validation.c
 char	*validate_and_locate_cmd(char *cmd, char **envp);
+
+//----------------------------------------------------------------------------
+//	PROCESS THE COMMANDS
+//----------------------------------------------------------------------------
+
+//functions of process_cmds.c
+
+void	exec_commandsd(t_cmd_block *cmd_list, t_data *data);
+int		count_commands(t_cmd_block *cmd_list);
+void	process_cmds(t_cmd_block *cmd_list, t_data *data);
+
+
+//----------------------------------------------------------------------------
+//	REDIRECTIONS
+//----------------------------------------------------------------------------
+
+//functions of redirections.c
+void	process_redit(t_red *red_list, t_data *data);
+void	redir_input(char *filename);
+void	redir_output(char *filename);
+void	redir_output_append(char *filename);
 
 //----------------------------------------------------------------------------
 //	OTHER FILES

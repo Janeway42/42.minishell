@@ -11,14 +11,16 @@ int	is_it_builtin(char *cmd)
 		NULL};
 	int			i;
 
+	if (cmd == NULL)
+		return (FALSE);
 	i = 0;
 	while (s[i] != NULL)
 	{
 		if (ft_strcmp(cmd, s[i]) == 0)
-			return (1);
-		i++;	
+			return (TRUE);
+		i++;
 	}
-	return (0);
+	return (FALSE);
 }
 
 //	it will go through the builtin functions and run the appropriate function

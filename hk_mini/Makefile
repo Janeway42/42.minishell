@@ -18,7 +18,8 @@ SRC_FILES = $(addprefix $(SRC_DIR)/,\
 	builtin_export.c \
 	builtin_exit_pwd_echo.c \
 	ft_strcmp.c \
-	validation_cmd.c)
+	validation_cmd.c \
+	process_cmds.c)
 
 # include directory
 INCLUDES_FLAG = -Iincludes

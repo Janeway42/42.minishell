@@ -80,8 +80,8 @@ char	*validate_and_locate_cmd(char *cmd, char **envp)
 	return (cmd_path);
 }
 
+//gcc validation_cmd.c ft_strcmp.c errors.c envp_utils.c envp_copy.c -L../lib/libft -lft
 /*
-gcc validation_cmd.c ft_strcmp.c errors.c envp_utils.c envp_copy.c -L../lib/libft -lft
 int	main(int argc, char **argv, char **envp)
 {
 	if (argv[1] == NULL)
@@ -91,7 +91,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("command not found\n");
 	else
 		printf("%s is the full path.\n",s);	
-	while (1);
 	return (0);
 }
+
 */

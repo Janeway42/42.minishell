@@ -147,6 +147,8 @@ The WIFSIGNALED macro is always successful.
 
 If the child process for which status was returned by the wait or waitpid function exited because it raised a signal that caused it to exit, the WIFSIGNALED macro evaluates to TRUE and the WTERMSIG macro can be used to determine which signal was raised by the child process. Otherwise, the WIFSIGNALED macro evaluates to FALSE.
 
+if CTRL-C is pressed on heredoc the exit code will be set to 1
+
 ---
 
 **shell variables**
