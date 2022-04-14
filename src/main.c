@@ -46,9 +46,13 @@ static void	initialize_minishell(int argc, char **argv, char **envp, t_data **da
 	signal(SIGQUIT, SIG_IGN);
 
 	(*data)->envplist = copy_envp(envp);
+	(*data)->inpipe_fd = -1;
+	(*data)->outpipe_fds[1] = -1;
 	set_variable(&(*data)->envplist,"OLDPWD=");
+	set_variable(&(*data)->envplist,"A=hello");  // erase once no longer needed
+	set_variable(&(*data)->envplist,"B=bye");   // erase once no longer needed
 	set_up_shell_terminal(*data);
-	(*data)->last_exit_code = 0;
+	(*data)->last_exit_code = 0;   // ?? erase
 }
 
 int main(int argc, char **argv, char **envp)
@@ -56,8 +60,6 @@ int main(int argc, char **argv, char **envp)
 	char	*line;
 	t_data	*data;
 	t_list	*cmd_blocks;
-
-	t_list *temp;
 
 	if (!argc)
 		return (1);
@@ -72,6 +74,7 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
+//		line = "echo ana";
 //		line = "<'input.txt'> $A.txt | ls";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
@@ -88,17 +91,17 @@ int main(int argc, char **argv, char **envp)
 			cmd_blocks = parse_line(line, data);
 
 // -----------------------------------------------------------
-			printf("builtins output: \n");
-			temp = cmd_blocks;
-			while (temp != NULL)
-			{
-				if (temp->cmd != NULL && is_it_builtin(*temp->cmd) == 1)
-					execute_builtin(&(data->envplist), temp->cmd, data->last_exit_code);
-				temp = temp->next;
-			}
+			// printf("builtins output: \n");
+			// temp = cmd_blocks;
+			// while (temp != NULL)
+			// {
+			// 	if (temp->cmd != NULL && is_it_builtin(*temp->cmd) == 1)
+			// 		execute_builtin(&(data->envplist), temp->cmd, data->last_exit_code);
+			// 	temp = temp->next;
+			// }
+			if (cmd_blocks != NULL)
+				process_commands(cmd_blocks, data);
 // -----------------------------------------------------------
-
-//			process_commands(cmd_blocks, data);
 			free_cmd_blocks(&cmd_blocks);
 		}
 		free(line);
@@ -114,6 +117,7 @@ int main(int argc, char **argv, char **envp)
 //		line = "< src/main.c grep line | grep l| wc -l";
 //		line = "<'input.txt'> $A.txt | ls";
 //		line = "<'input.txt'> $A.txt | $B >  ls";
+//		line = "<'input.txt'> $A.txt | > $B ls";
 //		line = "< src/main.c grep line | >";
 //		line = "pwd | echo ana";
 //		line = ""

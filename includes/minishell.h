@@ -43,6 +43,10 @@ typedef struct		s_data
 {
 	int				last_exit_code;
 	char			**envplist;
+	int				inpipe_fd;
+	int				outpipe_fds[2];
+	int				old_stdin;
+	int				old_stdout;
 	struct termios	term_with_echo;
 	struct termios	term_without_echo;
 }					t_data;
@@ -90,6 +94,15 @@ char	*remove_quotes(char *str);
 t_list	*ft_last_block(t_list *x);
 int		size_double_array(char **str);
 void	join_arrays(char ***cmd, char *token);
+
+/*
+** Process command blocks
+** -------------------------------------------------
+*/
+
+char	*validate_and_locate_cmd(char *cmd, char **envp);
+void	process_commands(t_list *cmd_blocks, t_data *data);
+void	process_redir(t_red *red_list, t_data *data);
 
 /*
 ** Utils

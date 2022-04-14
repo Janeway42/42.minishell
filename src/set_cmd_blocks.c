@@ -80,22 +80,22 @@ t_list	*set_cmd_blocks(char **tokens)
 	t_list	*cmd_blocks;
 	t_list	*temp;
 	int		i;
-	int		pipes;
+	int		nr_blocks;
 
 	i = 0;
-	pipes = 0;
+	nr_blocks = 1;
 	cmd_blocks = NULL;
-	create_add_new_block(&cmd_blocks, pipes);
+	create_add_new_block(&cmd_blocks, nr_blocks);
 	temp = cmd_blocks;
 	while (tokens[i] != NULL)
 	{
 		while (tokens[i] != NULL && ft_strcmp(tokens[i], "|") != 0)
 			i = add_to_blocks(temp, tokens, i);
-		temp->index_cmd = pipes;
+//		temp->index_cmd = nr_blocks;
 		if (tokens[i] == NULL)
 			return (cmd_blocks);
-		pipes++;
-		create_add_new_block(&cmd_blocks, pipes);
+		nr_blocks++;
+		create_add_new_block(&cmd_blocks, nr_blocks);
 		temp = ft_last_block(cmd_blocks);
 		i++;
 	}

@@ -7,7 +7,9 @@ S_SRC	=	main.c\
 			expansion.c\
 			expansion_utils.c\
 			set_cmd_blocks.c\
-			set_cmd_blocks_utils.c
+			set_cmd_blocks_utils.c\
+			process_commands.c\
+			redirections.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 
@@ -20,6 +22,7 @@ BUILT_OBJ	=	$(BUILT_SRC:%.c=$(BUILT_PATH)%.o)
 
 UTILS		=	ft_split_minishell.c\
 				ft_split_minishell_utils.c\
+				validation_cmd.c\
 				error.c\
 				free.c\
 				print_functions.c
