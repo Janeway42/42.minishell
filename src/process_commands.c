@@ -17,6 +17,7 @@ void execute_command(t_list *cmd_blocks, t_data *data)
 		{
 			write(2, cmd_blocks->cmd[0], ft_strlen(cmd_blocks->cmd[0]));
 			write(2, ": command not found\n", 20);
+			exit(127);
 		}
 		else
 		{

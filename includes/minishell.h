@@ -9,6 +9,7 @@
 # include <fcntl.h>
 # include <termios.h>
 # include <signal.h>
+# include <sys/wait.h>
 # include "libft.h"
 
 # define PROMPT "minishell> "
@@ -22,6 +23,17 @@ typedef enum e_bool
 /*
 ** Data structs for minishell
 ** -------------------------------------------------
+** t_list:
+** 		index_cmd: counter for the number of cmd blocks
+** 		**cmd: double aray storring the commands
+** 		*redirect:	a t_red linked list for the redirections
+**				->op: the operand
+**				->file: the file name
+** t_data:
+** 		last_exit_code
+** 		**envplist: a copy of **envp
+** 		term_with_echo: terminal with echtl active
+** 		term_without_echo: terminal with echtl deactivated
 */
 
 typedef struct			s_red
@@ -34,7 +46,6 @@ typedef struct			s_red
 typedef struct		s_list
 {
 	int				index_cmd;
-	int				index_red;
 	char			**cmd;
 	t_red			*redirect;
 	struct s_list	*next;
@@ -61,6 +72,7 @@ char	**copy_envp(char **envp);
 void	set_variable(char ***envp, char *variable);
 char	**ft_split_variable(char *variable);
 int		find_variable_position(char **envp, char *variable);
+int		is_valid_env_name(char *name);
 char	*get_var_value(char **envp, char *variable);
 int		count_variables(char **array);
 void	delete_variable(char ***envp, char *variable);
@@ -72,8 +84,6 @@ void	delete_variable(char ***envp, char *variable);
 
 t_list	*parse_line(char *str, t_data *data);
 int		check_syntax(char **str);
-char	**expansion(char **str, t_data *data);
-t_list	*set_cmd_blocks(char **tokens);
 
 /*
 ** Expansion
@@ -81,17 +91,18 @@ t_list	*set_cmd_blocks(char **tokens);
 */
 
 char	**expansion(char **str, t_data *data);
+int		dollar_sign(char *str);
+char	*replace_dollar(char *str, char **envplist);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
 char	*non_null_value(int name_size, int location, char *str, char *value);
 char	*null_value(int name_size, int location, char *str);
-int		validity_name(char c, int location);
-char	*remove_quotes(char *str);
 
 /*
 ** Command blocks
 ** -------------------------------------------------
 */
 
+t_list	*set_cmd_blocks(char **tokens);
 t_list	*ft_last_block(t_list *x);
 int		size_double_array(char **str);
 void	join_arrays(char ***cmd, char *token);

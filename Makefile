@@ -2,10 +2,10 @@ NAME = minishell
 CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 S_SRC	=	main.c\
-			parse.c\
+			parse_and_expansion.c\
 			check_syntax.c\
-			expansion.c\
-			expansion_utils.c\
+			expansion_utils1.c\
+			expansion_utils2.c\
 			set_cmd_blocks.c\
 			set_cmd_blocks_utils.c\
 			process_commands.c\

@@ -30,24 +30,18 @@ void	free_cmd_blocks(t_list **cmd_blocks)
 {
 	t_list	*temp;
 	t_red	*temp_red;
-	int i;
 
-	i = 0;
 	while (*cmd_blocks != NULL)
 	{
 		if ((*cmd_blocks)->cmd != NULL)
 			free_double(&(*cmd_blocks)->cmd);
-		while (i < (*cmd_blocks)->index_red)
+		while ((*cmd_blocks)->redirect != NULL)
 		{
-			if ((*cmd_blocks)->redirect != NULL)
-			{
-				temp_red = (*cmd_blocks)->redirect;
-				(*cmd_blocks)->redirect = (*cmd_blocks)->redirect->next;
-				free(temp_red->op);
-				free(temp_red->file);
-				free(temp_red);
-			}
-			i++;
+			temp_red = (*cmd_blocks)->redirect;
+			(*cmd_blocks)->redirect = ((*cmd_blocks)->redirect)->next;
+			free(temp_red->op);
+			free(temp_red->file);
+			free(temp_red);
 		}
 		temp = *cmd_blocks;
 		*cmd_blocks = (*cmd_blocks)->next;
