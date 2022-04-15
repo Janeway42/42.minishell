@@ -6,7 +6,7 @@ void	error_syntax(char ***tokens)
 	free_double(tokens);
 }
 
-void	malloc_error_exit(void)  // duplicate function 
+void	malloc_error_exit(void) // duplicate function 
 {
 	printf("Malloc error.\n");
 	exit(1);

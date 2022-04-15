@@ -17,7 +17,7 @@ int	is_it_builtin(char *cmd)
 	{
 		if (ft_strcmp(cmd, s[i]) == 0)
 			return (1);
-		i++;	
+		i++;
 	}
 	return (0);
 }

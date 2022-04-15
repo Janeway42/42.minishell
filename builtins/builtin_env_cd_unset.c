@@ -71,7 +71,7 @@ static int	set_oldpwd(char ***envp_list)
 	directory = ft_strjoin("OLDPWD=", temp);
 	free(temp);
 	if (directory == NULL)
-		exit_on_error("Error :", 1);	
+		exit_on_error("Error :", 1);
 	set_variable(envp_list, directory);
 	free(directory);
 	return (0);

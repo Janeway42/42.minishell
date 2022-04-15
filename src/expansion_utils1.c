@@ -69,6 +69,11 @@ static char	*get_value_from_envp(char *name, char **envp)
 	return (NULL);
 }
 
+/*
+**-------------------------------------------------------------------------
+** Function replaces the variable $name with the correct variable value
+*/
+
 char	*replace_dollar(char *str, char **envplist)
 {
 	int		i;
@@ -98,6 +103,7 @@ char	*replace_dollar(char *str, char **envplist)
 }
 
 /*
+**-------------------------------------------------------------------------
 ** Function detects the presence of $
 */
 

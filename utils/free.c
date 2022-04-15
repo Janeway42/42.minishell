@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-void	free_double(char ***str)   // duplicate function -> choose one 
+void	free_double(char ***str) // duplicate function -> choose one 
 {
 	char	**temp;
 
@@ -13,7 +13,7 @@ void	free_double(char ***str)   // duplicate function -> choose one
 	free(*str);
 }
 
-void	free_string_array(char **array)  // duplicate function -> choose one 
+void	free_string_array(char **array) // duplicate function -> choose one 
 {
 	int	i;
 

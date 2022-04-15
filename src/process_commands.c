@@ -1,13 +1,14 @@
 #include "../includes/minishell.h"
 
-void execute_command(t_list *cmd_blocks, t_data *data)
+void	execute_command(t_list *cmd_blocks, t_data *data)
 {
-	char *path;
+	char	*path;
 
 	process_redir(cmd_blocks->redirect, data);
 	if (is_it_builtin(cmd_blocks->cmd[0]))
 	{
-		data->last_exit_code = execute_builtin(&data->envplist, &cmd_blocks->cmd[0], data->last_exit_code);
+		data->last_exit_code = execute_builtin(&data->envplist,
+				&cmd_blocks->cmd[0], data->last_exit_code);
 		exit(data->last_exit_code);
 	}
 	else
@@ -49,7 +50,8 @@ void	process_commands(t_list *cmd_blocks, t_data *data)
 		if (amount_cmd == 1 && is_it_builtin(cmd_blocks->cmd[0]) == TRUE)
 		{
 			// redirection 
-			data->last_exit_code = execute_builtin(&data->envplist, cmd_blocks->cmd, data->last_exit_code);
+			data->last_exit_code = execute_builtin(&data->envplist,
+					cmd_blocks->cmd, data->last_exit_code);
 		}
 		else
 		{
@@ -73,7 +75,6 @@ void	process_commands(t_list *cmd_blocks, t_data *data)
 			}
 		}
 		/*----------------------------------------------------*/
-
 		cmd_blocks = cmd_blocks->next;
 		cmd_nr++;
 	}

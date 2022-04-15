@@ -12,7 +12,7 @@ t_list	*ft_last_block(t_list *x)
 	return (last);
 }
 
-int	size_double_array(char **str)   // duplicate? 
+int	size_double_array(char **str) // duplicate? 
 {
 	int	i;
 

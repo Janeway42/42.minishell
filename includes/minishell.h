@@ -94,8 +94,6 @@ char	**expansion(char **str, t_data *data);
 int		dollar_sign(char *str);
 char	*replace_dollar(char *str, char **envplist);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
-char	*non_null_value(int name_size, int location, char *str, char *value);
-char	*null_value(int name_size, int location, char *str);
 
 /*
 ** Command blocks

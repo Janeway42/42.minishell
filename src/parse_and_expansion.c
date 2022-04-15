@@ -73,10 +73,10 @@ t_list	*parse_line(char *str, t_data *data)
 	{
 		if (check_syntax(tokens) == 1)
 			error_syntax(&tokens);
-		else 
+		else
 		{
 			tokens = expansion(tokens, data);
-			print_token(tokens);  // remove once completed
+//			print_token(tokens); // remove once completed !!!!!!!!!
 			cmd_blocks = set_cmd_blocks(tokens);
 			free_double(&tokens);
 			return (cmd_blocks);

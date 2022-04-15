@@ -81,7 +81,6 @@ int	ft_exit(char **args, int last_exit_code)
 	return (1);
 }
 
-
 /*
 **-------------------------------------------------------------------------
 **	prints out current working directory. Will attempt to get it first from 
@@ -99,8 +98,7 @@ int	ft_pwd(char **envp_list)
 	{
 		cwd = getcwd(NULL, 0);
 		if (cwd == NULL)
-		{	
-			//error message
+		{
 			write(2, "error can't get current directory information\n", 46);
 			return (1);
 		}
