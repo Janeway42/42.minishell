@@ -36,7 +36,7 @@ void	join_arrays(char ***cmd, char *token) // duplicate function insert_variable
 	new_block[size] = NULL;
 	while (i < (size - 1))
 	{
-		new_block[i] = ft_strdup(*cmd[i]);
+		new_block[i] = ft_strdup((*cmd)[i]);
 		if (!new_block[i])
 			malloc_error_exit();
 		i++;

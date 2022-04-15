@@ -12,7 +12,7 @@ static int	lenght_quotes(char *str)
 
 	lenght = 0;
 	lenght++;
-	while (str[lenght] != 39)
+	while (str[lenght] != '\0' && str[lenght] != 39)
 		lenght++;
 	if (str[lenght] == 39)
 		lenght++;

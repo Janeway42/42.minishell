@@ -19,7 +19,7 @@ static int	run_though_quotes(char *str, int loc)
 	if (str[loc] == 39)
 	{
 		loc++;
-		while (str[loc] != 39)
+		while (str[loc] != '\0' && str[loc] != 39)
 			loc++;
 		if (str[loc] == 39)
 			loc++;
@@ -27,7 +27,7 @@ static int	run_though_quotes(char *str, int loc)
 	if (str[loc] == 34)
 	{
 		loc++;
-		while (str[loc] != 34)
+		while (str[loc] != '\0' && str[loc] != 34)
 			loc++;
 		if (str[loc] == 34)
 			loc++;

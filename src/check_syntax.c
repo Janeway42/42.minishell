@@ -70,6 +70,8 @@ int	last_pipe(char **str)
 	return (0);
 }
 
+
+
 /*
 ** Check first whether there are double '|'
 ** then check for the rest of the syntax
