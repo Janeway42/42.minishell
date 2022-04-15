@@ -74,18 +74,15 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
-//		line = "echo ana";
-//		line = "<'input.txt'> $A.txt | ls";
+//		line = "12345|12345|12345";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
 		if (line == NULL) // in case of CTRL + D
 		{
-			free(line); // exit?
-			free(data); // exit?
 			write(2, "exit\n", 5);
 			exit(0);
 		}
-		if (line != NULL)
+		if (line != NULL && ft_strcmp(line, "") != 0)
 		{
 			add_history(line);
 			cmd_blocks = parse_line(line, data);
@@ -114,7 +111,7 @@ int main(int argc, char **argv, char **envp)
 //		line = "echo ana";
 //		line = "echo ana  ";
 //		line = "12345|12345|12345";
-//		line = "< src/main.c grep line | grep l| wc -l";
+//		line = "< src/main.c grep line | grep l| wc -l";  ///
 //		line = "<'input.txt'> $A.txt | ls";
 //		line = "<'input.txt'> $A.txt | $B >  ls";
 //		line = "<'input.txt'> $A.txt | > $B ls";

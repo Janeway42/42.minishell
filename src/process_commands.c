@@ -70,7 +70,6 @@ void	process_commands(t_list *cmd_blocks, t_data *data)
 					data->outpipe_fds[1] = -1;
 				}
 			}
-			
 		}
 		/*----------------------------------------------------*/
 

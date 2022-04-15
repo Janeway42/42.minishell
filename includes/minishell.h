@@ -34,6 +34,7 @@ typedef struct			s_red
 typedef struct		s_list
 {
 	int				index_cmd;
+	int				index_red;
 	char			**cmd;
 	t_red			*redirect;
 	struct s_list	*next;

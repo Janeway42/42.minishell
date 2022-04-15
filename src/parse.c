@@ -16,7 +16,7 @@ t_list	*parse_line(char *str, t_data *data)
 			print_token(tokens);  // remove once completed
 			cmd_blocks = set_cmd_blocks(tokens);
 			free_double(&tokens);
-			print_cmd_blocks(cmd_blocks);	
+//			print_cmd_blocks(cmd_blocks);
 			return (cmd_blocks);
 		}
 	}

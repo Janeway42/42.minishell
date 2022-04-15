@@ -12,6 +12,7 @@ void	create_add_new_block(t_list **cmd_blocks, int index)
 	new_elem->redirect = NULL;
 	new_elem->cmd = NULL;
 	new_elem->index_cmd = index;
+	new_elem->index_red = 0;
 	if (*cmd_blocks == NULL)
 		*cmd_blocks = new_elem;
 	else
@@ -62,6 +63,7 @@ int	add_to_blocks(t_list *list, char **str, int loc)
 		|| ft_strcmp(str[loc], ">>") == 0)
 	{
 		add_to_redirect(&list->redirect, str[loc], str[loc + 1]);
+		list->index_red++;
 		loc++;
 	}
 	else
@@ -91,7 +93,6 @@ t_list	*set_cmd_blocks(char **tokens)
 	{
 		while (tokens[i] != NULL && ft_strcmp(tokens[i], "|") != 0)
 			i = add_to_blocks(temp, tokens, i);
-//		temp->index_cmd = nr_blocks;
 		if (tokens[i] == NULL)
 			return (cmd_blocks);
 		nr_blocks++;

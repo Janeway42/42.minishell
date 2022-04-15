@@ -17,7 +17,7 @@ static int	check_syntax_pipe(char **str)
 
 static int	check_operators(char **str, int i)
 {
-	if (str[i + 1] == '\0')
+	if (str[i + 1] == NULL)
 		return (1);
 	if (ft_strcmp(str[i + 1], "<") == 0)
 		return (1);

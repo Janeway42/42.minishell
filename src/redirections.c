@@ -8,8 +8,6 @@ void	redir_input(char *filename)
 {
 	int	input_fd;
 
-	write(2, "test2\n", 6);
-
 	input_fd = open(filename, O_RDONLY);
 	if (input_fd == -1)
 		exit_on_error(filename, 1);
@@ -54,7 +52,6 @@ void	redir_output_append(char *filename)
 
 void	process_redir(t_red *red_list, t_data *data)
 {
-	printf("control\n");
 	//do the pipe redirections first
 	//if the inpipe_fd is -1 there is no active inputpipe
 	if (data->inpipe_fd != -1)
@@ -74,10 +71,8 @@ void	process_redir(t_red *red_list, t_data *data)
 
 	//do the other redictions after
 
-	write(2, "test3\n", 5);
 	while (red_list != NULL)
 	{
-		write(2, "test3\n", 6);
 		if (ft_strcmp(red_list->op, "<") == 0)
 		{
 

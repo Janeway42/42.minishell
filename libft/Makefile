@@ -6,7 +6,7 @@
 #    By: janeway <janeway@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/07/04 14:52:18 by janeway       #+#    #+#                  #
-#    Updated: 2022/04/12 12:22:41 by cpopa         ########   odam.nl          #
+#    Updated: 2022/04/12 17:52:50 by cpopa         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC =	ft_atoi.c\
 		ft_isdigit.c\
 		ft_isalpha.c\
 		ft_isalumn.c\
+		ft_itoa.c\
 		ft_lstadd_back.c\
 		ft_lstlast.c\
 		ft_lstnew.c\
