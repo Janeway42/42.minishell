@@ -1,11 +1,10 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
-/*
-** check is the string is all digits with allowance for the first character to 
-** be	a '-' or a '+' but has to be followed up with a digit.
-** RETURN	1 if string is all digits
-** 			0 if string is not all digits
-*/
+//-----------------------------------------------------------------------------
+//	check is the string is all digits with allowance for the first character to 
+//	be	a '-' or a '+' but has to be followed up with a digit.
+//	RETURN	1 if string is all digits
+//			0 if string is not all digits
 
 int	is_all_digits(char *s)
 {
@@ -26,7 +25,7 @@ int	is_all_digits(char *s)
 	return (1);
 }
 
-/*	convert the string to an integer */
+//	convert the string to an integer
 
 int	convert_to_int(char *s)
 {
@@ -49,10 +48,8 @@ int	convert_to_int(char *s)
 	return ((int) sum * sign);
 }
 
-/*
-** function will exit the program. The exit code will be set to the number that
-** has been set by
-*/
+//	function will exit the program. The exit code will be set to the number that
+//	has been set by 
 
 int	ft_exit(char **args, int last_exit_code)
 {
@@ -81,8 +78,8 @@ int	ft_exit(char **args, int last_exit_code)
 	return (1);
 }
 
+//-----------------------------------------------------------------------------
 /*
-**-------------------------------------------------------------------------
 **	prints out current working directory. Will attempt to get it first from 
 **	environment variable. If it fails it will get it with getcwd().
 **	RETURN	0 is succesfull
@@ -98,7 +95,8 @@ int	ft_pwd(char **envp_list)
 	{
 		cwd = getcwd(NULL, 0);
 		if (cwd == NULL)
-		{
+		{	
+			//error message
 			write(2, "error can't get current directory information\n", 46);
 			return (1);
 		}
@@ -108,8 +106,8 @@ int	ft_pwd(char **envp_list)
 	return (0);
 }
 
+//-----------------------------------------------------------------------------
 /*
-**-------------------------------------------------------------------------
 **	will print out the arguments and end with an newline
 ** 	flags	: -n	will not end with a newline
 */
@@ -130,10 +128,13 @@ int	ft_echo(char **args)
 	}
 	while (args[i] != NULL)
 	{
-		if (args[i])
-			printf("%s", args[i]);
-		if (args[i + 1] != NULL)
-			printf(" ");
+		if (ft_strcmp("-n", args[i]) != 0)
+		{
+			if (args[i])
+				printf("%s", args[i]);
+			if (args[i + 1] != NULL)
+				printf(" ");
+		}
 		i++;
 	}
 	if (end_line)
