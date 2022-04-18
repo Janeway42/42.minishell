@@ -72,6 +72,7 @@ static char	**fill(char *str, int nr_strings, char c, char **result)
 	int	size;
 
 	i = 0;
+	printf("nr_strings: %d\n", nr_strings);
 	while (i < nr_strings)
 	{
 		while (*str == c && *str != 39 && *str != 34)
@@ -88,6 +89,7 @@ static char	**fill(char *str, int nr_strings, char c, char **result)
 			str++;
 			j++;
 		}
+		printf("str[%d]: %s\n", i, result[i]);
 		i++;
 	}
 	result[i] = NULL;
@@ -100,7 +102,8 @@ char	**ft_split_minishell(char *str, char c)
 	char	**result;
 
 	nr_strings = count_strings(str, c);
-	result = malloc(sizeof(char **) * (nr_strings + 1));
+	printf("nr_strings: %d\n", nr_strings);
+	result = malloc(sizeof(char *) * (nr_strings + 1));
 	if (!result)
 		return (NULL);
 	result[nr_strings] = NULL;

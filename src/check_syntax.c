@@ -5,6 +5,8 @@ static int	check_syntax_pipe(char **str)
 	int	i;
 
 	i = 0;
+	if (ft_strcmp(str[0], "|") == 0)
+		return (1);
 	while (str[i + 1] != NULL)
 	{
 		if (ft_strcmp(str[i], "|") == 0 && ft_strcmp(str[i + 1], "|") == 0)
@@ -12,6 +14,8 @@ static int	check_syntax_pipe(char **str)
 		else
 			i++;
 	}
+	if (ft_strcmp(str[i], "|") == 0)
+		return (1);
 	return (0);
 }
 
