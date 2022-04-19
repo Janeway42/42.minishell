@@ -72,7 +72,6 @@ static char	**fill(char *str, int nr_strings, char c, char **result)
 	int	size;
 
 	i = 0;
-	printf("nr_strings: %d\n", nr_strings);
 	while (i < nr_strings)
 	{
 		while (*str == c && *str != 39 && *str != 34)
