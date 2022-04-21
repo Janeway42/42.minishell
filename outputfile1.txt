@@ -1,0 +1,5 @@
+current value question var: ?=56
+[?2004hminishell> asdklfjlaksdjfljk[?2004l
+minishell> [?2004h[?2004l
+minishell> [?2004h[?2004l
+minishell> [?2004h

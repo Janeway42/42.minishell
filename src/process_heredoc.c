@@ -89,8 +89,7 @@ int	process_heredoc(t_list *cmd_block)
 	int		last_exit_code;
 
 	last_exit_code = 0;
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
+
 	pid = fork();
 	if (pid < 0)
 		exit_on_error("Error :", 1);
@@ -134,6 +133,11 @@ int	*create_heredoc_index_array(t_list *cmd_block)
 			heredoc_index_array[cmd_block->index_cmd - 1] = temp_index;
 		temp_index += count;
 		cmd_block = cmd_block->next;
+	}
+	if (temp_index == 0)
+	{
+		free(heredoc_index_array);
+		return (NULL);
 	}
 	return (heredoc_index_array);
 }

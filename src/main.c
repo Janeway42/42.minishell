@@ -38,21 +38,34 @@ void	set_up_shell_terminal(t_data *data)
 ** SIG_IGN macro defining a signal startegie for signal() = signal is ignored
 */
 
-static void	initialize_minishell(int argc, char **argv, char **envp, t_data **data)
+static void	initialize_minishell(int argc, char **argv, char **envp, t_data *data)
 {
 	(void)argc;
 	(void)argv;
-	signal(SIGINT, sig_handler); // if SIGINT is received then do sig_handler
-	signal(SIGQUIT, SIG_IGN);
 
-	(*data)->envplist = copy_envp(envp);
-	(*data)->inpipe_fd = -1;
-	(*data)->outpipe_fds[1] = -1;
-	set_variable(&(*data)->envplist,"OLDPWD=");
-	set_variable(&(*data)->envplist,"A=hello");  // erase once no longer needed
-	set_variable(&(*data)->envplist,"B=bye");   // erase once no longer needed
-	set_up_shell_terminal(*data);
-	(*data)->last_exit_code = 0;
+	data->envplist = copy_envp(envp);
+	data->inpipe_fd = -1;
+	data->outpipe_fds[1] = -1;
+	set_variable(&data->envplist,"OLDPWD=");
+	set_variable(&data->envplist, "?=0");
+	set_up_shell_terminal(data);
+	data->last_exit_code = 0;
+}
+
+void	set_exit_code(t_data *data)
+{
+	char *number;
+	char *question_var;
+
+	number = ft_itoa(data->last_exit_code);
+	if (number == NULL)
+		exit_on_error("Error :", 1);
+	question_var = ft_strjoin("?=", number);
+	if (question_var == NULL)
+		exit_on_error("Error :", 1);
+	free(number);
+printf("current value question var: %s\n",question_var);
+	set_variable(&data->envplist, question_var);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -61,22 +74,22 @@ int main(int argc, char **argv, char **envp)
 	t_data	*data;
 	t_list	*cmd_blocks;
 
-	if (!argc)
-		return (1);
-	(void)argv;
 	data = malloc(sizeof(t_data) * 1);
 	if (!data)
 		return (-1); // check what type of error it needs to return
-	initialize_minishell(argc, argv, envp, &data);
-
+	initialize_minishell(argc, argv, envp, data);
 	while (1)
 	{
+		signal(SIGINT, sig_handler); // if SIGINT is received then do sig_handler
+		signal(SIGQUIT, SIG_IGN);
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
-//		line = "echo $TEST$TEST=lol$TEST""lol";
+//		line = ">outputfile";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		if (line == NULL) // in case of CTRL + D
 		{
 			write(2, "exit\n", 5);
@@ -89,16 +102,18 @@ int main(int argc, char **argv, char **envp)
 			if (cmd_blocks != NULL)
 			{
 				data->heredoc_index_array = create_heredoc_index_array(cmd_blocks);
-				data->last_exit_code = process_heredoc(cmd_blocks);
+				if (data->heredoc_index_array != NULL)
+					data->last_exit_code = process_heredoc(cmd_blocks);
 				if (data->last_exit_code == 0)
 					process_commands(cmd_blocks, data);
 			}
 			free_cmd_blocks(&cmd_blocks);
 		}
+		set_exit_code(data);
 		clean_heredoc_temp_files();
 		free(line);
 	}
-//	rl_clear_history();
+	rl_clear_history();
 	free_data(&data);
 	return (0);
 }
