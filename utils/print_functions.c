@@ -49,8 +49,8 @@ void print_cmd_blocks(t_list *cmd_blocks)
 		{
 			while (temp_redirect != NULL)
 			{
-				printf("op: %s\n", (temp_block->redirect)->op);
-				printf("file: %s\n",(temp_block->redirect)->file);
+				printf("op: %s\n", temp_redirect->op);
+				printf("file: %s\n",temp_redirect->file);
 				temp_redirect = temp_redirect->next;
 			}
 			printf("\n");

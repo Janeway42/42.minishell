@@ -6,7 +6,7 @@
 ** Single quotation ASCII = 39, Double quotation ASCII = 34
 */
 
-static int	lenght_quotes(char *str)
+static int	lenght_quotes_single(char *str)
 {
 	int	lenght;
 
@@ -19,6 +19,19 @@ static int	lenght_quotes(char *str)
 	return (lenght);
 }
 
+static int	lenght_quotes_double(char *str)
+{
+	int	lenght;
+
+	lenght = 0;
+	lenght++;
+	while (str[lenght] != '\0' && str[lenght] != 34)
+		lenght++;
+	if (str[lenght] == 34)
+		lenght++;
+	return (lenght);
+}
+
 static int	string_lenght(char *str, char c)
 {
 	int	i;
@@ -27,9 +40,9 @@ static int	string_lenght(char *str, char c)
 	while (str[i] != '\0')
 	{
 		if (str[i] == 39)
-			return (lenght_quotes(str));
+			return (lenght_quotes_single(str));
 		else if (str[i] == 34)
-			return (lenght_quotes(str));
+			return (lenght_quotes_double(str));
 		else if ((str[i] == '<' && str[i + 1] == '<')
 			|| (str[i] == '>' && str[i + 1] == '>'))
 			return (i = 2);
@@ -88,7 +101,6 @@ static char	**fill(char *str, int nr_strings, char c, char **result)
 			str++;
 			j++;
 		}
-		printf("str[%d]: %s\n", i, result[i]);
 		i++;
 	}
 	result[i] = NULL;
@@ -101,7 +113,6 @@ char	**ft_split_minishell(char *str, char c)
 	char	**result;
 
 	nr_strings = count_strings(str, c);
-	printf("nr_strings: %d\n", nr_strings);
 	result = malloc(sizeof(char *) * (nr_strings + 1));
 	if (!result)
 		return (NULL);

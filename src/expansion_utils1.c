@@ -22,7 +22,7 @@ static int	validity_name(char c, int location)
 ** Function identifies the variable name from the input string
 */
 
-static char	*get_variable_name(char *str, int loc)
+char	*get_variable_name(char *str, int loc)
 {
 	int		i;
 	int		size;
@@ -46,7 +46,7 @@ static char	*get_variable_name(char *str, int loc)
 	return (name);
 }
 
-static char	*get_value_from_envp(char *name, char **envp)
+char	*get_value_from_envp(char *name, char **envp)   // duplicate? 
 {
 	int		i;
 	int		s_name;
@@ -101,6 +101,24 @@ char	*replace_dollar(char *str, char **envplist)
 	}
 	return (str);
 }
+
+// ============test function ===========================
+
+char *get_node_val(char *name, char **envplist)
+{
+	char *node_val;
+
+	if (name == NULL)
+		node_val = "";
+	else
+	{
+		node_val = get_value_from_envp(name, envplist);
+		if (node_val == NULL)
+			node_val = "";
+	}
+	return (node_val);
+}
+
 
 /*
 **-------------------------------------------------------------------------

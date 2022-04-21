@@ -48,6 +48,8 @@ static void	initialize_minishell(int argc, char **argv, char **envp, t_data *dat
 	data->outpipe_fds[1] = -1;
 	set_variable(&data->envplist,"OLDPWD=");
 	set_variable(&data->envplist, "?=0");
+	set_variable(&data->envplist,"A=hello"); // variable for testing 
+	set_variable(&data->envplist,"B=bye"); // variable for testing 
 	set_up_shell_terminal(data);
 	data->last_exit_code = 0;
 }
@@ -64,7 +66,7 @@ void	set_exit_code(t_data *data)
 	if (question_var == NULL)
 		exit_on_error("Error :", 1);
 	free(number);
-printf("current value question var: %s\n",question_var);
+	printf("current value question var: %s\n",question_var);
 	set_variable(&data->envplist, question_var);
 }
 
@@ -86,6 +88,8 @@ int main(int argc, char **argv, char **envp)
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
 //		line = ">outputfile";
+//		line = "echo \"$?TEST\"";
+//		line = "\"\"|ls";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
 		signal(SIGINT, SIG_IGN);

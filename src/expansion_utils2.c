@@ -89,7 +89,11 @@ char	*insert_variable_value(char *str, char *value, int loc, int size_name)
 
 	lenght_val = ft_strlen(value);
 	if (lenght_val == 0)
+	{
+		if (ft_isdigit((int)str[loc + 1]) == 1)
+			size_name = 1;
 		temp = null_value(size_name, loc, str);
+	}
 	else
 		temp = non_null_value(size_name, loc, str, value);
 	free(str);

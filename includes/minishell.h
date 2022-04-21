@@ -92,6 +92,8 @@ int		check_syntax(char **str);
 */
 
 char	**expansion(char **str, t_data *data);
+char	*get_variable_name(char *str, int loc);
+char	*get_value_from_envp(char *name, char **envp);
 int		dollar_sign(char *str);
 char	*replace_dollar(char *str, char **envplist);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
@@ -175,7 +177,6 @@ void	free_data(t_data **data);
 ** -------------------------------------------------
 */
 
-void	malloc_error_exit(void);
 void	exit_on_error(char *message, int exit_code);
 void	error_syntax(char ***tokens);
 

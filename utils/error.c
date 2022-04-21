@@ -2,14 +2,9 @@
 
 void	error_syntax(char ***tokens)
 {
-	printf("error syntax\n");
+	write(2, "error syntax\n", 14);
 	free_double(tokens);
-}
-
-void	malloc_error_exit(void) // duplicate function 
-{
-	printf("Malloc error.\n");
-	exit(1);
+	// set environment variable $? to 258
 }
 
 void	exit_on_error(char *message, int exit_code)
