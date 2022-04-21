@@ -24,7 +24,7 @@ void	exec_command(t_list *cmd_block, t_data *data)
 {
 	process_redir(cmd_block->redirect, data, cmd_block->index_cmd);
 	if (cmd_block->cmd == NULL)
-		return ;
+		exit(0) ;
 	if (is_it_builtin(cmd_block->cmd[0]))
 	{
 		data->last_exit_code = execute_builtin(&data->envplist,
