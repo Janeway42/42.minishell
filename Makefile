@@ -10,13 +10,15 @@ S_SRC	=	main.c\
 			set_cmd_blocks_utils.c\
 			process_commands.c\
 			process_commands_validation.c\
-			redirections.c
+			redirections.c\
+			process_heredoc.c\
+			process_heredoc_utils.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 
-BUILT_SRC	=	builtin.c\
+BUILT_SRC	=	builtin_start_echo.c\
 				builtin_env_cd_unset.c\
-				builtin_exit_pwd_echo.c\
+				builtin_exit_pwd.c\
 				builtin_export.c
 BUILT_PATH	=	builtins/
 BUILT_OBJ	=	$(BUILT_SRC:%.c=$(BUILT_PATH)%.o)
@@ -39,14 +41,16 @@ OBJ_FILES = $(S_OBJ) $(BUILT_OBJ) $(UTILS_OBJ) $(ENV_OBJ)
 RL_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline
 RL_INCLUDE_FLAGS = -I$(shell brew --prefix readline)/include
 
+INCLUDES_FLAG = -Iincludes
+
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES)
 	make -C libft
-	$(CC) $(CFLAGS) $(OBJ_FILES) $(RL_FLAGS) $(RL_INCLUDE_FLAGS) libft/libft.a -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ_FILES) $(RL_FLAGS) $(RL_INCLUDE_FLAGS) $(INCLUDES_FLAG) libft/libft.a -o $(NAME)
 	
 %.o: %.c $(HEADER_FILES)
-	$(CC) $(CFLAGS) $(RL_INCLUDE_FLAGS) -c $< -o $@ 
+	$(CC) $(CFLAGS) $(RL_INCLUDE_FLAGS) $(INCLUDES_FLAG) -c $< -o $@ 
 
 clean:
 	make clean -C libft

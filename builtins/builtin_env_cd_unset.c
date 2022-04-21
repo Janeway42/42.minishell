@@ -1,8 +1,8 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
+//-----------------------------------------------------------------------------
 /*
-**-------------------------------------------------------------------------
-** ft_unset will delete the variable from the envp_list
+**	will delete the variable from the envp_list
 */
 
 int	ft_unset(char **args, char ***envp_list)
@@ -26,10 +26,10 @@ int	ft_unset(char **args, char ***envp_list)
 	return (exit_code);
 }
 
+//-----------------------------------------------------------------------------
 /*
-**-------------------------------------------------------------------------
-** ft_env will print all the variables that have a value attached to it
-** and as long the key is not '?'
+**	will print out all the variables that has a value attached to it
+**	and as long the key is not '?'
 */
 
 int	ft_env(char **envp_list)
@@ -49,13 +49,11 @@ int	ft_env(char **envp_list)
 	return (0);
 }
 
-/*
-**-------------------------------------------------------------------------
-** set_oldpwd will attempt to change the OLDPWD environment variable to the
-** PWD value
-** RETURN	1 if the PWD value is not found
-** 			0 if the value has succesfully changed
-*/
+//-----------------------------------------------------------------------------
+//	function will attempt to change the OLDPWD environment variable to the
+//	PWD value
+//	RETURN	1 if the PWD value is not found
+//			0 if the value has succesfully changed
 
 static int	set_oldpwd(char ***envp_list)
 {
@@ -77,13 +75,10 @@ static int	set_oldpwd(char ***envp_list)
 	return (0);
 }
 
-/*
-**-------------------------------------------------------------------------
-** set_pwd will attemp to change the PWD environment variable to the current
-** working directory
-** RETURN	1 if it fails
-** 			0 if it succeeds
-*/
+//	function will attemp to change the PWD environment variable to the current
+//	working directory
+//	RETURN	1 if it fails
+//			0 if it succeeds
 
 static int	set_pwd(char ***envp_list)
 {
@@ -106,8 +101,7 @@ static int	set_pwd(char ***envp_list)
 }
 
 /*
-**-------------------------------------------------------------------------
-**	ft_cd will change the current working directory.
+**	will change the current working directory.
 **	RETURN	0 if it succeeded
 **			1 if is failed
 */

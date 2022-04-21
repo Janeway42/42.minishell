@@ -45,8 +45,8 @@ static int	is_cmd_abs_or_relative(char *cmd)
 {
 	if (!ft_strncmp("/", cmd, 1) || !ft_strncmp("./", cmd, 2)
 		|| !ft_strncmp("../", cmd, 3))
-		return (1);
-	return (0);
+		return (TRUE);
+	return (FALSE);
 }
 
 /*
@@ -64,7 +64,7 @@ char	*validate_and_locate_cmd(char *cmd, char **envp)
 	char	**path_dirs;
 
 	cmd_path = NULL;
-	if (is_cmd_abs_or_relative(cmd) == 1)
+	if (is_cmd_abs_or_relative(cmd) == TRUE)
 	{
 		if (access(cmd, F_OK) == 0)
 		{
@@ -73,7 +73,7 @@ char	*validate_and_locate_cmd(char *cmd, char **envp)
 				exit_on_error("Error :", 1);
 		}
 	}
-	else
+	else if (cmd[0] != '\0')
 	{
 		temp = get_var_value(envp, "PATH");
 		path_dirs = ft_split(temp, ':');

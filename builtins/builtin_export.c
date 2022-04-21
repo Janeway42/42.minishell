@@ -1,8 +1,8 @@
-#include "../includes/minishell.h"
+#include "minishell.h"
 
+//-----------------------------------------------------------------------------
 /*
-**-------------------------------------------------------------------------
-** Function will check if the name of the environment variable is valid
+**	will check if the environment name is valid
 ** 	according to
 **	https://pubs.opengroup.org/onlinepubs/000095399/basedefs/xbd_chap08.html
 **  valid is [A-Z][0-9], the underscore '_' and not start with a digit for a 
@@ -24,10 +24,7 @@ int	is_valid_env_name(char *name)
 	return (TRUE);
 }
 
-/*
-**-------------------------------------------------------------------------
-** Function will swap the strings at element i and i + 1 in the array
-*/
+//	function will swap the strings at element i and i + 1 in the array
 
 static void	check_and_swap(char **sorted_list, int i, int *swapped)
 {
@@ -48,10 +45,8 @@ static void	check_and_swap(char **sorted_list, int i, int *swapped)
 	free_string_array(split2);
 }
 
-/*
-**-------------------------------------------------------------------------
-** Function will ssort the environment list and return a sorted copy
-*/
+//	function that will sort the envp_list and return a copy of the list
+//	that is sorted
 
 static char	**sort_envp_list(char **envp_list)
 {
@@ -74,11 +69,8 @@ static char	**sort_envp_list(char **envp_list)
 	return (sorted_list);
 }
 
-/*
-**-------------------------------------------------------------------------
-** Function will print the environment variables including the
-** ones that do not have a value assigned to
-*/
+//	function will print out the environmental variables including the variable
+//	that don't have a value assigned to it.
 
 void	print_export_list(char **envp_list)
 {
@@ -102,8 +94,7 @@ void	print_export_list(char **envp_list)
 }
 
 /*
-**-------------------------------------------------------------------------
-** Function will sexport the variables after checking it
+**	will export the variables to the envp list after checking if it
 */
 
 int	ft_export(char **args, char ***envp_list)

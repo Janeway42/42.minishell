@@ -6,7 +6,7 @@
 //	RETURN	1 if string is all digits
 //			0 if string is not all digits
 
-int	is_all_digits(char *s)
+static int	is_all_digits(char *s)
 {
 	if (*s == '\0')
 		return (0);
@@ -25,15 +25,16 @@ int	is_all_digits(char *s)
 	return (1);
 }
 
-//	convert the string to an integer
+/// convert the string to a long
 
-int	convert_to_int(char *s)
+static long	convert_to_long(char *s, int *overflowed)
 {
 	long	sum;
 	int		sign;
 
 	sum = 0;
 	sign = 1;
+	*overflowed = FALSE;
 	if (*s == '-' || *s == '+')
 	{
 		if (*s == '-')
@@ -42,10 +43,22 @@ int	convert_to_int(char *s)
 	}
 	while (*s != '\0')
 	{
-		sum = (sum * 10) + *s - 48;
+		sum = (sum * 10) + ((*s - 48) * sign);
 		s++;
 	}
-	return ((int) sum * sign);
+	if (sum != 0 && ((sign == 1 && sum < 0) || (sign == -1 && sum > 0)))
+		*overflowed = TRUE;
+	return (sum);
+}
+
+//	function that will display the error for numeric argument and exit 
+
+static void	ft_exit_error(char *arg)
+{
+	write(2, "exit\nexit: ", 11);
+	write(2, arg, ft_strlen(arg));
+	write(2, ": numeric argument required\n", 27);
+	exit(255);
 }
 
 //	function will exit the program. The exit code will be set to the number that
@@ -53,7 +66,8 @@ int	convert_to_int(char *s)
 
 int	ft_exit(char **args, int last_exit_code)
 {
-	int	exit_code;
+	long	exit_code;
+	int		overflowed;
 
 	if (args[0] == NULL)
 	{
@@ -61,17 +75,14 @@ int	ft_exit(char **args, int last_exit_code)
 		exit(last_exit_code % 256);
 	}
 	if (!is_all_digits(args[0]))
-	{
-		write(2, "exit\nexit: ", 11);
-		write(2, args[0], ft_strlen(args[0]));
-		write(2, ":numeric argument required\n", 27);
-		exit(255);
-	}
+		ft_exit_error(args[0]);
 	else if (args[1] != NULL)
 		write(2, "exit\nexit: too many arguments\n", 30);
 	else
 	{
-		exit_code = convert_to_int(args[0]);
+		exit_code = convert_to_long(args[0], &overflowed);
+		if (overflowed == 1)
+			ft_exit_error(args[0]);
 		write(2, "exit\n", 5);
 		exit(exit_code % 256);
 	}
@@ -96,48 +107,11 @@ int	ft_pwd(char **envp_list)
 		cwd = getcwd(NULL, 0);
 		if (cwd == NULL)
 		{	
-			//error message
 			write(2, "error can't get current directory information\n", 46);
 			return (1);
 		}
 	}
 	printf("%s\n", cwd);
 	free(cwd);
-	return (0);
-}
-
-//-----------------------------------------------------------------------------
-/*
-**	will print out the arguments and end with an newline
-** 	flags	: -n	will not end with a newline
-*/
-
-//test if one of the args is ""
-
-int	ft_echo(char **args)
-{
-	int	i;
-	int	end_line;
-
-	end_line = 1;
-	i = 0;
-	if (args[0] != NULL && !ft_strcmp("-n", args[0]))
-	{
-		end_line = 0;
-		i = 1;
-	}
-	while (args[i] != NULL)
-	{
-		if (ft_strcmp("-n", args[i]) != 0)
-		{
-			if (args[i])
-				printf("%s", args[i]);
-			if (args[i + 1] != NULL)
-				printf(" ");
-		}
-		i++;
-	}
-	if (end_line)
-		printf("\n");
 	return (0);
 }

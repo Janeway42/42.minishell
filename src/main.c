@@ -87,9 +87,15 @@ int main(int argc, char **argv, char **envp)
 			add_history(line);
 			cmd_blocks = parse_line(line, data);
 			if (cmd_blocks != NULL)
-				process_commands(cmd_blocks, data);
+			{
+				data->heredoc_index_array = create_heredoc_index_array(cmd_blocks);
+				data->last_exit_code = process_heredoc(cmd_blocks);
+				if (data->last_exit_code == 0)
+					process_commands(cmd_blocks, data);
+			}
 			free_cmd_blocks(&cmd_blocks);
 		}
+		clean_heredoc_temp_files();
 		free(line);
 	}
 //	rl_clear_history();
