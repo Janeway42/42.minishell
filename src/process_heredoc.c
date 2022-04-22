@@ -141,21 +141,3 @@ int	*create_heredoc_index_array(t_list *cmd_block)
 	}
 	return (heredoc_index_array);
 }
-
-/*
-//TEST
-int	main(void)
-{
-	t_red	redir2 = {.op = "<<", .file = "END", .next = NULL};
-	t_red	redir = {.op = "<<", .file = "END2", .next = &redir2};
-	t_list	cmd_block = {.next = NULL, .redirect = &redir};
-	int		exit_code = process_heredoc(&cmd_block);
-	printf("exit code = %d", exit_code);
-	system("cat 0.tmp");
-	//clean_heredoc_tmp_files();
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	while(1);
-	return (0);
-}
-*/

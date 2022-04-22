@@ -22,7 +22,8 @@ void	exec_path_cmd(t_list *cmd_block, t_data *data)
 
 void	exec_command(t_list *cmd_block, t_data *data)
 {
-	process_redir(cmd_block->redirect, data, cmd_block->index_cmd);
+	process_pipe_redir(data);
+	process_redir(cmd_block->redirect, data, cmd_block->index_cmd, FALSE);
 	if (cmd_block->cmd == NULL)
 		exit(0) ;
 	if (is_it_builtin(cmd_block->cmd[0]))
@@ -76,10 +77,13 @@ void	process_commands(t_list *cmd_block, t_data *data)
 		}
 		if (amount_commands == 1 && cmd_block->cmd != NULL
 			&& is_it_builtin(cmd_block->cmd[0]) == TRUE)
-		{	
-			//do the redirections
-			data->last_exit_code = execute_builtin(&data->envplist,
-					cmd_block->cmd, data->last_exit_code);
+		{
+			data->old_stdin = dup(0);
+			data->old_stdout = dup(1);	
+			data->last_exit_code = process_redir(cmd_block->redirect, data, 1, TRUE);
+			data->last_exit_code = execute_builtin(&data->envplist,	cmd_block->cmd, data->last_exit_code);
+			dup2(data->old_stdin,0);
+			dup2(data->old_stdout,1);
 			need_to_wait_on_child_proces = FALSE;
 		}
 		else

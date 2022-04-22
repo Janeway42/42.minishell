@@ -34,6 +34,7 @@ void	clean_heredoc_temp_files(void)
 		filename = create_temp_file_name(i);
 		if (access(filename, F_OK) == -1)
 		{
+			free(filename);
 			done = TRUE;
 			break ;
 		}

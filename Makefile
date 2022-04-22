@@ -1,5 +1,6 @@
 NAME = minishell
 CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+UNAME = $(shell uname)
 
 S_SRC	=	main.c\
 			parse_and_expansion.c\
@@ -38,9 +39,12 @@ ENV_OBJ		=	$(ENV:%.c=$(ENV_PATH)%.o)
 
 OBJ_FILES = $(S_OBJ) $(BUILT_OBJ) $(UTILS_OBJ) $(ENV_OBJ)
 
-RL_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline
-RL_INCLUDE_FLAGS = -I$(shell brew --prefix readline)/include
-
+ifeq ($(UNAME), Linux)
+	RL_FLAGS = -lreadline
+else
+	RL_FLAGS = -L$(shell brew --prefix readline)/lib -lreadline
+	RL_INCLUDE_FLAGS = -I$(shell brew --prefix readline)/include
+endif
 INCLUDES_FLAG = -Iincludes
 
 all: $(NAME)

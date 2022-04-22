@@ -116,7 +116,9 @@ void	join_arrays(char ***cmd, char *token);
 char	*validate_and_locate_cmd(char *cmd, char **envp);
 void	process_commands(t_list *cmd_blocks, t_data *data);
 int		count_commands(t_list *cmd_blocks);
-void	process_redir(t_red *red_list, t_data *data, int cmdnbr);
+void	process_pipe_redir(t_data *data);
+int		process_redir(t_red *red_list, t_data *data, int cmdnbr,
+			int sole_builtin);
 void	wait_for_child_processes(pid_t last_pid, int amount_commands,
 			t_data *data);
 

@@ -47,19 +47,19 @@ char	**ft_split_variable(char *variable)
 
 	split = malloc(sizeof (char *) * 3);
 	if (split == NULL)
-		malloc_error_exit();
+		exit_on_error("Error :", 1);	
 	i = 0;
 	split[1] = NULL;
 	while (variable[i] != '=' && variable[i] != '\0')
 		i++;
 	split[0] = ft_substr(variable, 0, i);
 	if (split[0] == NULL)
-		malloc_error_exit();
+		exit_on_error("Error :", 1);
 	if (variable[i] == '=')
 	{
 		split[1] = ft_strdup(&variable[i + 1]);
 		if (split[1] == NULL)
-			malloc_error_exit();
+			exit_on_error("Error :", 1);
 	}
 	split[2] = NULL;
 	return (split);
@@ -83,7 +83,7 @@ char	**copy_envp(char **envp)
 	{
 		envp_copy[i] = ft_strdup(envp[i]);
 		if (envp_copy[i] == NULL)
-			malloc_error_exit();
+			exit_on_error("Error :", 1);
 		i++;
 	}
 	envp_copy[count] = NULL;

@@ -26,8 +26,8 @@ void	set_up_shell_terminal(t_data *data)
 	if (tcgetattr(0, &data->term_with_echo) == -1) //old
 		exit_on_error("Exit: ", 1);
 	data->term_without_echo = data->term_with_echo;
-	data->term_without_echo.c_lflag &= ~(ECHOCTL); /* local mac flag - removes echoctl */
-/*	data->new_term.c_lflag &= ~(0001000);  -  linux flag */
+//	data->term_without_echo.c_lflag &= ~(ECHOCTL); /* local mac flag - removes echoctl */
+	data->term_without_echo.c_lflag &= ~(0001000);  /*-  linux flag */
 	if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
 		exit_on_error("Error: ", 1);
 }
@@ -68,6 +68,7 @@ void	set_exit_code(t_data *data)
 	free(number);
 	printf("current value question var: %s\n",question_var);
 	set_variable(&data->envplist, question_var);
+	free(question_var);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -94,6 +95,7 @@ int main(int argc, char **argv, char **envp)
 			exit_on_error("Error: ", 1);
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+		data->last_exit_code = 0;
 		if (line == NULL) // in case of CTRL + D
 		{
 			write(2, "exit\n", 5);
@@ -114,7 +116,8 @@ int main(int argc, char **argv, char **envp)
 			free_cmd_blocks(&cmd_blocks);
 		}
 		set_exit_code(data);
-		clean_heredoc_temp_files();
+		if (data->heredoc_index_array != NULL)
+			clean_heredoc_temp_files();
 		free(line);
 	}
 	rl_clear_history();
