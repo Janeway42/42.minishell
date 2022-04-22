@@ -169,7 +169,6 @@ int		is_valid_env_name(char *name);
 ** -------------------------------------------------
 */
 
-void	free_double(char ***str);
 void	free_string_array(char **array);
 void	free_cmd_blocks(t_list **cmd_blocks);
 void	free_data(t_data **data);
@@ -180,7 +179,7 @@ void	free_data(t_data **data);
 */
 
 void	exit_on_error(char *message, int exit_code);
-void	error_syntax(char ***tokens);
+void	error_syntax(char **tokens);
 
 /*
 ** REMOVE !!!!!!!!!

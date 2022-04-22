@@ -48,8 +48,8 @@ static void	initialize_minishell(int argc, char **argv, char **envp, t_data *dat
 	data->outpipe_fds[1] = -1;
 	set_variable(&data->envplist,"OLDPWD=");
 	set_variable(&data->envplist, "?=0");
-	set_variable(&data->envplist,"A=hello"); // variable for testing 
-	set_variable(&data->envplist,"B=bye"); // variable for testing 
+	set_variable(&data->envplist,"A=hello"); // variable for testing -> remove once testing is complete 
+	set_variable(&data->envplist,"B=bye"); // variable for testing -> remove once testing is complete 
 	set_up_shell_terminal(data);
 	data->last_exit_code = 0;
 }
@@ -88,9 +88,6 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
-//		line = ">outputfile";
-//		line = "echo \"$?TEST\"";
-//		line = "\"\"|ls";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
 		signal(SIGINT, SIG_IGN);
@@ -125,6 +122,9 @@ int main(int argc, char **argv, char **envp)
 	return (0);
 }
 
+//		line = ">outputfile";
+//		line = "echo \"$?TEST\"";
+//		line = "\"\"|ls";
 //		line = "echo ana";
 //		line = "echo ana  ";
 //		line = "12345|12345|12345";

@@ -46,7 +46,7 @@ char	*get_variable_name(char *str, int loc)
 	return (name);
 }
 
-char	*get_value_from_envp(char *name, char **envp)   // duplicate? 
+char	*get_value_from_envp(char *name, char **envp) // duplicate? 
 {
 	int		i;
 	int		s_name;
@@ -61,7 +61,7 @@ char	*get_value_from_envp(char *name, char **envp)   // duplicate?
 		{
 			temp = ft_split(envp[i], '=');
 			value = ft_strdup(temp[1]);
-			free_double(&temp);
+			free_string_array(temp);
 			return (value);
 		}
 		i++;
@@ -104,9 +104,9 @@ char	*replace_dollar(char *str, char **envplist)
 
 // ============test function ===========================
 
-char *get_node_val(char *name, char **envplist)
+char	*get_node_val(char *name, char **envplist)
 {
-	char *node_val;
+	char	*node_val;
 
 	if (name == NULL)
 		node_val = "";
@@ -118,7 +118,6 @@ char *get_node_val(char *name, char **envplist)
 	}
 	return (node_val);
 }
-
 
 /*
 **-------------------------------------------------------------------------

@@ -4,35 +4,12 @@
 ** Function returns a new string without the begining and end quotes
 */
 
-// static char	*remove_quotes(char *str)
-// {
-// 	int		i;
-// 	int		size;
-// 	char	*temp;
-
-// 	i = 0;
-// 	size = ft_strlen(str) - 2;
-// 	temp = malloc(sizeof(char) * (size + 1));
-// 	if (!temp)
-// 		return (NULL);
-// 	temp[size] = '\0';
-// 	while (i < size)
-// 	{
-// 		temp[i] = str[i + 1];
-// 		i++;
-// 	}
-// 	free(str);
-// 	str = ft_strdup(temp);
-// 	free(temp);
-// 	return (str);
-// }
-
-char *replace_quotes(char *str, int start)
+char	*replace_quotes(char *str, int start, char c)
 {
-	int i;
-	int size;
-	char *temp;
-	
+	int		i;
+	int		size;
+	char	*temp;
+
 	i = 0;
 	size = ft_strlen(str) - 2;
 	temp = malloc(sizeof(char) * (size + 1));
@@ -44,48 +21,39 @@ char *replace_quotes(char *str, int start)
 		temp[i] = str[i];
 		i++;
 	}
-
-	if (str[start] == 34)
+	start++;
+	while (str[start] != c)
 	{
+		temp[i] = str[start];
+		i++;
 		start++;
-		while (str[start] != 34)
-		{
-			temp[i] = str[start];
-			i++;
-			start++;
-		}
-		if (str[start] == 34)
-			start++;
-		while (str[start] != '\0')
-		{
-			temp[i] = str[start];
-			i++;
-			start++;
-		}
 	}
-	else if (str[start] == 39)
+	if (str[start] == c)
+		start++;
+	while (str[start] != '\0')
 	{
+		temp[i] = str[start];
+		i++;
 		start++;
-		while (str[start] != 39)
-		{
-			temp[i] = str[start];
-			i++;
-			start++;
-		}
-		if (str[start] == 39)
-			start++;
-		while (str[start] != '\0')
-		{
-			temp[i] = str[start];
-			i++;
-			start++;
-		}
 	}
-
 	free(str);
 	str = ft_strdup(temp);
 	free(temp);
 	return (str);
+}
+
+int	get_lenght(char *str, int loc, char c)
+{
+	int	lenght;
+
+	lenght = 0;
+	if (str[loc + lenght] == c)
+		lenght++;
+	while (str[loc + lenght] != c)
+		lenght++;
+	if (str[loc + lenght] == c)
+		lenght++;
+	return (lenght);
 }
 
 /*
@@ -95,64 +63,7 @@ char *replace_quotes(char *str, int start)
 ** single quotation (ascii 39) transforms all in char
 */
 
-// char	**expansion(char **str, t_data *data)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i] != NULL)
-// 	{
-// 		if (str[i][0] == 34)
-// 		{
-// 			str[i] = remove_quotes(str[i]);
-// 			if (dollar_sign(str[i]) == 1)
-// 				str[i] = replace_dollar(str[i], data->envplist);
-// 		}
-// 		if (str[i][0] == 39)
-// 			str[i] = remove_quotes(str[i]);
-// 		if (dollar_sign(str[i]) == 1)
-// 			str[i] = replace_dollar(str[i], data->envplist);
-// 		i++;
-// 	}
-// 	return (str);
-// }
-
-//--------------------------------------------------------------
-
-int	get_lenght_double(char *str, int loc)
-{
-	int lenght;
-
-	lenght = 0;
-	if (str[loc + lenght] == 34)
-		lenght++;
-	while (str[loc + lenght] != 34)
-		lenght++;
-	if (str[loc + lenght] == 34)
-		lenght++;
-	return (lenght);
-}
-
-int get_lenght_single(char *str, int loc)
-{
-	int lenght;
-
-	lenght = 0;
-	if (str[loc + lenght] == 39)
-		lenght++;
-	while (str[loc + lenght] != 39)
-		lenght++;
-	if (str[loc + lenght] == 39)
-		lenght++;
-	return (lenght);
-}
-
-// if quotes without $ just copy the text
-// if double quotes and $ then replace $ 
-// if single quotes and $ then copy as it is
-
-
-char **expansion(char **str, t_data *data)
+char	**expansion(char **str, t_data *data)
 {
 	int		i;
 	int		j;
@@ -221,14 +132,14 @@ char **expansion(char **str, t_data *data)
 						}
 						j++;
 					}
-					lenght = get_lenght_double(str[i], start);
-					str[i] = replace_quotes(str[i], start);
+					lenght = get_lenght(str[i], start, 34);
+					str[i] = replace_quotes(str[i], start, 34);
 					j = start + lenght - 3;
 				}
 				else if (str[i][j] == 39) // single
 				{
-					lenght = get_lenght_single(str[i], j);
-					str[i] = replace_quotes(str[i], j);
+					lenght = get_lenght(str[i], j, 39);
+					str[i] = replace_quotes(str[i], j, 39);
 					j = j + lenght - 3;
 				}
 			}
@@ -239,31 +150,27 @@ char **expansion(char **str, t_data *data)
 	return (str);
 }
 
-
-
-
-
 //--------------------------------------------
 
 static int	check_unclosed_quotes(char *str)
 {
-	int i;
-	int one;
-	int two;
-	
+	int	i;
+	int	one;
+	int	two;
+
 	i = 0;
 	one = 0;
 	two = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == 39) // single 
+		if (str[i] == 39)
 		{
 			if (one == 0)
 				one = 1;
 			else if (one == 1)
 				one = 0;
 		}
-		if (str[i] == 34) // double 
+		if (str[i] == 34)
 		{
 			if (two == 0)
 				two = 1;
@@ -297,14 +204,14 @@ t_list	*parse_line(char *str, t_data *data)
 		if (tokens != NULL)
 		{
 			if (check_syntax(tokens) == 1)
-				error_syntax(&tokens);
+				error_syntax(tokens);
 			else
 			{
 				tokens = expansion(tokens, data);
 				print_token(tokens); // remove once completed !!!!!!!!!
 				cmd_blocks = set_cmd_blocks(tokens);
-				print_cmd_blocks(cmd_blocks);
-				free_double(&tokens);
+				print_cmd_blocks(cmd_blocks); // remove once completed !!!!!!!!!
+				free_string_array(tokens);
 				return (cmd_blocks);
 			}
 		}
