@@ -13,6 +13,8 @@ void	exec_path_cmd(t_list *cmd_block, t_data *data)
 	}
 	else
 	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (execve(path, cmd_block->cmd, data->envplist))
 			exit_on_error(cmd_block->cmd[0], 1);
 	}
@@ -25,7 +27,7 @@ void	exec_command(t_list *cmd_block, t_data *data)
 	process_pipe_redir(data);
 	process_redir(cmd_block->redirect, data, cmd_block->index_cmd, FALSE);
 	if (cmd_block->cmd == NULL)
-		exit(0) ;
+		exit(0);
 	if (is_it_builtin(cmd_block->cmd[0]))
 	{
 		data->last_exit_code = execute_builtin(&data->envplist,
@@ -36,19 +38,29 @@ void	exec_command(t_list *cmd_block, t_data *data)
 		exec_path_cmd(cmd_block, data);
 }
 
-//	function to count the amount of commands in the command list
+//	function that will process the command by creating a child process
 
-int	count_commands(t_list *cmd_block)
+void	fork_command(t_list *cmd_block, t_data *data, pid_t *pid,
+	int amount_commands)
 {
-	int	count;
-
-	count = 0;
-	while (cmd_block != NULL)
+	*pid = fork();
+	if (*pid < 0)
+		exit_on_error("Error :", 1);
+	else if (*pid == 0)
+		exec_command(cmd_block, data);
+	else
 	{
-		count++;
-		cmd_block = cmd_block->next;
+		if (cmd_block->index_cmd != 1)
+		{
+			close(data->inpipe_fd);
+			data->inpipe_fd = -1;
+		}
+		if (cmd_block->index_cmd != amount_commands)
+		{
+			close(data->outpipe_fds[1]);
+			data->outpipe_fds[1] = -1;
+		}
 	}
-	return (count);
 }
 
 //	function that process the command block
@@ -57,64 +69,21 @@ void	process_commands(t_list *cmd_block, t_data *data)
 {
 	pid_t	pid;
 	int		amount_commands;
-	int		cmdnbr;
-	int		need_to_wait_on_child_proces;
+	int		wait_on_child_process;
 
 	amount_commands = count_commands(cmd_block);
-	cmdnbr = 1;
-	need_to_wait_on_child_proces = TRUE;
-	while (cmdnbr <= amount_commands)
+	wait_on_child_process = TRUE;
+	while (cmd_block != NULL && cmd_block->index_cmd <= amount_commands)
 	{
-		if (cmdnbr != 1)
-		{
-				data->inpipe_fd = data->outpipe_fds[0];
-				data->outpipe_fds[0] = -1;
-		}
-		if (cmdnbr < amount_commands)
-		{
-			if (pipe(data->outpipe_fds) == -1)
-				exit_on_error("Error :", 1);
-		}
+		setup_pipe(cmd_block, data, amount_commands);
 		if (amount_commands == 1 && cmd_block->cmd != NULL
 			&& is_it_builtin(cmd_block->cmd[0]) == TRUE)
-		{
-			data->old_stdin = dup(0);
-			data->old_stdout = dup(1);	
-			data->last_exit_code = process_redir(cmd_block->redirect, data, 1, TRUE);
-			data->last_exit_code = execute_builtin(&data->envplist,	cmd_block->cmd, data->last_exit_code);
-			dup2(data->old_stdin,0);
-			dup2(data->old_stdout,1);
-			need_to_wait_on_child_proces = FALSE;
-		}
+			process_solo_builtin(cmd_block, data, &wait_on_child_process);
 		else
-		{
-			pid = fork();
-			if (pid < 0)
-				exit_on_error("Error :", 1);
-			else if (pid == 0)
-			{
-				signal(SIGINT, SIG_DFL);
-				signal(SIGQUIT, SIG_DFL);
-				exec_command(cmd_block, data);
-			}
-			else
-			{
-				if (cmdnbr != 1)
-				{
-					close(data->inpipe_fd);
-					data->inpipe_fd = -1;
-				}
-				if (cmdnbr != amount_commands)
-				{
-					close(data->outpipe_fds[1]);
-					data->outpipe_fds[1] = -1;
-				}
-			}
-		}
+			fork_command(cmd_block, data, &pid, amount_commands);
 		cmd_block = cmd_block->next;
-		cmdnbr++;
 	}
-	if (need_to_wait_on_child_proces == TRUE)
+	if (wait_on_child_process == TRUE)
 		wait_for_child_processes(pid, amount_commands, data);
 }
 

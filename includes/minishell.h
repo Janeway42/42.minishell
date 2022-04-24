@@ -116,6 +116,8 @@ void	join_arrays(char ***cmd, char *token);
 char	*validate_and_locate_cmd(char *cmd, char **envp);
 void	process_commands(t_list *cmd_blocks, t_data *data);
 int		count_commands(t_list *cmd_blocks);
+void	setup_pipe(t_list *cmd_block, t_data *data, int amount_commands);
+void	process_solo_builtin(t_list *cmd_block, t_data *data, int *wait_on_child_process);
 void	process_pipe_redir(t_data *data);
 int		process_redir(t_red *red_list, t_data *data, int cmdnbr,
 			int sole_builtin);
@@ -169,6 +171,7 @@ int		is_valid_env_name(char *name);
 ** -------------------------------------------------
 */
 
+void	free_double(char ***str);
 void	free_string_array(char **array);
 void	free_cmd_blocks(t_list **cmd_blocks);
 void	free_data(t_data **data);
@@ -180,6 +183,15 @@ void	free_data(t_data **data);
 
 void	exit_on_error(char *message, int exit_code);
 void	error_syntax(char **tokens);
+
+/*
+** Signals
+** -------------------------------------------------
+*/
+
+void	sig_handler(int sig_no);
+void	heredoc_sighandler(int sig_no);
+
 
 /*
 ** REMOVE !!!!!!!!!

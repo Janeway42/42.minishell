@@ -1,17 +1,5 @@
 #include "../includes/minishell.h"
 
-//either put this function in seperate file or a special signals file
-// signal handling for the heredoc
-
-void	heredoc_sighandler(int sig_no)
-{
-	if (sig_no == SIGINT)
-	{
-		clean_heredoc_temp_files();
-		exit(130);
-	}
-}
-
 //	function that process the heredoc input
 
 void	process_input(int file_fd, char **delim, int i)
@@ -89,7 +77,6 @@ int	process_heredoc(t_list *cmd_block)
 	int		last_exit_code;
 
 	last_exit_code = 0;
-
 	pid = fork();
 	if (pid < 0)
 		exit_on_error("Error :", 1);
@@ -128,7 +115,6 @@ int	*create_heredoc_index_array(t_list *cmd_block)
 	{
 		redir = cmd_block->redirect;
 		count = count_heredoc_in_redirect(redir);
-		heredoc_index_array[cmd_block->index_cmd -1] = -1;
 		if (count != 0)
 			heredoc_index_array[cmd_block->index_cmd - 1] = temp_index;
 		temp_index += count;

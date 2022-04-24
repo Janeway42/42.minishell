@@ -71,24 +71,6 @@ int	redir_heredoc(t_data *data, int cmdnr, int sole_builtin)
 	return (exit_code);
 }
 
-
-//	function that process the pipe redirections
-
-void	process_pipe_redir(t_data *data)
-{
-	if (data->inpipe_fd != -1)
-	{
-		dup2(data->inpipe_fd, 0);
-		close(data->inpipe_fd);
-	}
-	if (data->outpipe_fds[1] != -1)
-	{
-		dup2(data->outpipe_fds[1], 1);
-		close(data->outpipe_fds[1]);
-	}
-	if (data->outpipe_fds[0] != -1)
-		close(data->outpipe_fds[0]);
-}
 /*
 **	Function processes the pipe redirections first
 **	and then the other redirections based on input file or output file
@@ -114,48 +96,3 @@ int	process_redir(t_red *red_list, t_data *data, int cmdnbr, int sole_builtin)
 	}
 	return (exit_code);
 }
-
-/*
-**-------------------------------------------------------------------------
-**	Function processes the pipe redirections first
-**	and then the other redirections based on input file or output file
-**	if inpipe_fd == -1 or outpipe_fds == -1 then the pipes are closed
-
-
-void	process_redir(t_red *red_list, t_data *data)
-{
-	if (data->inpipe_fd != -1)
-	{
-		dup2(data->inpipe_fd, 0);
-		close(data->inpipe_fd);
-	}
-	if (data->outpipe_fds[1] != -1)
-	{
-		dup2(data->outpipe_fds[1], 1);
-		close(data->outpipe_fds[1]);
-	}
-	if (data->outpipe_fds[0] != -1)
-		close(data->outpipe_fds[0]);
-	while (red_list != NULL)
-	{
-		if (ft_strcmp(red_list->op, "<") == 0)
-		{
-			write(2, "redirect input\n", 15);
-			redir_input(red_list->file);
-		}
-		else if (ft_strcmp(red_list->op, ">") == 0)
-		{
-			write(2, "redirect output\n", 16);
-			redir_output(red_list->file);
-		}
-		else if (ft_strcmp(red_list->op, ">>") == 0)
-		{
-			write(2, "redirect output append\n", 23);
-			redir_output_append(red_list->file);
-		}
-//		heredoc
-//		else if (ft_strcmp(red_list->op, "<<") == 0)
-		red_list = red_list->next;
-	}
-}
-*/

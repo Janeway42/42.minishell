@@ -1,24 +1,5 @@
 #include "../includes/minishell.h"
 
-/*
-** rl_replace_line("", 0); replaces the cotents of rl_line_buffer with ""
-** rl_on_new_line(); tells the update functions we have moved onto a new (empty) line,
-** usually after outputting a newline.
-** rl_redisplay(); change what's displayed on the screen to reflect
-** the current contents of rl_line_buffer.
-*/
-
-void sig_handler(int sig_no)
-{
-	if (sig_no == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-	}
-}
-
 void	set_up_shell_terminal(t_data *data)
 {
 	if (isatty(0) == 0)
@@ -91,7 +72,6 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
 		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
 		data->last_exit_code = 0;
 		if (line == NULL) // in case of CTRL + D
 		{

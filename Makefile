@@ -10,10 +10,12 @@ S_SRC	=	main.c\
 			set_cmd_blocks.c\
 			set_cmd_blocks_utils.c\
 			process_commands.c\
+			process_commands_utils.c\
 			process_commands_validation.c\
 			redirections.c\
 			process_heredoc.c\
-			process_heredoc_utils.c
+			process_heredoc_utils.c\
+			signals.c
 S_PATH	=	src/
 S_OBJ	=	$(S_SRC:%.c=$(S_PATH)%.o)
 

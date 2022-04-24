@@ -100,6 +100,7 @@ char	**expansion(char **str, t_data *data)
 							node_val = "";
 					}
 					str[i] = insert_variable_value(str[i], node_val, j, ft_strlen(name));
+					free(name);// added by hakaman 
 					j += ft_strlen(node_val) - 1;
 				}
 				else if (str[i][j] == 34) // double 
@@ -128,6 +129,7 @@ char	**expansion(char **str, t_data *data)
 									node_val = "";
 							}
 							str[i] = insert_variable_value(str[i], node_val, j, ft_strlen(name));
+							//free(name); ???
 							j += ft_strlen(node_val) - 1;
 						}
 						j++;
