@@ -240,6 +240,22 @@ static int	check_unclosed_quotes(char *str)
 	return (0);
 }
 
+//-------------------------------------------------
+
+int just_spaces(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] != 32)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /*
 **-------------------------------------------------------------------------
 ** Function splits the input into individual tokens
@@ -253,6 +269,8 @@ t_list	*parse_line(char *str, t_data *data)
 	char	**tokens;
 	t_list	*cmd_blocks;
 
+	if (just_spaces(str) == 0)
+		return (NULL);
 	if (check_unclosed_quotes(str) == 1)
 		printf("syntax error: unclosed quotes\n");
 	else
