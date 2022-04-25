@@ -100,8 +100,9 @@ char	**expansion(char **str, t_data *data)
 							node_val = "";
 					}
 					str[i] = insert_variable_value(str[i], node_val, j, ft_strlen(name));
-					free(name);// added by hakaman 
 					j += ft_strlen(node_val) - 1;
+					if (ft_strcmp(name, "?") != 0)
+						free(name);
 				}
 				else if (str[i][j] == 34) // double 
 				{
@@ -129,8 +130,9 @@ char	**expansion(char **str, t_data *data)
 									node_val = "";
 							}
 							str[i] = insert_variable_value(str[i], node_val, j, ft_strlen(name));
-							//free(name); ???
 							j += ft_strlen(node_val) - 1;
+							if (ft_strcmp(name, "?") != 0)
+								free(name);
 						}
 						j++;
 					}
@@ -146,6 +148,58 @@ char	**expansion(char **str, t_data *data)
 				}
 			}
 			j++;
+		}
+		i++;
+	}
+	return (str);
+}
+
+//-------------------------------------------------------------- 
+
+char *clean_extra_quotes(char *str)
+{
+	int open_d;
+	int open_s;
+	int i;
+
+	i = 0;
+	open_d = 0;
+	open_s = 0;
+
+	while (str[i] != '\0')
+	{
+		if (str[i] == 39 || str[i] == 34)
+		{
+			if (str[i] == 39)
+			{
+				if (open_s == 0 && open_d == 0)
+				{
+					open_s = 1;
+					if (str[i + 1] == 39 && open_s == 1)
+					{
+						str = replace_quotes(str, i, 39);
+						open_s = 0;
+						i = i - 1;
+					}
+				}
+				else if (open_s == 1 && open_d == 0)
+					open_d = 0;
+			}
+			else if (str[i] == 34)
+			{
+				if (open_d == 0 && open_s == 0)
+				{
+					open_d = 1;
+					if (str[i + 1] == 34 && open_d == 1)
+					{
+						str = replace_quotes(str, i, 34);
+						open_d = 0;
+						i = i - 1;
+					}
+				}
+				else if (open_d == 1 && open_s == 0)
+					open_d = 0;
+			}
 		}
 		i++;
 	}
@@ -195,6 +249,7 @@ static int	check_unclosed_quotes(char *str)
 
 t_list	*parse_line(char *str, t_data *data)
 {
+	char	*temp;
 	char	**tokens;
 	t_list	*cmd_blocks;
 
@@ -202,7 +257,10 @@ t_list	*parse_line(char *str, t_data *data)
 		printf("syntax error: unclosed quotes\n");
 	else
 	{
-		tokens = ft_split_minishell(str, ' ');
+		temp = clean_extra_quotes(ft_strdup(str));
+		printf("clean: %s\n", temp);
+		tokens = ft_split_minishell(temp, ' ');
+		print_token(tokens);
 		if (tokens != NULL)
 		{
 			if (check_syntax(tokens) == 1)
