@@ -7,8 +7,8 @@ void	set_up_shell_terminal(t_data *data)
 	if (tcgetattr(0, &data->term_with_echo) == -1) //old
 		exit_on_error("Exit: ", 1);
 	data->term_without_echo = data->term_with_echo;
-	data->term_without_echo.c_lflag &= ~(ECHOCTL); /* local mac flag - removes echoctl */
-//	data->term_without_echo.c_lflag &= ~(0001000);  /*-  linux flag */
+//	data->term_without_echo.c_lflag &= ~(ECHOCTL); /* local mac flag - removes echoctl */
+	data->term_without_echo.c_lflag &= ~(0001000);  /*-  linux flag */
 	if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
 		exit_on_error("Error: ", 1);
 }

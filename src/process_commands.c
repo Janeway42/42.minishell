@@ -1,5 +1,7 @@
 #include "../includes/minishell.h"
 
+#include <sys/wait.h>
+
 void	exec_path_cmd(t_list *cmd_block, t_data *data)
 {
 	char	*path;
@@ -92,9 +94,22 @@ void	wait_for_child_processes(pid_t last_pid, int amount_commands,
 {
 	int	wstatus;
 	int	command_counter;
+	int termsig;
 
 	waitpid(last_pid, &wstatus, 0);
-	data->last_exit_code = WEXITSTATUS(wstatus);
+	if (WIFEXITED(wstatus))
+		data->last_exit_code = WEXITSTATUS(wstatus);
+	else if (WIFSIGNALED(wstatus))
+	{
+		termsig	= WTERMSIG(wstatus);
+		if (termsig == 2)
+			data->last_exit_code = 130;
+		else if (termsig == 3)
+		{
+			data->last_exit_code = 131;
+			write(2,"Quit :3\n",8);
+		}
+	}
 	command_counter = 2;
 	while (command_counter <= amount_commands)
 	{
