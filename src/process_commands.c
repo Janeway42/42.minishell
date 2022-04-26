@@ -18,7 +18,11 @@ void	exec_path_cmd(t_list *cmd_block, t_data *data)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (execve(path, cmd_block->cmd, data->envplist))
+		{
+			if (access(path, X_OK))
+				exit_on_error(cmd_block->cmd[0], 126);
 			exit_on_error(cmd_block->cmd[0], 1);
+		}
 	}
 }
 
@@ -33,7 +37,7 @@ void	exec_command(t_list *cmd_block, t_data *data)
 	if (is_it_builtin(cmd_block->cmd[0]))
 	{
 		data->last_exit_code = execute_builtin(&data->envplist,
-				&cmd_block->cmd[0], data->last_exit_code);
+				&cmd_block->cmd[0], data->last_exit_code, TRUE);
 		exit(data->last_exit_code);
 	}
 	else

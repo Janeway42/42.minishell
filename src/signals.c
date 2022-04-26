@@ -27,7 +27,7 @@ void	heredoc_sighandler(int sig_no)
 	if (sig_no == SIGINT)
 	{
 		clean_heredoc_temp_files();
-		exit(130);
+		exit(1);
 	}
 }
 

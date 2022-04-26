@@ -75,7 +75,7 @@ int	process_heredoc(t_list *cmd_block)
 	pid_t	pid;
 	int		wstatus;
 	int		last_exit_code;
-
+	
 	last_exit_code = 0;
 	pid = fork();
 	if (pid < 0)
@@ -83,13 +83,14 @@ int	process_heredoc(t_list *cmd_block)
 	else if (pid == 0)
 	{
 		signal(SIGINT, heredoc_sighandler);
-		signal(SIGQUIT, SIG_DFL);
+		signal(SIGQUIT, SIG_IGN);
 		create_temp_files(cmd_block);
 	}
 	else
 	{
 		waitpid(pid, &wstatus, 0);
-		last_exit_code = WEXITSTATUS(wstatus);
+		if (WIFEXITED(wstatus))
+			last_exit_code = WEXITSTATUS(wstatus);
 	}
 	return (last_exit_code);
 }

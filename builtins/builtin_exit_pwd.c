@@ -52,37 +52,47 @@ static long	convert_to_long(char *s, int *overflowed)
 }
 
 //	function that will display the error for numeric argument and exit 
+//	error type: 0 numeric argument required
+//				1 too many arguments
 
-static void	ft_exit_error(char *arg)
+static void	ft_exit_error(char *arg, int child_process, int errortype)
 {
-	write(2, "exit\nexit: ", 11);
-	write(2, arg, ft_strlen(arg));
-	write(2, ": numeric argument required\n", 27);
-	exit(255);
+	if (child_process == FALSE)
+		write(2, "exit\n", 5);
+	if (errortype == 0)
+	{
+		write(2, "exit: ", 6);
+		write(2, arg, ft_strlen(arg));
+		write(2, ": numeric argument required\n", 27);
+		exit(255);
+	}
+	else if(errortype == 1)
+		write(2, "exit: too many arguments\n", 25);
 }
 
 //	function will exit the program. The exit code will be set to the number that
 //	has been set by 
 
-int	ft_exit(char **args, int last_exit_code)
+int	ft_exit(char **args, int last_exit_code, int child_process)
 {
 	long	exit_code;
 	int		overflowed;
 
 	if (args[0] == NULL)
 	{
-		write(2, "exit\n", 5);
+		if (child_process == FALSE)
+			write(2, "exit\n", 5);
 		exit(last_exit_code % 256);
 	}
 	if (!is_all_digits(args[0]))
-		ft_exit_error(args[0]);
+		ft_exit_error(args[0], child_process, 0);
 	else if (args[1] != NULL)
-		write(2, "exit\nexit: too many arguments\n", 30);
+		ft_exit_error(args[0], child_process, 1);
 	else
 	{
 		exit_code = convert_to_long(args[0], &overflowed);
 		if (overflowed == 1)
-			ft_exit_error(args[0]);
+			ft_exit_error(args[0], child_process, 0);
 		write(2, "exit\n", 5);
 		exit(exit_code % 256);
 	}

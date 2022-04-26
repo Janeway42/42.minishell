@@ -152,7 +152,7 @@ int		count_strings(char *str, char c);
 int		ft_unset(char **args, char ***envp_list);
 int		ft_env(char **envp_list);
 int		ft_cd(char **args, char ***envp_list);
-int		ft_exit(char **args, int last_exit_code);
+int		ft_exit(char **args, int last_exit_code, int child_process);
 int		ft_pwd(char **envp_list);
 int		ft_echo(char **args);
 int		ft_export(char **args, char ***envp_list);
@@ -163,7 +163,7 @@ int		ft_export(char **args, char ***envp_list);
 */
 
 int		is_it_builtin(char *cmd);
-int		execute_builtin(char ***envp_list, char **args, int last_exit_code);
+int		execute_builtin(char ***envp_list, char **args, int last_exit_code, int child_process);
 int		is_valid_env_name(char *name);
 
 /*

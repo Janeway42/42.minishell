@@ -27,7 +27,8 @@ int	is_it_builtin(char *cmd)
 //	RETURN	the exit code of the relevant function
 //			-1 if no function has been run.
 
-int	execute_builtin(char ***envp_list, char **args, int last_exit_code)
+int	execute_builtin(char ***envp_list, char **args, int last_exit_code, 
+		int child_process)
 {
 	int		exit_code;
 	char	*cmd;
@@ -47,7 +48,7 @@ int	execute_builtin(char ***envp_list, char **args, int last_exit_code)
 	else if (ft_strcmp(cmd, "env") == 0)
 		exit_code = ft_env(*envp_list);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		exit_code = ft_exit(&args[1], last_exit_code);
+		exit_code = ft_exit(&args[1], last_exit_code, child_process);
 	return (exit_code);
 }
 
