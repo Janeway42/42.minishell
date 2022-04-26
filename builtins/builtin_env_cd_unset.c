@@ -108,12 +108,22 @@ static int	set_pwd(char ***envp_list)
 
 int	ft_cd(char **args, char ***envp_list)
 {
-	if (*args == NULL)
-		return (0);
-	if (chdir(*args) == -1)
+	char	*directory;
+
+	directory = *args;
+	if (directory == NULL)
+	{
+		directory = get_var_value(*envp_list, "HOME");
+		if (directory == NULL)
+		{
+			write(2, "cd: HOME not set\n", 17);
+			return (1);
+		}
+	}
+	if (chdir(directory) == -1)
 	{
 		write(2, "cd : ", 5);
-		perror(*args);
+		perror(directory);
 		return (1);
 	}
 	else

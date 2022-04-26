@@ -53,12 +53,31 @@ int	execute_builtin(char ***envp_list, char **args, int last_exit_code,
 }
 
 //-----------------------------------------------------------------------------
+
+//	check if string is a valid flag in this case -n
+//	RETURN : 	0 if it is not a valid flag
+//				1 if it is a valid flag
+
+int	valid_flag(char *arg)
+{
+	int	i;
+
+	if (ft_strncmp(arg, "-", 1) != 0)
+		return (FALSE);
+	i = 1;
+	while (arg[i] != '\0')
+	{
+		if (arg[i] != 'n')
+			return (FALSE);
+		i++;
+	}
+	return (TRUE);
+}
+
 /*
 **	will print out the arguments and end with an newline
 ** 	flags	: -n	will not end with a newline
 */
-
-//test if one of the args is ""
 
 int	ft_echo(char **args)
 {
@@ -67,23 +86,19 @@ int	ft_echo(char **args)
 
 	end_line = 1;
 	i = 0;
-	if (args[0] != NULL && !ft_strcmp("-n", args[0]))
+	while (args[i] != NULL && valid_flag(args[i]))
 	{
 		end_line = 0;
-		i = 1;
+		i++;
 	}
 	while (args[i] != NULL)
 	{
-		if (ft_strcmp("-n", args[i]) != 0)
-		{
-			if (args[i])
-				printf("%s", args[i]);
-			if (args[i + 1] != NULL)
-				printf(" ");
-		}
+		printf("%s", args[i]);
+		if (args[i + 1] != NULL)
+			printf(" ");
 		i++;
 	}
-	if (end_line)
+	if (end_line == 1)
 		printf("\n");
 	return (0);
 }
