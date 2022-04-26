@@ -2,13 +2,13 @@
 
 /*
 ** rl_replace_line("", 0); replaces the cotents of rl_line_buffer with ""
-** rl_on_new_line(); tells the update functions we have moved onto a new (empty) line,
-** usually after outputting a newline.
+** rl_on_new_line(); tells the update functions we have moved onto a new 
+** (empty) line, usually after outputting a newline.
 ** rl_redisplay(); change what's displayed on the screen to reflect
 ** the current contents of rl_line_buffer.
 */
 
-void sig_handler(int sig_no)
+void	sig_handler(int sig_no)
 {
 	if (sig_no == SIGINT)
 	{

@@ -47,7 +47,7 @@ char	**ft_split_variable(char *variable)
 
 	split = malloc(sizeof (char *) * 3);
 	if (split == NULL)
-		exit_on_error("Error :", 1);	
+		exit_on_error("Error :", 1);
 	i = 0;
 	split[1] = NULL;
 	while (variable[i] != '=' && variable[i] != '\0')

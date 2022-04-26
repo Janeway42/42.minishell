@@ -75,7 +75,7 @@ int	process_heredoc(t_list *cmd_block)
 	pid_t	pid;
 	int		wstatus;
 	int		last_exit_code;
-	
+
 	last_exit_code = 0;
 	pid = fork();
 	if (pid < 0)
