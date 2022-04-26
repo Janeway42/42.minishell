@@ -1,5 +1,48 @@
 #include "../includes/minishell.h"
 
+char *home_value(char *str, int location, char **envplist)
+{
+	int size;
+	int node_lenght;
+	int i;
+	int j;
+	char *node_val;
+	char *temp;
+
+	i = 0;
+	j = 0;
+	node_val = get_value_from_envp("HOME", envplist);
+	node_lenght = ft_strlen(node_val);
+	size = (ft_strlen(str) - 1) + node_lenght + 1;
+	temp = malloc(sizeof(char) * (size + 1));
+	if (!temp)
+		return (NULL);
+	temp[size] = '\0';
+
+	while (i < location)
+	{
+		temp[i] = str[i];
+		i++;
+	}
+	j = 0;
+	while (i < (location + node_lenght))
+	{
+		temp[i] = node_val[j];
+		i++;
+		j++;
+	}
+	j = 0;
+	while (str[location + 1 + j] != '\0')
+	{
+		temp[i + j] = str[location + 1 + j];
+		j++;
+	}
+	free(str);
+	str = ft_strdup(temp);
+	free(temp);
+	return (str);
+}
+
 /*
 ** Function creates a new string without the $variable_name
 ** size of the new str is (ft_strlen(str) - size of the name - $)
@@ -49,7 +92,7 @@ static char	*non_null_value(int name_size, int location, char *str, char *value)
 
 	i = 0;
 	lenght_val = ft_strlen(value);
-	size = ft_strlen(str) - (name_size + 1) + lenght_val;
+	size = ft_strlen(str) - name_size + lenght_val + 1;
 	temp = malloc(sizeof(char) * (size + 1));
 	if (!temp)
 		return (NULL);
@@ -69,7 +112,7 @@ static char	*non_null_value(int name_size, int location, char *str, char *value)
 	j = 0;
 	while (str[location + (name_size + 1) + j] != '\0')
 	{
-		temp[i + j] = str[location + name_size + 1 + j];
+		temp[i + j] = str[location + (name_size + 1) + j];
 		j++;
 	}
 	return (temp);
@@ -87,7 +130,11 @@ char	*insert_variable_value(char *str, char *value, int loc, int size_name)
 	int		lenght_val;
 	char	*temp;
 
+	
+	printf("control\n");
+	printf("value1: %s\n", value);
 	lenght_val = ft_strlen(value);
+	printf("lenght_val: %d\n", lenght_val);
 	if (lenght_val == 0)
 	{
 		if (ft_isdigit((int)str[loc + 1]) == 1)

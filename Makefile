@@ -1,10 +1,11 @@
 NAME = minishell
-CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra -g #-fsanitize=address
 UNAME = $(shell uname)
 
 S_SRC	=	main.c\
-			parse_and_expansion.c\
+			parse.c\
 			check_syntax.c\
+			expansion.c\
 			expansion_utils1.c\
 			expansion_utils2.c\
 			set_cmd_blocks.c\
