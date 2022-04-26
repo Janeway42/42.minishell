@@ -92,11 +92,13 @@ int		check_syntax(char **str);
 */
 
 char	**expansion(char **str, t_data *data);
+char	*replace_quotes(char *str, int start, char c);
 char	*get_variable_name(char *str, int loc);
 char	*get_value_from_envp(char *name, char **envp);
 int		dollar_sign(char *str);
 char	*replace_dollar(char *str, char **envplist);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
+char	*home_value(char *str, int location, char **envplist);
 
 /*
 ** Command blocks

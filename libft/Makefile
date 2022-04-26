@@ -6,12 +6,12 @@
 #    By: janeway <janeway@student.codam.nl>           +#+                      #
 #                                                    +#+                       #
 #    Created: 2021/07/04 14:52:18 by janeway       #+#    #+#                  #
-#    Updated: 2022/04/12 17:52:50 by cpopa         ########   odam.nl          #
+#    Updated: 2022/04/26 18:16:40 by cpopa         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CFLAGS	=	-Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS	=	-Wall -Werror -Wextra -g #-fsanitize=address
 HEADER_FILES = ../includes/libft.h
 
 OBJS_FILES	=	$(SRC:.c=.o)
