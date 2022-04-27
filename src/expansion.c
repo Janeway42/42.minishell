@@ -80,21 +80,10 @@ char	**expansion(char **str, t_data *data)
 		{
 			if (str[i][j] == '$' || str[i][j] == '~' || str[i][j] == 39 || str[i][j] == 34)
 			{
-				if (str[i][j] == '~' && j == 0)
+				if (str[i][j] == '~' && j == 0 && (str[i][j + 1] == '\0' || str[i][j + 1] == '/'))
 				{
-					if (str[i][j + 1] == '/')
-					{
-						name = ft_strdup("HOME");
-						node_val = get_value_from_envp(name, data->envplist);
-						str[i] = insert_variable_value(str[i], node_val, j, 1);
-						j += ft_strlen(node_val) - 1;
-
-					}
-					if (str[i][j + 1] == '\0')
-					{
-						str[i] = home_value(str[i], j, data->envplist);
-						j += ft_strlen(node_val) - 1;
-					}
+					str[i] = home_value(str[i], j, data->envplist);
+					j += ft_strlen(node_val) - 1;
 				}
 				else if (str[i][j] == '$')
 				{

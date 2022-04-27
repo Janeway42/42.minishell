@@ -6,30 +6,14 @@
 ** Single quotation ASCII = 39, Double quotation ASCII = 34
 */
 
-static int	lenght_quotes_single(char *str)
+static int	lenght_quotes(char *str, int loc, char c)  // duplicate with quote lenght 
 {
-	int	lenght;
-
-	lenght = 0;
-	lenght++;
-	while (str[lenght] != '\0' && str[lenght] != 39)
-		lenght++;
-	if (str[lenght] == 39)
-		lenght++;
-	return (lenght);
-}
-
-static int	lenght_quotes_double(char *str)
-{
-	int	lenght;
-
-	lenght = 0;
-	lenght++;
-	while (str[lenght] != '\0' && str[lenght] != 34)
-		lenght++;
-	if (str[lenght] == 34)
-		lenght++;
-	return (lenght);
+	loc++;
+	while (str[loc] != '\0' && str[loc] != c)
+		loc++;
+	if (str[loc] == c)
+		loc++;
+	return (loc);
 }
 
 static int	string_lenght(char *str, char c)
@@ -39,11 +23,7 @@ static int	string_lenght(char *str, char c)
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == 39)
-			return (lenght_quotes_single(str));
-		else if (str[i] == 34)
-			return (lenght_quotes_double(str));
-		else if ((str[i] == '<' && str[i + 1] == '<')
+		if ((str[i] == '<' && str[i + 1] == '<')
 			|| (str[i] == '>' && str[i + 1] == '>'))
 			return (i = 2);
 		else if (str[i] == '|' || (str[i] == '<' && str[i + 1] != '<')
@@ -53,7 +33,14 @@ static int	string_lenght(char *str, char c)
 		{
 			while (str[i] != c && str[i] != '|' && str[i] != '<'
 				&& str[i] != '>' && str[i] != '\0')
-				i++;
+				{
+					if (str[i] == 39)
+						i = lenght_quotes(str, i, 39);
+					else if (str[i] == 34)
+						i = lenght_quotes(str, i, 34);
+					else
+						i++;
+				}
 			return (i);
 		}
 	}
@@ -113,6 +100,7 @@ char	**ft_split_minishell(char *str, char c)
 	char	**result;
 
 	nr_strings = count_strings(str, c);
+	printf("nr_strings: %d\n", nr_strings);
 	result = malloc(sizeof(char *) * (nr_strings + 1));
 	if (!result)
 		return (NULL);

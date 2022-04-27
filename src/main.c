@@ -69,6 +69,8 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
+//		line = "echo \"-n -n -n\"-n bonjour";
+//		line = "echo \"\"\"\"$USER\"\"\"\"";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
 		signal(SIGINT, SIG_IGN);

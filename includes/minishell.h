@@ -12,7 +12,7 @@
 # include <sys/wait.h>
 # include "libft.h"
 
-# define PROMPT "minishell> "
+# define PROMPT "\033[0;31mminishell > \033[0m"
 
 typedef enum e_bool
 {
