@@ -133,7 +133,9 @@ char	**expansion(char **str, t_data *data)
 								if (node_val == NULL)
 									node_val = "";
 							}
+//							printf("node_val: %s\n", node_val);
 							str[i] = insert_variable_value(str[i], node_val, j, ft_strlen(name));
+//							printf("str[%d]: %s\n", i, str[i]);
 							j += ft_strlen(node_val) - 1;
 							free(name);
 						}

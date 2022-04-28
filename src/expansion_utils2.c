@@ -92,7 +92,7 @@ static char	*non_null_value(int name_size, int location, char *str, char *value)
 
 	i = 0;
 	lenght_val = ft_strlen(value);
-	size = ft_strlen(str) - name_size + lenght_val + 1;
+	size = ft_strlen(str) - (name_size + 1) + lenght_val;
 	temp = malloc(sizeof(char) * (size + 1));
 	if (!temp)
 		return (NULL);
@@ -130,11 +130,7 @@ char	*insert_variable_value(char *str, char *value, int loc, int size_name)
 	int		lenght_val;
 	char	*temp;
 
-	
-	printf("control\n");
-	printf("value1: %s\n", value);
 	lenght_val = ft_strlen(value);
-	printf("lenght_val: %d\n", lenght_val);
 	if (lenght_val == 0)
 	{
 		if (ft_isdigit((int)str[loc + 1]) == 1)

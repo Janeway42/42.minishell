@@ -100,7 +100,7 @@ char	**ft_split_minishell(char *str, char c)
 	char	**result;
 
 	nr_strings = count_strings(str, c);
-	printf("nr_strings: %d\n", nr_strings);
+//	printf("nr_strings: %d\n", nr_strings);
 	result = malloc(sizeof(char *) * (nr_strings + 1));
 	if (!result)
 		return (NULL);
