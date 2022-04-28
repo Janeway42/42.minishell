@@ -102,3 +102,13 @@ int	ft_echo(char **args)
 		printf("\n");
 	return (0);
 }
+
+//	extra function to accomodate the norm for ft_export
+
+int	ft_export_error(char *args)
+{
+	write(2, "export : `", 10);
+	write(2, args, ft_strlen(args));
+	write(2, "`: not a valid identifier\n", 27);
+	return (1);
+}

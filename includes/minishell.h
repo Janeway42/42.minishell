@@ -158,6 +158,7 @@ int		ft_exit(char **args, int last_exit_code, int child_process);
 int		ft_pwd(char **envp_list);
 int		ft_echo(char **args);
 int		ft_export(char **args, char ***envp_list);
+int		ft_export_error(char *args);
 
 /*
 ** Builtin Utils
