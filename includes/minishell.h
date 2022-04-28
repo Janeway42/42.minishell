@@ -85,6 +85,7 @@ void	delete_variable(char ***envp, char *variable);
 
 t_list	*parse_line(char *str, t_data *data);
 int		check_syntax(char **str);
+int	run_through_quotes(char *str, int loc, char c);
 
 /*
 ** Expansion
@@ -96,7 +97,7 @@ char	*replace_quotes(char *str, int start, char c);
 char	*get_variable_name(char *str, int loc);
 char	*get_value_from_envp(char *name, char **envp);
 int		dollar_sign(char *str);
-char	*replace_dollar(char *str, char **envplist);
+int		replace_dollar(char **str, int loc, t_data *data);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
 char	*home_value(char *str, int location, char **envplist);
 

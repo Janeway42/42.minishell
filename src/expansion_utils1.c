@@ -74,33 +74,33 @@ char	*get_value_from_envp(char *name, char **envp) // duplicate?
 ** Function replaces the variable $name with the correct variable value
 */
 
-char	*replace_dollar(char *str, char **envplist)
-{
-	int		i;
-	char	*name;
-	char	*node_val;
+// char	*replace_dollar(char *str, char **envplist)
+// {
+// 	int		i;
+// 	char	*name;
+// 	char	*node_val;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '$')
-		{
-			name = get_variable_name(str, i + 1);
-			if (name == NULL)
-				node_val = "";
-			else
-			{
-				node_val = get_value_from_envp(name, envplist);
-				if (node_val == NULL)
-					node_val = "";
-			}
-			str = insert_variable_value(str, node_val, i, ft_strlen(name));
-			i += ft_strlen(node_val) - 1;
-		}
-		i++;
-	}
-	return (str);
-}
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] == '$')
+// 		{
+// 			name = get_variable_name(str, i + 1);
+// 			if (name == NULL)
+// 				node_val = "";
+// 			else
+// 			{
+// 				node_val = get_value_from_envp(name, envplist);
+// 				if (node_val == NULL)
+// 					node_val = "";
+// 			}
+// 			str = insert_variable_value(str, node_val, i, ft_strlen(name));
+// 			i += ft_strlen(node_val) - 1;
+// 		}
+// 		i++;
+// 	}
+// 	return (str);
+// }
 
 // ============test function ===========================
 

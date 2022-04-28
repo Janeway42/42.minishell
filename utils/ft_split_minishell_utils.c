@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-static int	run_though_quotes(char *str, int loc, char c)  // duplicate with quote lenght 
+int	run_through_quotes(char *str, int loc, char c)  // duplicate with quote lenght 
 {
 	if (str[loc] == c)
 	{
@@ -44,9 +44,9 @@ int count_strings(char *str, char c)
 				if (str[i] == 39 || str[i] == 34)
 				{
 					if (str[i] == 39)
-						i = run_though_quotes(str, i, 39);
+						i = run_through_quotes(str, i, 39);
 					else if (str[i] == 34)
-						i = run_though_quotes(str, i, 34);
+						i = run_through_quotes(str, i, 34);
 				}
 				else
 					i++;
