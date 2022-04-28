@@ -113,8 +113,8 @@ int	ft_export(char **args, char ***envp_list)
 			if (is_valid_env_name(split[0]) == FALSE)
 			{
 				write(2, "export : `", 10);
-				write(2, split[0], ft_strlen(split[0]));
-				write(2, "` : not a valid identifier\n", 27);
+				write(2, *args, ft_strlen(*args));
+				write(2, "`: not a valid identifier\n", 27);
 				exit_code = 1;
 			}
 			else
