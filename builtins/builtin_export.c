@@ -112,9 +112,10 @@ int	ft_export(char **args, char ***envp_list)
 			split = ft_split_variable(*args);
 			if (is_valid_env_name(split[0]) == FALSE)
 				exit_code = ft_export_error(*args);
-			else if(find_variable_position(*envp_list, split[0]) != -1 && split[1] != NULL)
+			else if (find_variable_position(*envp_list, split[0]) != -1
+				&& split[1] != NULL)
 				set_variable(envp_list, *args);
-			else if(find_variable_position(*envp_list, split[0]) == -1)
+			else if (find_variable_position(*envp_list, split[0]) == -1)
 				set_variable(envp_list, *args);
 			free_string_array(split);
 			args++;

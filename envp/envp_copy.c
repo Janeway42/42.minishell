@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	count_variables(char **array) /// DUPLICATE ?
+int	count_variables(char **array)
 {
 	int	count;
 
