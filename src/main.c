@@ -21,6 +21,10 @@ void	set_up_shell_terminal(t_data *data)
 
 static void	initialize_minishell(int argc, char **argv, char **envp, t_data *data)
 {
+	char	*number;
+	int		level;
+	char	*shelllevel;
+
 	(void)argc;
 	(void)argv;
 
@@ -33,6 +37,21 @@ static void	initialize_minishell(int argc, char **argv, char **envp, t_data *dat
 	set_variable(&data->envplist,"B=bye"); // variable for testing -> remove once testing is complete 
 	set_up_shell_terminal(data);
 	data->last_exit_code = 0;
+	
+	number = get_var_value(data->envplist, "SHLVL");
+	level = ft_atoi(number);
+	free(number);
+	level++;
+	number = ft_itoa(level);
+	if (number == NULL)
+		exit_on_error("Error :", 1);
+	shelllevel = ft_strjoin("SHLVL=", number);
+	if (shelllevel == NULL)
+		exit_on_error("Error :", 1);
+	free(number);
+	set_variable(&(data->envplist), shelllevel);
+	free(shelllevel);
+
 }
 
 void	set_exit_code(t_data *data)
