@@ -94,7 +94,7 @@ int	ft_echo(char **args)
 	while (args[i] != NULL)
 	{
 		printf("%s", args[i]);
-		if (args[i + 1] != NULL)
+		if (args[i + 1] != NULL && args[i + 1][0] != '\0')
 			printf(" ");
 		i++;
 	}
