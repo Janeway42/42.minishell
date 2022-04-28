@@ -27,7 +27,7 @@ char *clean_extra_quotes(char *str)
 					}
 				}
 				else if (open_s == 1 && open_d == 0)
-					open_d = 0;
+					open_s = 0;
 			}
 			else if (str[i] == 34)
 			{
