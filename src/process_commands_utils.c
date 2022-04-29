@@ -23,8 +23,11 @@ void	process_solo_builtin(t_list *cmd_block, t_data *data,
 {
 	data->old_stdin = dup(0);
 	data->old_stdout = dup(1);
-	data->last_exit_code = process_redir(cmd_block->redirect, data, 1,
-			TRUE);
+	if (cmd_block->redirect != NULL)
+	{
+		data->last_exit_code = process_redir(cmd_block->redirect, data, 1,
+				TRUE);
+	}
 	data->last_exit_code = execute_builtin(&data->envplist,
 			cmd_block->cmd, data->last_exit_code, FALSE);
 	dup2(data->old_stdin, 0);

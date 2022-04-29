@@ -111,8 +111,9 @@ void	wait_for_child_processes(pid_t last_pid, int amount_commands,
 		else if (termsig == 3)
 		{
 			data->last_exit_code = 131;
-			write(2, "Quit :3\n", 8);
+			write(2, "Quit: 3", 7);
 		}
+		write(2, "\n", 1);
 	}
 	command_counter = 2;
 	while (command_counter <= amount_commands)

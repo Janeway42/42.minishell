@@ -44,10 +44,10 @@ static long	convert_to_long(char *s, int *overflowed)
 	while (*s != '\0')
 	{
 		sum = (sum * 10) + ((*s - 48) * sign);
+		if (sum != 0 && ((sign == 1 && sum < 0) || (sign == -1 && sum > 0)))
+			*overflowed = TRUE;
 		s++;
 	}
-	if (sum != 0 && ((sign == 1 && sum < 0) || (sign == -1 && sum > 0)))
-		*overflowed = TRUE;
 	return (sum);
 }
 
@@ -90,6 +90,7 @@ int	ft_exit(char **args, int last_exit_code, int child_process)
 		ft_exit_error(args[0], child_process, 1);
 	else
 	{
+		overflowed = 0;
 		exit_code = convert_to_long(args[0], &overflowed);
 		if (overflowed == 1)
 			ft_exit_error(args[0], child_process, 0);

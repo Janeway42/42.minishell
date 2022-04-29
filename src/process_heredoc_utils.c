@@ -10,7 +10,7 @@ char	*create_temp_file_name(int i)
 	number = ft_itoa(i);
 	if (number == NULL)
 		exit_on_error("Error :", 1);
-	filename = ft_strjoin(number, ".tmp");
+	filename = ft_strjoin(".tmp_file_heredoc.", number);
 	free(number);
 	if (filename == NULL)
 		exit_on_error("Error :", 1);
