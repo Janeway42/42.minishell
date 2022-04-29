@@ -46,7 +46,7 @@ void	initialize_minishell(int argc, char **argv, char **envp
 	(void)argc;
 	(void)argv;
 	data->envplist = copy_envp(envp);
-	set_variable(&data->envplist, "OLDPWD=");
+	set_variable(&data->envplist, "OLDPWD");
 	set_variable(&data->envplist, "?=0");
 	data->inpipe_fd = -1;
 	data->outpipe_fds[1] = -1;
