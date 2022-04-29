@@ -144,6 +144,7 @@ int		*create_heredoc_index_array(t_list *cmd_block);
 */
 
 char	**ft_split_minishell(char *str, char c);
+int		compare_operators(char *str, int loc);
 int		check_operator(char c);
 int		count_strings(char *str, char c);
 
@@ -175,6 +176,7 @@ int		is_valid_env_name(char *name);
 ** -------------------------------------------------
 */
 
+char	**free_array_ft_split(char **array, int position);
 void	free_double(char ***str);
 void	free_string_array(char **array);
 void	free_cmd_blocks(t_list **cmd_blocks);
