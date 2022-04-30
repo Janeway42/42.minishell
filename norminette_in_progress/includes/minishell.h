@@ -192,8 +192,7 @@ int		is_valid_env_name(char *name);
 */
 
 char	**free_array_ft_split(char **array, int position);
-void	free_double(char ***str);
-void	free_string_array(char **array);
+void	free_string_array(char **str);
 void	free_cmd_blocks(t_list **cmd_blocks);
 void	free_data(t_data **data);
 

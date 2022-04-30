@@ -86,15 +86,15 @@ int	replace_dollar(char **str, int loc, t_data *data)
 	if (name == NULL)
 	{
 		if (*str[loc] == '$' && *str[loc + 1] == '\0')
-			node_val = "$";
+			node_val = ft_strdup("$");
 		else
-			node_val = "";
+			node_val = ft_strdup("");
 	}
 	else
 	{
 		node_val = get_value_from_envp(name, data->envplist);
 		if (node_val == NULL)
-			node_val = "";
+			node_val = ft_strdup("");
 	}
 	*str = insert_variable_value(*str, node_val, loc, ft_strlen(name));
 	loc += ft_strlen(node_val) - 1;

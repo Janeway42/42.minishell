@@ -53,13 +53,12 @@ char	*clean_extra_quotes(char *str)
 		else if (str[i] == '\"' && str[i + 1] != '\"')
 			i = run_through_quotes(str, i, '\"');
 		else if (str[i] == '\'' && str[i + 1] == '\'')
-			i = replace_quotes1(&str, i, '\'');
+			i = replace_quotes1(&str, i, '\'') + 1;
 		else if (str[i] == '\"' && str[i + 1] == '\"')
-			i = replace_quotes1(&str, i, '\"');
+			i = replace_quotes1(&str, i, '\"') + 1;
 		else
 			i++;
 	}
-	printf("str: %s\n", str);
 	return (str);
 }
 
@@ -73,6 +72,7 @@ char	*clean_extra_quotes(char *str)
 t_list	*parse_line(char *str, t_data *data)
 {
 	char	**tokens;
+	char *temp;
 	t_list	*cmd_blocks;
 
 	if (just_spaces(str) == 0)
@@ -81,8 +81,10 @@ t_list	*parse_line(char *str, t_data *data)
 		printf("syntax error: unclosed quotes\n");
 	else
 	{
-		str = clean_extra_quotes(ft_strdup(str));
-		tokens = ft_split_minishell(str, ' ');
+		temp = ft_strdup(str);
+		temp = clean_extra_quotes(temp);
+		tokens = ft_split_minishell(temp, ' ');
+		free(temp);
 		print_token(tokens); // remove once completed !!!!!!!!!
 		if (tokens != NULL)
 		{
@@ -91,7 +93,7 @@ t_list	*parse_line(char *str, t_data *data)
 			else
 			{
 				tokens = expansion(tokens, data);
-//				print_token(tokens); // remove once completed !!!!!!!!!
+				print_token(tokens); // remove once completed !!!!!!!!!
 				cmd_blocks = set_cmd_blocks(tokens);
 //				print_cmd_blocks(cmd_blocks); // remove once completed !!!!!!!!!
 				free_string_array(tokens);

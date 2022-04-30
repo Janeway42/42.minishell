@@ -6,7 +6,7 @@
 ** Single quotation ASCII = 39, Double quotation ASCII = 34
 */
 
-int compare_operators(char *str, int loc)   // too many functions 
+int	compare_operators(char *str, int loc)
 {
 	if (str[loc] == '<' && str[loc + 1] == '<')
 		return (1);
@@ -19,7 +19,7 @@ int compare_operators(char *str, int loc)   // too many functions
 	return (0);
 }
 
-static int	lenght_quotes(char *str, int loc, char c) // duplicate with quote lenght 
+static int	lenght_quotes(char *str, int loc, char c)
 {
 	loc++;
 	while (str[loc] != '\0' && str[loc] != c)
@@ -50,8 +50,10 @@ static int	string_lenght(char *str, char c)
 				&& str[i] != '>' && str[i] != '\0')
 			{
 				if (str[i] == '\'')
+//					i = run_through_quotes(str, i, '\'');
 					i = lenght_quotes(str, i, '\'');
 				else if (str[i] == '\"')
+//					i = run_through_quotes(str, i, '\"');
 					i = lenght_quotes(str, i, '\"');
 				else
 					i++;

@@ -14,30 +14,17 @@ char	**free_array_ft_split(char **array, int position)
 	return (NULL);
 }
 
-void	free_double(char ***str) // duplicate function -> choose one 
+void	free_string_array(char **str)
 {
 	char	**temp;
 
-	temp = *str;
+	temp = str;
 	while (*temp)
 	{
 		free(*temp);
 		temp++;
 	}
-	free(*str);
-}
-
-void	free_string_array(char **array) // duplicate function -> choose one 
-{
-	int	i;
-
-	i = 0;
-	while (array[i] != NULL)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
+	free(str);
 }
 
 void	free_cmd_blocks(t_list **cmd_blocks)
@@ -48,7 +35,7 @@ void	free_cmd_blocks(t_list **cmd_blocks)
 	while (*cmd_blocks != NULL)
 	{
 		if ((*cmd_blocks)->cmd != NULL)
-			free_double(&(*cmd_blocks)->cmd);
+			free_string_array((*cmd_blocks)->cmd);
 		while ((*cmd_blocks)->redirect != NULL)
 		{
 			temp_red = (*cmd_blocks)->redirect;

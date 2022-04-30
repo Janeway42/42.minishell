@@ -3,7 +3,7 @@
 void	error_syntax(char **tokens)
 {
 	write(2, "error syntax\n", 14);
-	free_double(&tokens);
+	free_string_array(tokens);
 	// set environment variable $? to 258
 }
 

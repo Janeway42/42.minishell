@@ -17,36 +17,72 @@ char	*malloc_string(int size)
 
 //-------------------------------------------------
 
-int	replace_quotes1(char **str, int start, char c)
+static int	insert_val(char *str, char **temp, int start, char c)
 {
-	int		i;
-	int		ret_i;
-	char	*temp;
+	int i;
+	int ret_i;
 
 	i = 0;
-	temp = malloc_string(ft_strlen(*str) - 2);
 	while (i < start)
 	{
-		temp[i] = (*str)[i];
+		(*temp)[i] = str[i];
 		i++;
 	}
-	while ((*str)[start + 1] != c)
+	while (str[start + 1] != c)
 	{
-		temp[i] = (*str)[start + 1];
+		(*temp)[i] = str[start + 1];
 		i++;
 		start++;
 	}
 	ret_i = i;
-	while ((*str)[start + 2] != '\0')
+	while (str[start + 2] != '\0')
 	{
-		temp[i] = (*str)[start + 2];
+		(*temp)[i] = str[start + 2];
 		i++;
 		start++;
 	}
+	return (ret_i - 1);
+}
+
+int	replace_quotes1(char **str, int start, char c)
+{
+	char *temp;
+	int ret_i;
+
+	temp = malloc_string(ft_strlen(*str) - 2);
+	ret_i = insert_val(*str, &temp, start, c);
 	free(*str);
 	*str = ft_strdup(temp);
 	free(temp);
 	return (ret_i);
+	// int		i;
+	// int		ret_i;
+	// char	*temp;
+
+	// i = 0;
+	// temp = malloc_string(ft_strlen(*str) - 2);
+	// while (i < start)
+	// {
+	// 	temp[i] = (*str)[i];
+	// 	i++;
+	// }
+	// while ((*str)[start + 1] != c)
+	// {
+	// 	temp[i] = (*str)[start + 1];
+	// 	i++;
+	// 	start++;
+	// }
+	// ret_i = i;
+	// while ((*str)[start + 2] != '\0')
+	// {
+	// 	temp[i] = (*str)[start + 2];
+	// 	i++;
+	// 	start++;
+	// }
+	// free(*str);
+	// *str = ft_strdup(temp);
+	// free(temp);
+	// return (ret_i - 1);
 }
 
 /*

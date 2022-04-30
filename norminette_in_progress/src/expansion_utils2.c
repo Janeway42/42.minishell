@@ -7,7 +7,7 @@
 */
 
 //char	*insert_val(char *str, char *node_val, char *temp, int step1, int step2)
-char	*insert_val(char *str, char *temp, t_loc *node)
+char	*insert_val_home(char *str, char *temp, t_loc *node)
 {
 	int	i;
 	int	j;
@@ -47,7 +47,7 @@ int	home_value(char **str, int loc, char **envplist)
 	node->val_lenght = ft_strlen(node->val);
 	node->step1 = loc + node->val_lenght;
 	temp = malloc_string((ft_strlen(*str) - 1) + node->val_lenght);
-	temp = insert_val(*str, temp, node);
+	temp = insert_val_home(*str, temp, node);
 	free(*str);
 	*str = ft_strdup(temp);
 	free(temp);

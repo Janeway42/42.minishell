@@ -88,8 +88,8 @@ int main(int argc, char **argv, char **envp)
 		if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1) // set terminal to not allow echoctl 
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
-//		line = "echo \"-n -n -n\"-n bonjour";
-//		line = "echo \"\"\"\"$USER\"\"\"\"";
+//		line = "\'\'\'\'\'\'\'\'\'\'$USER\'\'\'\'\'\'\'\'\'\'";
+//		line = "echo $USER $USER9999 $USER8888 $USER7777 \"$USER\"";
 //		line = "echo \"text\" \"text$USER\" ... \"$USER\"";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);
