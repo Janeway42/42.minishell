@@ -6,7 +6,6 @@
 ** copies first the bit before $ and then the bit after the value name
 */
 
-//char	*insert_val(char *str, char *node_val, char *temp, int step1, int step2)
 char	*insert_val_home(char *str, char *temp, t_loc *node)
 {
 	int	i;
@@ -36,9 +35,9 @@ char	*insert_val_home(char *str, char *temp, t_loc *node)
 
 int	home_value(char **str, int loc, char **envplist)
 {
-	char *temp;
+	char	*temp;
 	t_loc	*node;
-	
+
 	node = malloc(sizeof(t_loc) * 1);
 	if (!node)
 		exit_on_error("Error :", 1);
@@ -55,16 +54,6 @@ int	home_value(char **str, int loc, char **envplist)
 	free(node->val);
 	free(node);
 	return (loc);
-	// i = 0;
-	// j = 0;
-	// node_val = get_value_from_envp("HOME", envplist);
-	// node_lenght = ft_strlen(node_val);
-	// temp = malloc_string((ft_strlen(*str) - 1) + node_lenght);
-	// temp = insert_val(*str, node_val, temp, loc, (loc + node_lenght));
-	// free(*str);
-	// *str = ft_strdup(temp);
-	// free(temp);
-	// return (loc + node_lenght);
 }
 
 //-------------------------------------------------

@@ -111,6 +111,7 @@ char	*get_variable_name(char *str, int loc);
 char	*get_value_from_envp(char *name, char **envp);
 int		dollar_sign(char *str);
 int		replace_dollar(char **str, int loc, t_data *data);
+int		validity_name(char c, int location);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
 int		home_value(char **str, int loc, char **envplist);
 char	*insert_value(char *str, char *node_val, char *temp, int step1, int step2);

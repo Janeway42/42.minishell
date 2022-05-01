@@ -66,7 +66,7 @@ void	set_exit_code(t_data *data)
 	if (question_var == NULL)
 		exit_on_error("Error :", 1);
 	free(number);
-	printf("current value question var: %s\n",question_var);
+//	printf("current value question var: %s\n",question_var);
 	set_variable(&data->envplist, question_var);
 	free(question_var);
 }
@@ -89,7 +89,7 @@ int main(int argc, char **argv, char **envp)
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
 //		line = "\'\'\'\'\'\'\'\'\'\'$USER\'\'\'\'\'\'\'\'\'\'";
-//		line = "echo $USER $USER9999 $USER8888 $USER7777 \"$USER\"";
+//		line = "echo $USER$12USER$USER=4$USER12";
 //		line = "echo \"text\" \"text$USER\" ... \"$USER\"";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);

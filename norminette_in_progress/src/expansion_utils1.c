@@ -6,7 +6,7 @@
 ** Function looks at whether those conditions are met
 */
 
-static int	validity_name(char c, int location)
+int	validity_name(char c, int location)
 {
 	int	n;
 
@@ -85,7 +85,7 @@ int	replace_dollar(char **str, int loc, t_data *data)
 		name = get_variable_name(*str, (loc + 1));
 	if (name == NULL)
 	{
-		if (*str[loc] == '$' && *str[loc + 1] == '\0')
+		if ((*str)[loc + 1] == ' ' || (*str)[loc + 1] == '\0')
 			node_val = ft_strdup("$");
 		else
 			node_val = ft_strdup("");

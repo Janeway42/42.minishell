@@ -37,12 +37,8 @@ static int	string_lenght(char *str, char c)
 	while (str[i] != '\0')
 	{
 		if (compare_operators(str, i) == 1)
-//		if ((str[i] == '<' && str[i + 1] == '<')
-//			|| (str[i] == '>' && str[i + 1] == '>'))
 			return (i = 2);
 		else if (str[i] == '|' || compare_operators(str, i) == 2)
-//		else if (str[i] == '|' || (str[i] == '<' && str[i + 1] != '<')
-//			|| (str[i] == '>' && str[i + 1] != '>'))
 			return (i = 1);
 		else
 		{
@@ -50,10 +46,8 @@ static int	string_lenght(char *str, char c)
 				&& str[i] != '>' && str[i] != '\0')
 			{
 				if (str[i] == '\'')
-//					i = run_through_quotes(str, i, '\'');
 					i = lenght_quotes(str, i, '\'');
 				else if (str[i] == '\"')
-//					i = run_through_quotes(str, i, '\"');
 					i = lenght_quotes(str, i, '\"');
 				else
 					i++;

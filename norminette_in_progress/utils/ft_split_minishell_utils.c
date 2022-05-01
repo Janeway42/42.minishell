@@ -59,31 +59,11 @@ int	count_strings(char *str, char c)
 		if (str[i] == '<' || str[i] == '>' || str[i] == '|')
 		{
 			i = check_one(str, i);
-// 			if (compare_operators(str, i) == 1)
-// //			if ((str[i] == '<' && str[i + 1] == '<') || (str[i] == '>' && str[i + 1] == '>'))
-// 				i += 2;
-// 			else if (compare_operators(str, i) == 2)
-// //			else if ((str[i] == '<' && str[i + 1] != '<') || (str[i] == '>' && str[i + 1] != '>'))
-// 				i++;
-// 			else if (str[i] == '|')
-// 				i++;
 			nr_strings++;
 		}
 		else
 		{
 			i = check_two(str, i);
-			// while (str[i] != '\0' && str[i] != 32 && str[i] != '<' && str[i] != '>' && str[i] != '|')
-			// {
-			// 	if (str[i] == 39 || str[i] == 34)
-			// 	{
-			// 		if (str[i] == 39)
-			// 			i = run_through_quotes(str, i, 39);
-			// 		else if (str[i] == 34)
-			// 			i = run_through_quotes(str, i, 34);
-			// 	}
-			// 	else
-			// 		i++;
-			// }
 			nr_strings++;
 		}
 	}
