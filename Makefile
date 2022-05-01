@@ -3,6 +3,7 @@ CFLAGS	= -Wall -Werror -Wextra -g #-fsanitize=address
 UNAME = $(shell uname)
 
 S_SRC	=	main.c\
+			main_utils.c\
 			parse.c\
 			check_syntax.c\
 			expansion.c\

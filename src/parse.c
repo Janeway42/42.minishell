@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:50:31 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/01 18:04:26 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ t_list	*parse_line(char *str, t_data *data)
 {
 	t_list	*cmd_blocks;
 
+	cmd_blocks = NULL;
 	if (just_spaces(str) == 0)
 		return (NULL);
 	if (check_pairs(str, 39) == 1 || check_pairs(str, 34) == 1)
