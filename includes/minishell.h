@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:34:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:43:22 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/01 17:59:48 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,8 @@ void	delete_variable(char ***envp, char *variable);
 ** -------------------------------------------------
 */
 
-void	initialize_minishell(int argc, char **argv, char **envp
-			, t_data *data);
+void	initialize_minishell(int argc, char **argv, char **envp,
+			t_data *data);
 void	set_up_shell_terminal(t_data *data);
 void	set_shell_level(t_data *data);
 void	set_exit_code(t_data *data);
@@ -121,7 +121,7 @@ void	set_exit_code(t_data *data);
 
 t_list	*parse_line(char *str, t_data *data);
 int		check_syntax(char **str);
-int	run_through_quotes(char *str, int loc, char c);
+int		run_through_quotes(char *str, int loc, char c);
 
 /*
 ** Expansion
