@@ -210,7 +210,7 @@ void	free_data(t_data **data);
 */
 
 void	exit_on_error(char *message, int exit_code);
-void	error_syntax(char **tokens, char **envplist);
+void	error_syntax(char **tokens, char ***envplist);
 
 /*
 ** Signals
