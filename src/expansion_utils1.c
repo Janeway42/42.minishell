@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 15:52:59 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/01 17:39:09 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*get_variable_name(char *str, int loc)
 	return (name);
 }
 
-char	*get_value_from_envp(char *name, char **envp) // duplicate? 
+char	*get_value_from_envp(char *name, char **envp)
 {
 	int		i;
 	int		s_name;

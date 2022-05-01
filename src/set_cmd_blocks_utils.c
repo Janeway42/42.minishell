@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   set_cmd_blocks_utils.c                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:52:28 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:52:46 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 t_list	*ft_last_block(t_list *x)
@@ -12,16 +24,6 @@ t_list	*ft_last_block(t_list *x)
 	return (last);
 }
 
-// int	size_double_array(char **str) // duplicate envp_copy.c 
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i] != NULL)
-// 		i++;
-// 	return (i);
-// }
-
 void	join_arrays(char ***cmd, char *token)
 {
 	int		i;
@@ -29,7 +31,7 @@ void	join_arrays(char ***cmd, char *token)
 	char	**new_block;
 
 	i = 0;
-	size = count_arrays(*cmd) + 1;   //size_double_array(*cmd) + 1;
+	size = count_arrays(*cmd) + 1;
 	new_block = malloc(sizeof(char *) * (size + 1));
 	if (!new_block)
 		exit_on_error("Error :", 1);

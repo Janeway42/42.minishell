@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   envp_copy.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:34:00 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:34:08 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-int	count_arrays(char **array)  // duplicate - set_cmd_blocks_utils.c
+int	count_arrays(char **array)
 {
 	int	count;
 

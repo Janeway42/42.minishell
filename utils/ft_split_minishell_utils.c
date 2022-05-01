@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_split_minishell_utils.c                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:54:32 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:54:42 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-int	run_through_quotes(char *str, int loc, char c) // duplicate with quote lenght 
+int	run_through_quotes(char *str, int loc, char c)
 {
 	if (str[loc] == c)
 	{

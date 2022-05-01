@@ -1,5 +1,0 @@
-error.c 
-		- set environment variable $? to 258
-
-ft_split_minishell_utils.c 
-		- duplicate run_through_quotes 

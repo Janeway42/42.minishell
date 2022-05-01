@@ -1,6 +1,16 @@
-#include "../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   process_commands.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:50:51 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:51:04 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include <sys/wait.h>
+#include "../includes/minishell.h"
 
 void	exec_path_cmd(t_list *cmd_block, t_data *data)
 {

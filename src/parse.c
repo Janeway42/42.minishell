@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   parse.c                                            :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:16:54 by hman          ########   odam.nl         */
+/*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:50:31 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,32 @@ char	*clean_extra_quotes(char *str)
 ** into comand blocks to be used by the execve function
 */
 
-t_list	*parse_line(char *str, t_data *data)
+t_list	*parse_blocks(char *str, t_data *data)
 {
 	char	**tokens;
 	char	*temp;
+	t_list	*cmd_blocks;
+
+	temp = clean_extra_quotes(ft_strdup(str));
+	tokens = ft_split_minishell(temp, ' ');
+	free(temp);
+	if (tokens != NULL)
+	{
+		if (check_syntax(tokens) == 1)
+			error_syntax(tokens, data);
+		else
+		{
+			tokens = expansion(tokens, data);
+			cmd_blocks = set_cmd_blocks(tokens);
+			free_string_array(tokens);
+			return (cmd_blocks);
+		}
+	}
+	return (NULL);
+}
+
+t_list	*parse_line(char *str, t_data *data)
+{
 	t_list	*cmd_blocks;
 
 	if (just_spaces(str) == 0)
@@ -92,25 +114,6 @@ t_list	*parse_line(char *str, t_data *data)
 	if (check_pairs(str, 39) == 1 || check_pairs(str, 34) == 1)
 		printf("syntax error: unclosed quotes\n");
 	else
-	{
-		temp = clean_extra_quotes(ft_strdup(str));
-		tokens = ft_split_minishell(temp, ' ');
-		free(temp);
-//		print_token(tokens); // remove once completed !!!!!!!!!
-		if (tokens != NULL)
-		{
-			if (check_syntax(tokens) == 1)
-				error_syntax(tokens, data);
-			else
-			{
-				tokens = expansion(tokens, data);
-//				print_token(tokens); // remove once completed !!!!!!!!!
-				cmd_blocks = set_cmd_blocks(tokens);
-//				print_cmd_blocks(cmd_blocks); // remove once completed !!!!!!!!!
-				free_string_array(tokens);
-				return (cmd_blocks);
-			}
-		}
-	}
-	return (NULL);
+		cmd_blocks = parse_blocks(str, data);
+	return (cmd_blocks);
 }

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   minishell.h                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:34:41 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:43:22 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -92,6 +104,17 @@ int		count_arrays(char **array);
 void	delete_variable(char ***envp, char *variable);
 
 /*
+** Initialize
+** -------------------------------------------------
+*/
+
+void	initialize_minishell(int argc, char **argv, char **envp
+			, t_data *data);
+void	set_up_shell_terminal(t_data *data);
+void	set_shell_level(t_data *data);
+void	set_exit_code(t_data *data);
+
+/*
 ** Parsing
 ** -------------------------------------------------
 */
@@ -115,7 +138,6 @@ int		replace_dollar(char **str, int loc, t_data *data);
 int		validity_name(char c, int location);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
 int		home_value(char **str, int loc, char **envplist);
-char	*insert_value(char *str, char *node_val, char *temp, int step1, int step2);
 
 /*
 ** Command blocks
@@ -136,7 +158,8 @@ char	*validate_and_locate_cmd(char *cmd, char **envp);
 void	process_commands(t_list *cmd_blocks, t_data *data);
 int		count_commands(t_list *cmd_blocks);
 void	setup_pipe(t_list *cmd_block, t_data *data, int amount_commands);
-void	process_solo_builtin(t_list *cmd_block, t_data *data, int *wait_on_child_process);
+void	process_solo_builtin(t_list *cmd_block, t_data *data,
+			int *wait_on_child_process);
 void	process_pipe_redir(t_data *data);
 int		process_redir(t_red *red_list, t_data *data, int cmdnbr,
 			int sole_builtin);
@@ -184,7 +207,8 @@ int		ft_export_error(char *args);
 */
 
 int		is_it_builtin(char *cmd);
-int		execute_builtin(char ***envp_list, char **args, int last_exit_code, int child_process);
+int		execute_builtin(char ***envp_list, char **args,
+			int last_exit_code, int child_process);
 int		is_valid_env_name(char *name);
 
 /*
@@ -219,6 +243,7 @@ void	error_syntax(char **tokens, t_data *data);
 
 void	sig_handler(int sig_no);
 void	heredoc_sighandler(int sig_no);
+
 
 
 /*

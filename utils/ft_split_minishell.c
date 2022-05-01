@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   ft_split_minishell.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 17:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 17:54:19 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 /*
@@ -19,16 +31,6 @@ int	compare_operators(char *str, int loc)
 	return (0);
 }
 
-static int	lenght_quotes(char *str, int loc, char c)
-{
-	loc++;
-	while (str[loc] != '\0' && str[loc] != c)
-		loc++;
-	if (str[loc] == c)
-		loc++;
-	return (loc);
-}
-
 static int	string_lenght(char *str, char c)
 {
 	int	i;
@@ -46,9 +48,9 @@ static int	string_lenght(char *str, char c)
 				&& str[i] != '>' && str[i] != '\0')
 			{
 				if (str[i] == '\'')
-					i = lenght_quotes(str, i, '\'');
+					i = run_through_quotes(str, i, '\'');
 				else if (str[i] == '\"')
-					i = lenght_quotes(str, i, '\"');
+					i = run_through_quotes(str, i, '\"');
 				else
 					i++;
 			}
