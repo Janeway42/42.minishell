@@ -61,6 +61,8 @@ static void	remove_variable(char ***envp, int position)
 
 	count = count_variables(*envp);
 	new_envp = malloc(sizeof(char *) * count);
+	if (new_envp == NULL)
+		exit_on_error("Error :", 1);
 	i = 0;
 	j = 0;
 	while (i < count)
