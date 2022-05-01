@@ -1,29 +1,30 @@
 #include "../includes/minishell.h"
 
-void	free_double(char ***str) // duplicate function -> choose one 
-{
-	char	**temp;
-
-	temp = *str;
-	while (*temp)
-	{
-		free(*temp);
-		temp++;
-	}
-	free(*str);
-}
-
-void	free_string_array(char **array) // duplicate function -> choose one 
+char	**free_array_ft_split(char **array, int position)
 {
 	int	i;
 
 	i = 0;
-	while (array[i] != NULL)
+	while (i < position)
 	{
 		free(array[i]);
 		i++;
 	}
 	free(array);
+	return (NULL);
+}
+
+void	free_string_array(char **str)
+{
+	char	**temp;
+
+	temp = str;
+	while (*temp)
+	{
+		free(*temp);
+		temp++;
+	}
+	free(str);
 }
 
 void	free_cmd_blocks(t_list **cmd_blocks)
@@ -34,7 +35,7 @@ void	free_cmd_blocks(t_list **cmd_blocks)
 	while (*cmd_blocks != NULL)
 	{
 		if ((*cmd_blocks)->cmd != NULL)
-			free_double(&(*cmd_blocks)->cmd);
+			free_string_array((*cmd_blocks)->cmd);
 		while ((*cmd_blocks)->redirect != NULL)
 		{
 			temp_red = (*cmd_blocks)->redirect;
@@ -52,5 +53,6 @@ void	free_cmd_blocks(t_list **cmd_blocks)
 void	free_data(t_data **data)
 {
 	free_string_array((*data)->envplist);
+	free((*data)->heredoc_index_array);
 	free(*data);
 }

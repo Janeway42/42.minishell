@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   check_syntax.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 14:56:19 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static int	check_syntax_pipe(char **str)
@@ -18,6 +30,8 @@ static int	check_syntax_pipe(char **str)
 		return (1);
 	return (0);
 }
+
+//-------------------------------------------------
 
 static int	check_operators(char **str, int i)
 {
@@ -60,6 +74,8 @@ static int	check_rest_syntax(char **str)
 	return (0);
 }
 
+//-------------------------------------------------
+
 int	last_pipe(char **str)
 {
 	int	i;
@@ -74,9 +90,8 @@ int	last_pipe(char **str)
 	return (0);
 }
 
-
-
 /*
+**-------------------------------------------------------------------------
 ** Check first whether there are double '|'
 ** then check for the rest of the syntax
 ** and lastly for multiline

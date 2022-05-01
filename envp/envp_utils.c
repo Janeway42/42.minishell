@@ -9,7 +9,7 @@ void	insert_variable(char ***envp, char *variable)
 	int		count;
 	char	**new_envp;
 
-	count = count_variables(*envp);
+	count = count_arrays(*envp);
 	new_envp = malloc (sizeof (char *) * (count + 2));
 	if (new_envp == NULL)
 		exit_on_error("Error :", 1);
@@ -59,10 +59,8 @@ static void	remove_variable(char ***envp, int position)
 	int		i;
 	int		j;
 
-	count = count_variables(*envp);
+	count = count_arrays(*envp);
 	new_envp = malloc(sizeof(char *) * count);
-	if (new_envp == NULL)
-		exit_on_error("Error :", 1);
 	i = 0;
 	j = 0;
 	while (i < count)

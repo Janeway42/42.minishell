@@ -1,53 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expansion_utils2.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 16:37:12 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-
-char *home_value(char *str, int location, char **envplist)
-{
-	int size;
-	int node_lenght;
-	int i;
-	int j;
-	char *node_val;
-	char *temp;
-
-	i = 0;
-	j = 0;
-	node_val = get_value_from_envp("HOME", envplist);
-	node_lenght = ft_strlen(node_val);
-	size = (ft_strlen(str) - 1) + node_lenght + 1;
-	temp = malloc(sizeof(char) * (size + 1));
-	if (!temp)
-		return (NULL);
-	temp[size] = '\0';
-
-	while (i < location)
-	{
-		temp[i] = str[i];
-		i++;
-	}
-	j = 0;
-	while (i < (location + node_lenght))
-	{
-		temp[i] = node_val[j];
-		i++;
-		j++;
-	}
-	j = 0;
-	while (str[location + 1 + j] != '\0')
-	{
-		temp[i + j] = str[location + 1 + j];
-		j++;
-	}
-	free(str);
-	str = ft_strdup(temp);
-	free(temp);
-	return (str);
-}
-
-/*
-** Function creates a new string without the $variable_name
-** size of the new str is (ft_strlen(str) - size of the name - $)
-** copies first the bit before $ and then the bit after the value name
-*/
 
 static char	*null_value(int name_size, int location, char *str)
 {
@@ -75,6 +38,7 @@ static char	*null_value(int name_size, int location, char *str)
 }
 
 /*
+**-------------------------------------------------------------------------
 ** Function creates a new string that replaces the $variable_name
 ** with the variable value from environment
 ** new str size = (ft_strlen(str) - (name size + $) + value)
@@ -82,39 +46,51 @@ static char	*null_value(int name_size, int location, char *str)
 ** and last what is left after the value name
 */
 
-static char	*non_null_value(int name_size, int location, char *str, char *value)
+static char	*create_string(char *str, char *temp, t_loc *node)
 {
-	int		i;
-	int		j;
-	int		size;
-	int		lenght_val;
-	char	*temp;
+	int	i;
+	int	j;
 
 	i = 0;
-	lenght_val = ft_strlen(value);
-	size = ft_strlen(str) - (name_size + 1) + lenght_val;
-	temp = malloc(sizeof(char) * (size + 1));
-	if (!temp)
-		return (NULL);
-	temp[size] = '\0';
-	while (i < location)
+	while (i < node->start)
 	{
 		temp[i] = str[i];
 		i++;
 	}
 	j = 0;
-	while (i < (location + lenght_val))
+	while (i < (node->step1))
 	{
-		temp[i] = value[j];
+		temp[i] = node->val[j];
 		i++;
 		j++;
 	}
 	j = 0;
-	while (str[location + (name_size + 1) + j] != '\0')
+	while (str[node->step2 + j] != '\0')
 	{
-		temp[i + j] = str[location + (name_size + 1) + j];
+		temp[i + j] = str[node->step2 + j];
 		j++;
 	}
+	return (temp);
+}
+
+static char	*non_null_value(int name_size, int location, char *str, char *value)
+{
+	int		size;
+	char	*temp;
+	t_loc	*node;
+
+	node = malloc(sizeof(t_loc) * 1);
+	if (!node)
+		exit_on_error("Error :", 1);
+	node->start = location;
+	node->val = value;
+	node->val_lenght = ft_strlen(node->val);
+	node->step1 = node->start + node->val_lenght;
+	node->step2 = node->start + (name_size + 1);
+	size = ft_strlen(str) - (name_size + 1) + node->val_lenght;
+	temp = malloc_string(size);
+	temp = create_string(str, temp, node);
+	free(node);
 	return (temp);
 }
 

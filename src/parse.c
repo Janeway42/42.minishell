@@ -1,74 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 16:41:23 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
-char *clean_extra_quotes(char *str)
+static int	just_spaces(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\'' && str[i + 1] != '\'')
-			i = run_through_quotes(str, i, '\'');
-		else if (str[i] == '\"'&& str[i + 1] != '\"')
-			i = run_through_quotes(str, i, '\"');
-		else if (str[i] == '\'' && str[i + 1] == '\'')
-			str = replace_quotes(str, i, '\'');
-		else if (str[i] == '\"'&& str[i + 1] == '\"')
-			str = replace_quotes(str, i, '\"');
-		else
-			i++;
+		if (str[i] != 32)
+			return (1);
+		i++;
 	}
-	return (str);
+	return (0);
 }
-
-// char	*clean_extra_quotes(char *str)
-// {
-// 	int	open_d;
-// 	int	open_s;
-// 	int	i;
-
-// 	i = 0;
-// 	open_d = 0;
-// 	open_s = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		if (str[i] == 39 || str[i] == 34)
-// 		{
-// 			if (str[i] == 39)
-// 			{
-// 				if (open_s == 0 && open_d == 0)
-// 				{
-// 					open_s = 1;
-// 					if (str[i + 1] == 39 && open_s == 1)
-// 					{
-// 						str = replace_quotes(str, i, 39);
-// 						open_s = 0;
-// 						i--;
-// 					}
-// 				}
-// 				else if (open_s == 1 && open_d == 0)
-// 					open_s = 0;
-// 			}
-// 			else if (str[i] == 34)
-// 			{
-// 				if (open_d == 0 && open_s == 0)
-// 				{
-// 					open_d = 1;
-// 					if (str[i + 1] == 34 && open_d == 1)
-// 					{
-// 						str = replace_quotes(str, i, 34);
-// 						open_d = 0;
-// 						i--;
-// 					}
-// 				}
-// 				else if (open_d == 1 && open_s == 0)
-// 					open_d = 0;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (str);
-// }
 
 //-------------------------------------------------
 
@@ -97,18 +53,25 @@ static int	check_pairs(char *str, char c)
 
 //-------------------------------------------------
 
-static int	just_spaces(char *str)
+char	*clean_extra_quotes(char *str)
 {
 	int	i;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] != 32)
-			return (1);
-		i++;
+		if (str[i] == '\'' && str[i + 1] != '\'')
+			i = run_through_quotes(str, i, '\'');
+		else if (str[i] == '\"' && str[i + 1] != '\"')
+			i = run_through_quotes(str, i, '\"');
+		else if (str[i] == '\'' && str[i + 1] == '\'')
+			i = replace_quotes1(&str, i, '\'') + 1;
+		else if (str[i] == '\"' && str[i + 1] == '\"')
+			i = replace_quotes1(&str, i, '\"') + 1;
+		else
+			i++;
 	}
-	return (0);
+	return (str);
 }
 
 /*
@@ -121,7 +84,7 @@ static int	just_spaces(char *str)
 t_list	*parse_line(char *str, t_data *data)
 {
 	char	**tokens;
-//	char	*temp;
+	char	*temp;
 	t_list	*cmd_blocks;
 
 	if (just_spaces(str) == 0)
@@ -130,13 +93,14 @@ t_list	*parse_line(char *str, t_data *data)
 		printf("syntax error: unclosed quotes\n");
 	else
 	{
-//		temp = clean_extra_quotes(ft_strdup(str));   // it needs this on linux - check mac 
-		tokens = ft_split_minishell(str, ' ');
+		temp = clean_extra_quotes(ft_strdup(str));
+		tokens = ft_split_minishell(temp, ' ');
+		free(temp);
 //		print_token(tokens); // remove once completed !!!!!!!!!
 		if (tokens != NULL)
 		{
 			if (check_syntax(tokens) == 1)
-				error_syntax(tokens);
+				error_syntax(tokens, data->envplist);
 			else
 			{
 				tokens = expansion(tokens, data);

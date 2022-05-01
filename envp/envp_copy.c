@@ -1,6 +1,6 @@
 #include "../includes/minishell.h"
 
-int	count_variables(char **array)
+int	count_arrays(char **array)  // duplicate - set_cmd_blocks_utils.c
 {
 	int	count;
 
@@ -76,7 +76,7 @@ char	**copy_envp(char **envp)
 	char	**envp_copy;
 	int		i;
 
-	count = count_variables(envp);
+	count = count_arrays(envp);
 	envp_copy = malloc(sizeof (char *) * (count + 1));
 	i = 0;
 	while (i < count)

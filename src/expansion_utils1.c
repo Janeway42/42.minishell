@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expansion_utils1.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 15:52:59 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 /*
@@ -6,7 +18,7 @@
 ** Function looks at whether those conditions are met
 */
 
-static int	validity_name(char c, int location)
+int	validity_name(char c, int location)
 {
 	int	n;
 
@@ -74,49 +86,33 @@ char	*get_value_from_envp(char *name, char **envp) // duplicate?
 ** Function replaces the variable $name with the correct variable value
 */
 
-// char	*replace_dollar(char *str, char **envplist)
-// {
-// 	int		i;
-// 	char	*name;
-// 	char	*node_val;
-
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		if (str[i] == '$')
-// 		{
-// 			name = get_variable_name(str, i + 1);
-// 			if (name == NULL)
-// 				node_val = "";
-// 			else
-// 			{
-// 				node_val = get_value_from_envp(name, envplist);
-// 				if (node_val == NULL)
-// 					node_val = "";
-// 			}
-// 			str = insert_variable_value(str, node_val, i, ft_strlen(name));
-// 			i += ft_strlen(node_val) - 1;
-// 		}
-// 		i++;
-// 	}
-// 	return (str);
-// }
-
-// ============test function ===========================
-
-char	*get_node_val(char *name, char **envplist)
+int	replace_dollar(char **str, int loc, t_data *data)
 {
+	char	*name;
 	char	*node_val;
 
+	if ((*str)[loc + 1] == '?')
+		name = ft_strdup("?");
+	else
+		name = get_variable_name(*str, (loc + 1));
 	if (name == NULL)
-		node_val = "";
+	{
+		if ((*str)[loc + 1] == ' ' || (*str)[loc + 1] == '\0')
+			node_val = ft_strdup("$");
+		else
+			node_val = ft_strdup("");
+	}
 	else
 	{
-		node_val = get_value_from_envp(name, envplist);
+		node_val = get_value_from_envp(name, data->envplist);
 		if (node_val == NULL)
-			node_val = "";
+			node_val = ft_strdup("");
 	}
-	return (node_val);
+	*str = insert_variable_value(*str, node_val, loc, ft_strlen(name));
+	loc += ft_strlen(node_val) - 1;
+	free(node_val);
+	free(name);
+	return (loc);
 }
 
 /*

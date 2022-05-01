@@ -63,7 +63,7 @@ static void	ft_exit_error(char *arg, int child_process, int errortype)
 	{
 		write(2, "exit: ", 6);
 		write(2, arg, ft_strlen(arg));
-		write(2, ": numeric argument required\n", 27);
+		write(2, ": numeric argument required\n", 28);
 		exit(255);
 	}
 	else if (errortype == 1)
