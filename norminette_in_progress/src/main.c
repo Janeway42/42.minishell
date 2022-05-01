@@ -21,6 +21,10 @@ void	set_shell_level(t_data *data)
 	free(shelllevel);
 }
 
+/*
+** data->term_without_echo.c_lflag &= ~(0001000);
+*/
+
 void	set_up_shell_terminal(t_data *data)
 {
 	if (isatty(0) == 0)
@@ -29,7 +33,6 @@ void	set_up_shell_terminal(t_data *data)
 		exit_on_error("Exit: ", 1);
 	data->term_without_echo = data->term_with_echo;
 	data->term_without_echo.c_lflag &= ~(ECHOCTL);
-//	data->term_without_echo.c_lflag &= ~(0001000);  /*-  linux flag */
 	if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
 		exit_on_error("Error: ", 1);
 }
@@ -69,7 +72,6 @@ void	set_exit_code(t_data *data)
 	if (question_var == NULL)
 		exit_on_error("Error :", 1);
 	free(number);
-	printf("current value question var: %s\n", question_var); //test
 	set_variable(&data->envplist, question_var);
 	free(question_var);
 }

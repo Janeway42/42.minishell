@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 16:10:50 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/01 16:37:12 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ static char	*non_null_value(int name_size, int location, char *str, char *value)
 	node->step2 = node->start + (name_size + 1);
 	size = ft_strlen(str) - (name_size + 1) + node->val_lenght;
 	temp = malloc_string(size);
-
 	temp = create_string(str, temp, node);
 	free(node);
 	return (temp);

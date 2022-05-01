@@ -1,9 +1,3 @@
-expansion_utils2.c
-
-set_cmd_bocks_utils.c 
-		- size_double array - duplicate 
-		- join arrays - duplicate ? 
-
 error.c 
 		- set environment variable $? to 258
 

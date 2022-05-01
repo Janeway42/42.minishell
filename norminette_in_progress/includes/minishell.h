@@ -88,7 +88,7 @@ char	**ft_split_variable(char *variable);
 int		find_variable_position(char **envp, char *variable);
 int		is_valid_env_name(char *name);
 char	*get_var_value(char **envp, char *variable);
-int		count_variables(char **array);
+int		count_arrays(char **array);
 void	delete_variable(char ***envp, char *variable);
 
 /*
@@ -210,7 +210,7 @@ void	free_data(t_data **data);
 */
 
 void	exit_on_error(char *message, int exit_code);
-void	error_syntax(char **tokens);
+void	error_syntax(char **tokens, char **envplist);
 
 /*
 ** Signals

@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 14:55:28 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/01 16:41:23 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_list	*parse_line(char *str, t_data *data)
 		if (tokens != NULL)
 		{
 			if (check_syntax(tokens) == 1)
-				error_syntax(tokens);
+				error_syntax(tokens, data->envplist);
 			else
 			{
 				tokens = expansion(tokens, data);
