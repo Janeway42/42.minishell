@@ -1,21 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   expansion.c                                        :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 15:12:05 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
-
-/*
-** Function returns a new string without the begining and end quotes
-*/
-
-char	*malloc_string(int size)
-{
-	char	*string;
-
-	string = malloc(sizeof(char) * (size + 1));
-	if (!string)
-		exit_on_error("Error :", 1);
-	string[size] = '\0';
-	return (string);
-}
-
-//-------------------------------------------------
 
 static int	insert_val(char *str, char **temp, int start, char c)
 {
@@ -49,8 +44,6 @@ int	replace_quotes1(char **str, int start, char c)
 	char	*temp;
 	int		ret_i;
 
-//	printf("control\n");
-
 	temp = malloc_string(ft_strlen(*str) - 2);
 	ret_i = insert_val(*str, &temp, start, c);
 	free(*str);
@@ -65,11 +58,45 @@ int	replace_quotes1(char **str, int start, char c)
 ** the variable name with the value of the variable
 */
 
+static int	expand_double_quote(char **str, int loc, t_data *data)
+{
+	int	start;
+
+	start = loc;
+	loc++;
+	while ((*str)[loc] != '\"')
+	{
+		if ((*str)[loc] == '$'
+			&& validity_name((*str)[loc + 1], (loc + 1)) == 0)
+			loc = replace_dollar(str, loc, data);
+		loc++;
+	}
+	loc = replace_quotes1(str, start, '\"');
+	return (loc);
+}
+
+static int	if_expansion(char **str, int loc, t_data *data)
+{
+	if ((*str)[loc] == '$' || (*str)[loc] == '~'
+		|| (*str)[loc] == '\'' || (*str)[loc] == '\"')
+	{
+		if ((*str)[loc] == '~' && loc == 0
+			&& ((*str)[loc + 1] == '\0' || (*str)[loc + 1] == '/'))
+			loc = home_value(str, loc, data->envplist);
+		else if ((*str)[loc] == '$')
+			loc = replace_dollar(str, loc, data);
+		else if ((*str)[loc] == '\"')
+			loc = expand_double_quote(str, loc, data);
+		else if ((*str)[loc] == '\'')
+			loc = replace_quotes1(str, loc, '\'');
+	}
+	return (loc);
+}
+
 char	**expansion(char **str, t_data *data)
 {
 	int		i;
 	int		j;
-	int		start;
 
 	i = 0;
 	while (str[i] != NULL)
@@ -77,39 +104,9 @@ char	**expansion(char **str, t_data *data)
 		j = 0;
 		while (str[i][j] != '\0')
 		{
-			if (str[i][j] == '$' || str[i][j] == '~' || str[i][j] == '\'' || str[i][j] == '\"')
-			{
-				if (str[i][j] == '~' && j == 0 && (str[i][j + 1] == '\0' || str[i][j + 1] == '/'))
-					j = home_value(&str[i], j, data->envplist);
-				else if (str[i][j] == '$')
-				{
-//					printf("control\n");
-					j = replace_dollar(&str[i], j, data);
-//					printf("replace[%d]: %s\n", j, str[i]);
-				}
-				else if (str[i][j] == '\"')
-				{
-					start = j;
-					j++;
-					while (str[i][j] != 34)
-					{
-						if (str[i][j] == '$' && validity_name(str[i][j + 1], (j + 1)) == 0)
-						{
-							j = replace_dollar(&str[i], j, data);
-//							printf("str[%d][%d]: %s\n", i, j, str[i]);
-						}
-//						printf("j: %d\n", j);
-						j++;
-//						printf("j++: %d, str: %c\n", j, str[i][j]);
-
-					}
-//					printf("j: %d\n", j);
-					j = replace_quotes1(&str[i], start, '\"');
-//					printf("str[%d][%d]: %s\n", i, j, str[i]);
-				}
-				else if (str[i][j] == '\'')
-					j = replace_quotes1(&str[i], j, '\'');
-			}
+			if (str[i][j] == '$' || str[i][j] == '~'
+				|| str[i][j] == '\'' || str[i][j] == '\"')
+				j = if_expansion(&str[i], j, data);
 			j++;
 		}
 		i++;

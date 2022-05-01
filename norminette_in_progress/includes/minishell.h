@@ -72,6 +72,7 @@ typedef struct s_loc
 {
 	int		start;
 	int		step1;
+	int		step2;
 	int		val_lenght;
 	char	*val;
 }				t_loc;
@@ -115,7 +116,6 @@ int		validity_name(char c, int location);
 char	*insert_variable_value(char *str, char *value, int loc, int size_name);
 int		home_value(char **str, int loc, char **envplist);
 char	*insert_value(char *str, char *node_val, char *temp, int step1, int step2);
-char	*malloc_string(int size);
 
 /*
 ** Command blocks
@@ -186,6 +186,13 @@ int		ft_export_error(char *args);
 int		is_it_builtin(char *cmd);
 int		execute_builtin(char ***envp_list, char **args, int last_exit_code, int child_process);
 int		is_valid_env_name(char *name);
+
+/*
+** Malloc
+** -------------------------------------------------
+*/
+
+char	*malloc_string(int size);
 
 /*
 ** Free

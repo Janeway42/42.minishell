@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse.c                                            :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
+/*   Updated: 2022/05/01 14:55:28 by cpopa         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/minishell.h"
 
 static int	just_spaces(char *str)
@@ -72,7 +84,7 @@ char	*clean_extra_quotes(char *str)
 t_list	*parse_line(char *str, t_data *data)
 {
 	char	**tokens;
-	// char	*temp;
+	char	*temp;
 	t_list	*cmd_blocks;
 
 	if (just_spaces(str) == 0)
@@ -81,12 +93,9 @@ t_list	*parse_line(char *str, t_data *data)
 		printf("syntax error: unclosed quotes\n");
 	else
 	{
-		// temp = ft_strdup(str);
-		// temp = clean_extra_quotes(temp);
-		// tokens = ft_split_minishell(temp, ' ');
-		// free(temp);
-		str = clean_extra_quotes(str);
-		tokens = ft_split_minishell(str, ' ');
+		temp = clean_extra_quotes(ft_strdup(str));
+		tokens = ft_split_minishell(temp, ' ');
+		free(temp);
 //		print_token(tokens); // remove once completed !!!!!!!!!
 		if (tokens != NULL)
 		{

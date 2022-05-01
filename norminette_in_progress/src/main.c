@@ -89,7 +89,7 @@ int main(int argc, char **argv, char **envp)
 			exit_on_error("Error: ", 1);
 		line = readline(PROMPT);
 //		line = "\'\'\'\'\'\'\'\'\'\'$USER\'\'\'\'\'\'\'\'\'\'";
-//		line = "echo $USER$12USER$USER=4$USER12";
+//		line = "echo \" $USER  \\$ \"\'$PWD\'";
 //		line = "echo \"text\" \"text$USER\" ... \"$USER\"";
 		if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1) // set terminal to allow echoctl 
 			exit_on_error("Error: ", 1);

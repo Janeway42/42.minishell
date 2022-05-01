@@ -8,6 +8,7 @@ S_SRC	=	main.c\
 			expansion.c\
 			expansion_utils1.c\
 			expansion_utils2.c\
+			expansion_utils3.c\
 			set_cmd_blocks.c\
 			set_cmd_blocks_utils.c\
 			process_commands.c\
@@ -31,6 +32,7 @@ UTILS		=	ft_split_minishell.c\
 				ft_split_minishell_utils.c\
 				error.c\
 				free.c\
+				malloc.c\
 				print_functions.c
 UTILS_PATH	=	utils/
 UTILS_OBJ	=	$(UTILS:%.c=$(UTILS_PATH)%.o)
