@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:45 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:43:58 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/02 18:05:39 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void	initialize_minishell(int argc, char **argv, char **envp
 	set_variable(&data->envplist, "?=0");
 	data->inpipe_fd = -1;
 	data->outpipe_fds[1] = -1;
+	data->outpipe_fds[0] = -1;
 	data->last_exit_code = 0;
 	set_up_shell_terminal(data);
 	set_shell_level(data);

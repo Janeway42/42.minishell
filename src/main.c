@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:42:09 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/02 17:51:37 by hakaman       ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ int	main(int argc, char **argv, char **envp)
 		process_input_line(line, data);
 		set_exit_code(data);
 		if (data->heredoc_index_array != NULL)
+		{
+			free(data->heredoc_index_array);
 			clean_heredoc_temp_files();
+		}
 		free(line);
 	}
 	rl_clear_history();
