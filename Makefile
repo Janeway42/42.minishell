@@ -34,8 +34,8 @@ UTILS		=	ft_split_minishell.c\
 				ft_split_minishell_utils.c\
 				error.c\
 				free.c\
-				malloc.c\
-				print_functions.c
+				malloc.c
+			
 UTILS_PATH	=	utils/
 UTILS_OBJ	=	$(UTILS:%.c=$(UTILS_PATH)%.o)
 

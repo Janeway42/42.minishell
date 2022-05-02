@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:34:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:59:48 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/02 16:47:19 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	join_arrays(char ***cmd, char *token);
 ** -------------------------------------------------
 */
 
-char	*validate_and_locate_cmd(char *cmd, char **envp);
+char	*validate_and_locate_cmd(char *cmd, char **envp, int *exist);
 void	process_commands(t_list *cmd_blocks, t_data *data);
 int		count_commands(t_list *cmd_blocks);
 void	setup_pipe(t_list *cmd_block, t_data *data, int amount_commands);
@@ -235,6 +235,8 @@ void	free_data(t_data **data);
 
 void	exit_on_error(char *message, int exit_code);
 void	error_syntax(char **tokens, t_data *data);
+void	exit_no_such_file_error(char *cmd);
+void	exit_command_not_found(char *cmd);
 
 /*
 ** Signals
@@ -243,15 +245,5 @@ void	error_syntax(char **tokens, t_data *data);
 
 void	sig_handler(int sig_no);
 void	heredoc_sighandler(int sig_no);
-
-
-
-/*
-** REMOVE !!!!!!!!!
-*/
-
-void	print_envp(char **envp);
-void	print_token(char **tokens);
-void	print_cmd_blocks(t_list *cmd_blocks);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:51:29 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:51:30 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/02 16:55:03 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,28 @@ static int	is_cmd_abs_or_relative(char *cmd)
 }
 
 /*
+**	will look in path for the commmand
+*/
+
+char	*look_in_path(char *cmd, char **envp)
+{
+	char	*temp;
+	char	**path_dirs;
+	char	*cmd_path;
+
+	temp = get_var_value(envp, "PATH");
+	if (temp == NULL)
+		exit_no_such_file_error(cmd);
+	path_dirs = ft_split(temp, ':');
+	free(temp);
+	if (path_dirs == NULL)
+		exit_on_error("Error :", 1);
+	cmd_path = locate_in_path(cmd, path_dirs, NULL);
+	free_string_array(path_dirs);
+	return (cmd_path);
+}
+
+/*
 **	Function will first chechk if the command given is absolute or relatvie
 **	if it is it will look if it exist. If command is not absolute or relative
 **	it will search in the PATH directories attempt to find the program
@@ -69,12 +91,11 @@ static int	is_cmd_abs_or_relative(char *cmd)
 **			NULL if the command don't exist or is not found in PATH directories
 */
 
-char	*validate_and_locate_cmd(char *cmd, char **envp)
+char	*validate_and_locate_cmd(char *cmd, char **envp, int *exist)
 {
 	char	*cmd_path;
-	char	*temp;
-	char	**path_dirs;
 
+	*exist = TRUE;
 	cmd_path = NULL;
 	if (is_cmd_abs_or_relative(cmd) == TRUE)
 	{
@@ -84,16 +105,10 @@ char	*validate_and_locate_cmd(char *cmd, char **envp)
 			if (cmd_path == NULL)
 				exit_on_error("Error :", 1);
 		}
+		else
+			*exist = FALSE;
 	}
 	else if (cmd[0] != '\0')
-	{
-		temp = get_var_value(envp, "PATH");
-		path_dirs = ft_split(temp, ':');
-		free(temp);
-		if (path_dirs == NULL)
-			exit_on_error("Error :", 1);
-		cmd_path = locate_in_path(cmd, path_dirs, NULL);
-		free_string_array(path_dirs);
-	}	
+		cmd_path = look_in_path(cmd, envp);
 	return (cmd_path);
 }

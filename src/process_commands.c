@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:50:51 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:51:04 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/02 16:31:25 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 void	exec_path_cmd(t_list *cmd_block, t_data *data)
 {
 	char	*path;
+	int		exist;
 
-	path = validate_and_locate_cmd(cmd_block->cmd[0], data->envplist);
+	path = validate_and_locate_cmd(cmd_block->cmd[0], data->envplist, &exist);
 	if (path == NULL)
 	{
-		write(2, cmd_block->cmd[0], ft_strlen(cmd_block->cmd[0]));
-		write(2, ": command not found\n", 20);
-		exit(127);
+		if (exist == TRUE)
+			exit_command_not_found(cmd_block->cmd[0]);
+		else if (exist == FALSE)
+			exit_no_such_file_error(cmd_block->cmd[0]);
 	}
 	else
 	{
