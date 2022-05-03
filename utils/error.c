@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:53:27 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/02 17:38:36 by hman          ########   odam.nl         */
+/*   Updated: 2022/05/03 13:14:21 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,5 @@ void	exit_command_not_found(char *cmd)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": command not found\n", 20);
-	exit(126);
+	exit(127);
 }
