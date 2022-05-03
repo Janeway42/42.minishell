@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:52:58 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:52:59 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/03 16:51:14 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	heredoc_sighandler(int sig_no)
 	if (sig_no == SIGINT)
 	{
 		clean_heredoc_temp_files();
+		write(2, "\n", 1);
 		exit(1);
 	}
 }

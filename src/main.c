@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/02 17:51:37 by hakaman       ########   odam.nl         */
+/*   Updated: 2022/05/03 16:59:56 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ static char	*read_input(t_data *data)
 	if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
 		exit_on_error("Error: ", 1);
 	line = readline(PROMPT);
-	if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1)
-		exit_on_error("Error: ", 1);
 	signal(SIGINT, SIG_IGN);
 	if (line == NULL)
 	{
@@ -47,6 +45,8 @@ static void	process_input_line(char *line, t_data *data)
 			data->heredoc_index_array = create_heredoc_index_array(cmd_blocks);
 			if (data->heredoc_index_array != NULL)
 				data->last_exit_code = process_heredoc(cmd_blocks);
+			if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1)
+				exit_on_error("Error: ", 1);
 			if (data->heredoc_index_array == NULL)
 				process_commands(cmd_blocks, data);
 			else if (data->heredoc_index_array != NULL
