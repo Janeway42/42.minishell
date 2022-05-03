@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:45 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/02 18:05:39 by hman          ########   odam.nl         */
+/*   Updated: 2022/05/03 15:53:27 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	initialize_minishell(int argc, char **argv, char **envp
 	data->envplist = copy_envp(envp);
 	set_variable(&data->envplist, "OLDPWD");
 	set_variable(&data->envplist, "?=0");
+	data->heredoc_index_array = NULL;
 	data->inpipe_fd = -1;
 	data->outpipe_fds[1] = -1;
 	data->outpipe_fds[0] = -1;
