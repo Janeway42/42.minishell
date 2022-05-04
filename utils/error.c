@@ -6,11 +6,17 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:53:27 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/03 13:14:21 by hman          ########   odam.nl         */
+/*   Updated: 2022/05/04 15:10:56 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	error_quotes(t_data *data)
+{
+	write(2, "error syntax\n", 14);
+	data->last_exit_code = 258;
+}
 
 void	error_syntax(char **tokens, t_data *data)
 {

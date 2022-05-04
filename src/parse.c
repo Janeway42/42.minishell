@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 14:42:41 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 15:11:14 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ t_list	*parse_line(char *str, t_data *data)
 	if (just_spaces(str) == 0)
 		return (NULL);
 	if (check_pairs(str, 39) == 1 || check_pairs(str, 34) == 1)
-		printf("syntax error: unclosed quotes\n");
+		error_quotes(data);
 	else
 		cmd_blocks = parse_blocks(str, data);
 	return (cmd_blocks);

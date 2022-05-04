@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:34:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 12:07:36 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 15:12:10 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,9 @@ void	free_data(t_data **data);
 ** -------------------------------------------------
 */
 
-void	exit_on_error(char *message, int exit_code);
+void	error_quotes(t_data *data);
 void	error_syntax(char **tokens, t_data *data);
+void	exit_on_error(char *message, int exit_code);
 void	exit_no_such_file_error(char *cmd);
 void	exit_command_not_found(char *cmd);
 
