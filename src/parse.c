@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 15:11:14 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 15:49:29 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,36 @@ static int	just_spaces(char *str)
 
 //-------------------------------------------------
 
-static int	check_pairs(char *str, char c)
+static int	check_pairs(char *str)
 {
 	int	i;
-	int	pair;
 
 	i = 0;
-	pair = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == c)
+		if (str[i] == '\"')
 		{
-			if (pair == 0)
-				pair = 1;
-			else if (pair == 1)
-				pair = 0;
+			i++;
+			while (str[i] != '\0' && str[i] != '\"')
+				i++;
+			if (str[i] == '\"')
+				i++;
+			else
+				return (1);
 		}
-		i++;
+		else if (str[i] == '\'')
+		{
+			i++;
+			while (str[i] != '\0' && str[i] != '\'')
+				i++;
+			if (str[i] == '\'')
+				i++;
+			else
+				return (1);
+		}
+		else
+			i++;
 	}
-	if (pair == 1)
-		return (1);
 	return (0);
 }
 
@@ -84,13 +94,9 @@ static int	check_pairs(char *str, char c)
 t_list	*parse_blocks(char *str, t_data *data)
 {
 	char	**tokens;
-//	char	*temp;
 	t_list	*cmd_blocks;
 
-//	temp = clean_extra_quotes(ft_strdup(str));
 	tokens = ft_split_minishell(str, ' ');
-//	print_token(tokens);
-//	free(temp);
 	if (tokens != NULL)
 	{
 		if (check_syntax(tokens) == 1)
@@ -115,7 +121,7 @@ t_list	*parse_line(char *str, t_data *data)
 	cmd_blocks = NULL;
 	if (just_spaces(str) == 0)
 		return (NULL);
-	if (check_pairs(str, 39) == 1 || check_pairs(str, 34) == 1)
+	if (check_pairs(str) == 1)
 		error_quotes(data);
 	else
 		cmd_blocks = parse_blocks(str, data);
