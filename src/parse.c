@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 16:00:46 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 16:04:26 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ t_list	*parse_blocks(char *str, t_data *data)
 		else
 		{
 			tokens = expansion(tokens, data);
-//			print_token(tokens);
 			cmd_blocks = set_cmd_blocks(tokens);
-//			print_cmd_blocks(cmd_blocks);
 			free_string_array(tokens);
 			return (cmd_blocks);
 		}

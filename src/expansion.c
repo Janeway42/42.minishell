@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 13:19:45 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 16:05:12 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static int	expand_double_quote(char **str, int loc, t_data *data)
 	loc++;
 	while ((*str)[loc] != '\"')
 	{
-		if ((*str)[loc] == '$' && ((*str)[loc + 1] == '?' || validity_name((*str)[loc + 1], (loc + 1)) == 0))
+		if ((*str)[loc] == '$' && ((*str)[loc + 1] == '?'
+				|| validity_name((*str)[loc + 1], (loc + 1)) == 0))
 			loc = replace_dollar(str, loc, data);
 		loc++;
 	}

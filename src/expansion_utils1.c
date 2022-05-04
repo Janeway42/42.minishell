@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 14:57:22 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 16:06:19 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	replace_dollar(char **str, int loc, t_data *data)
 
 	if ((*str)[loc + 1] == '?')
 		name = ft_strdup("?");
-	else 
+	else
 		name = get_variable_name(*str, (loc + 1));
 	if (name == NULL)
 	{
