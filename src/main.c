@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 12:15:47 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 14:57:55 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		line = read_input(data);
-//		line = "echo    $TEST lol $TEST";
 		process_input_line(line, data);
 		set_exit_code(data);
 		if (data->heredoc_index_array != NULL)
@@ -78,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			clean_heredoc_temp_files();
 		}
 		free(line);
-//		system("leaks minishell");
+		system("leaks -quiet minishell");
 	}
 	rl_clear_history();
 	free_data(&data);
