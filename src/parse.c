@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 16:04:26 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 16:27:08 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ static int	check_pairs(char *str)
 		{
 			i = check_one_pair(str, i, '\"');
 			if (str[i] == '\"')
-					i++;
+				i++;
 			else
 				return (1);
 		}
-		if (str[i] == '\'')
+		else if (str[i] == '\'')
 		{
 			i = check_one_pair(str, i, '\'');
 			if (str[i] == '\'')
-					i++;
+				i++;
 			else
 				return (1);
 		}
