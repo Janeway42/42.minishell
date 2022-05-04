@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa&hman@student.codam.nl>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 14:53:48 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 17:39:09 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 14:15:48 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,22 @@ int	replace_dollar(char **str, int loc, t_data *data)
 	if ((*str)[loc + 1] == '?')
 		name = ft_strdup("?");
 	else
+	{
 		name = get_variable_name(*str, (loc + 1));
-	if (name == NULL)
-	{
-		if ((*str)[loc + 1] == ' ' || (*str)[loc + 1] == '\0')
-			node_val = ft_strdup("$");
+		if (name == NULL)
+		{
+			if ((*str)[loc + 1] == ' ' || (*str)[loc + 1] == '\0')
+				node_val = ft_strdup("$");
+			else
+				node_val = NULL;
+//				node_val = ft_strdup("");
+		}
 		else
-			node_val = ft_strdup("");
-	}
-	else
-	{
-		node_val = get_value_from_envp(name, data->envplist);
-		if (node_val == NULL)
-			node_val = ft_strdup("");
+		{
+			node_val = get_value_from_envp(name, data->envplist);
+//			if (node_val == NULL)
+//				node_val = ft_strdup("");
+		}
 	}
 	*str = insert_variable_value(*str, node_val, loc, ft_strlen(name));
 	loc += ft_strlen(node_val) - 1;

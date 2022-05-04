@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:34:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/02 16:47:19 by hman          ########   odam.nl         */
+/*   Updated: 2022/05/04 12:07:36 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,5 +245,10 @@ void	exit_command_not_found(char *cmd);
 
 void	sig_handler(int sig_no);
 void	heredoc_sighandler(int sig_no);
+
+
+// PRINT ------------- ERASE
+void print_token(char **tokens);
+void print_cmd_blocks(t_list *cmd_blocks);
 
 #endif

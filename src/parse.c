@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/01 18:04:26 by hman          ########   odam.nl         */
+/*   Updated: 2022/05/04 12:14:32 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,26 @@ static int	check_pairs(char *str, char c)
 
 //-------------------------------------------------
 
-char	*clean_extra_quotes(char *str)
-{
-	int	i;
+// char	*clean_extra_quotes(char *str)
+// {
+// 	int	i;
 
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '\'' && str[i + 1] != '\'')
-			i = run_through_quotes(str, i, '\'');
-		else if (str[i] == '\"' && str[i + 1] != '\"')
-			i = run_through_quotes(str, i, '\"');
-		else if (str[i] == '\'' && str[i + 1] == '\'')
-			i = replace_quotes1(&str, i, '\'') + 1;
-		else if (str[i] == '\"' && str[i + 1] == '\"')
-			i = replace_quotes1(&str, i, '\"') + 1;
-		else
-			i++;
-	}
-	return (str);
-}
+// 	i = 0;
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] == '\'' && str[i + 1] != '\'')
+// 			i = run_through_quotes(str, i, '\'');
+// 		else if (str[i] == '\"' && str[i + 1] != '\"')
+// 			i = run_through_quotes(str, i, '\"');
+// 		else if (str[i] == '\'' && str[i + 1] == '\'')
+// 			i = replace_quotes1(&str, i, '\'') + 1;
+// 		else if (str[i] == '\"' && str[i + 1] == '\"')
+// 			i = replace_quotes1(&str, i, '\"') + 1;
+// 		else
+// 			i++;
+// 	}
+// 	return (str);
+// }
 
 /*
 **-------------------------------------------------------------------------
@@ -84,12 +84,13 @@ char	*clean_extra_quotes(char *str)
 t_list	*parse_blocks(char *str, t_data *data)
 {
 	char	**tokens;
-	char	*temp;
+//	char	*temp;
 	t_list	*cmd_blocks;
 
-	temp = clean_extra_quotes(ft_strdup(str));
-	tokens = ft_split_minishell(temp, ' ');
-	free(temp);
+//	temp = clean_extra_quotes(ft_strdup(str));
+	tokens = ft_split_minishell(str, ' ');
+	print_token(tokens);
+//	free(temp);
 	if (tokens != NULL)
 	{
 		if (check_syntax(tokens) == 1)
@@ -97,7 +98,9 @@ t_list	*parse_blocks(char *str, t_data *data)
 		else
 		{
 			tokens = expansion(tokens, data);
+			print_token(tokens);
 			cmd_blocks = set_cmd_blocks(tokens);
+			print_cmd_blocks(cmd_blocks);
 			free_string_array(tokens);
 			return (cmd_blocks);
 		}
