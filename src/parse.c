@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:44:25 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 15:49:29 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 16:00:46 by cpopa         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ static int	just_spaces(char *str)
 
 //-------------------------------------------------
 
+static int	check_one_pair(char *str, int loc, char c)
+{
+	loc++;
+	while (str[loc] != '\0' && str[loc] != c)
+		loc++;
+	return (loc);
+}
+
 static int	check_pairs(char *str)
 {
 	int	i;
@@ -37,21 +45,17 @@ static int	check_pairs(char *str)
 	{
 		if (str[i] == '\"')
 		{
-			i++;
-			while (str[i] != '\0' && str[i] != '\"')
-				i++;
+			i = check_one_pair(str, i, '\"');
 			if (str[i] == '\"')
-				i++;
+					i++;
 			else
 				return (1);
 		}
-		else if (str[i] == '\'')
+		if (str[i] == '\'')
 		{
-			i++;
-			while (str[i] != '\0' && str[i] != '\'')
-				i++;
+			i = check_one_pair(str, i, '\'');
 			if (str[i] == '\'')
-				i++;
+					i++;
 			else
 				return (1);
 		}
@@ -60,29 +64,6 @@ static int	check_pairs(char *str)
 	}
 	return (0);
 }
-
-//-------------------------------------------------
-
-// char	*clean_extra_quotes(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i] != '\0')
-// 	{
-// 		if (str[i] == '\'' && str[i + 1] != '\'')
-// 			i = run_through_quotes(str, i, '\'');
-// 		else if (str[i] == '\"' && str[i + 1] != '\"')
-// 			i = run_through_quotes(str, i, '\"');
-// 		else if (str[i] == '\'' && str[i + 1] == '\'')
-// 			i = replace_quotes1(&str, i, '\'') + 1;
-// 		else if (str[i] == '\"' && str[i + 1] == '\"')
-// 			i = replace_quotes1(&str, i, '\"') + 1;
-// 		else
-// 			i++;
-// 	}
-// 	return (str);
-// }
 
 /*
 **-------------------------------------------------------------------------
