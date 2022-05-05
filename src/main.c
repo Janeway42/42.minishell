@@ -6,7 +6,7 @@
 /*   By: cpopa <cpopa@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/05/01 17:39:41 by cpopa         #+#    #+#                 */
-/*   Updated: 2022/05/04 16:27:53 by cpopa         ########   odam.nl         */
+/*   Updated: 2022/05/04 17:16:29 by hman          ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static char	*read_input(t_data *data)
 	if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
 		exit_on_error("Error: ", 1);
 	line = readline(PROMPT);
+	if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1)
+		exit_on_error("Error: ", 1);
 	signal(SIGINT, SIG_IGN);
 	if (line == NULL)
 	{
@@ -44,9 +46,13 @@ static void	process_input_line(char *line, t_data *data)
 		{
 			data->heredoc_index_array = create_heredoc_index_array(cmd_blocks);
 			if (data->heredoc_index_array != NULL)
+			{
+				if (tcsetattr(0, TCSANOW, &data->term_without_echo) == -1)
+					exit_on_error("Error: ", 1);
 				data->last_exit_code = process_heredoc(cmd_blocks);
-			if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1)
-				exit_on_error("Error: ", 1);
+				if (tcsetattr(0, TCSANOW, &data->term_with_echo) == -1)
+					exit_on_error("Error: ", 1);
+			}
 			if (data->heredoc_index_array == NULL)
 				process_commands(cmd_blocks, data);
 			else if (data->heredoc_index_array != NULL
@@ -77,7 +83,6 @@ int	main(int argc, char **argv, char **envp)
 			clean_heredoc_temp_files();
 		}
 		free(line);
-		system("leaks -quiet minishell");
 	}
 	rl_clear_history();
 	free_data(&data);
